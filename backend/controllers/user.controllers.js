@@ -96,6 +96,7 @@ const registerUser = async (req, res) => {
 
     } catch (error) {
         console.error("Registration Error:", error);
+        console.log("Error message : ", error.message)
         return res.status(500).json({ success: false, message: "Internal server error." });
     }
 };
