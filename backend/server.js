@@ -19,14 +19,18 @@ const PORT = process.env.PORT || 3000
 const corsOptions = {
     origin : [`${process.env.FRONTEND_URL}`,`${process.env.BACKEND_URL}`],
     credentials : true,
-    methods : ["GET","POST","PUT","PATCH","DELETE"]
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"],
+    methods : ["GET","POST","PUT","PATCH","DELETE","OPTIONS"]
 }
+
+
+app.use(cors(corsOptions))
+
 
 app.use(express.json())
 app.use(express.urlencoded({ extended : true }))
 app.use(cookieParser());
 
-app.use(cors(corsOptions))
 
 
 
