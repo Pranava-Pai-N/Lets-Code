@@ -213,9 +213,9 @@ const loginUser = async (req, res) => {
 
     res.cookie("token", token, {
         httpOnly: true,
-        secure: false,
+        secure: true,
         maxAge: 24 * 60 * 60 * 1000,
-        sameSite: 'lax',
+        sameSite: 'none',
         path: "/"
     });
     user.password = null;
@@ -432,9 +432,9 @@ const googleAuthSuccess = async (req, res) => {
 
         res.cookie("token", token, {
             httpOnly: true,
-            secure: false,
+            secure: true,
             maxAge: 24 * 60 * 60 * 1000,
-            sameSite: 'lax',
+            sameSite: 'same',
             path: "/"
         });
 
@@ -465,9 +465,9 @@ const githubAuthSuccess = async (req, res) => {
 
         res.cookie("token", token, {
             httpOnly: true,
-            secure: false,
+            secure: true,
             maxAge: 24 * 60 * 60 * 1000,
-            sameSite: 'lax',
+            sameSite: 'none',
             path: '/'
         });
 
