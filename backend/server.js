@@ -1,0 +1,60 @@
+import express from "express";
+import cors from 'cors';
+import dotenv from 'dotenv';
+import cookieParser from 'cookie-parser';
+import connectDb from "./utils/dbConnect.js";
+import userRoutes from "./routes/user.routes.js"
+import questionRoutes from "./routes/questions.routes.js"
+import pathRoutes from "./routes/paths.routes.js"
+import passport from "passport";
+import './utils/passport.js'
+
+const app = express();
+
+dotenv.config()
+
+const PORT = process.env.PORT || 3000
+
+
+const corsOptions = {
+    origin : [`${process.env.FRONTEND_URL}`,`${process.env.BACKEND_URL}`],
+    credentials : true,
+    methods : ["GET","POST","PUT","PATCH","DELETE"]
+}
+
+app.use(express.json())
+app.use(express.urlencoded({ extended : true }))
+app.use(cookieParser());
+
+app.use(cors(corsOptions))
+
+
+
+app.use("/api/users",userRoutes);
+
+app.use("/api/questions",questionRoutes);
+
+app.use("/api/paths",pathRoutes);
+
+connectDb()
+
+// Passport Initialisation
+app.use(passport.initialize())
+
+
+app.get("/",(req,res) => {
+    res.status(200).json({
+        success : true,
+        message : "Backend is running properly ..."
+    })
+})
+
+
+app.listen(PORT,() => {
+    console.log(`Server is running at PORT ${PORT}`);
+})
+
+
+process.on('SIGINT', () =>{
+    console.log(`Closing all tasks gracefully and closing the server at PORT : ${PORT}`)
+});
