@@ -215,7 +215,7 @@ const loginUser = async (req, res) => {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         maxAge: 24 * 60 * 60 * 1000,
-        sameSite: 'lax',
+        sameSite: 'none',
         path: "/"
     });
     user.password = null;
@@ -434,7 +434,7 @@ const googleAuthSuccess = async (req, res) => {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
             maxAge: 24 * 60 * 60 * 1000,
-            sameSite: 'lax',
+            sameSite: 'none',
             path: "/"
         });
 
@@ -467,7 +467,7 @@ const githubAuthSuccess = async (req, res) => {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
             maxAge: 24 * 60 * 60 * 1000,
-            sameSite: 'lax',
+            sameSite: 'none',
             path: '/'
         });
 
