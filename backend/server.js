@@ -49,8 +49,7 @@ app.use(passport.initialize())
 app.get("/",(req,res) => {
     res.status(200).json({
         success : true,
-        message : "Backend is running properly ...",
-        data : corsOptions
+        message : "Backend is running properly ..."
     })
 })
 
