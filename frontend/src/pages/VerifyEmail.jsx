@@ -21,7 +21,7 @@ const VerifyEmail = () => {
             }
 
             try {
-                const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/users/verify?token=${token}`,{
+                const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/users/verify?token=${token}`,{},{
                     withCredentials : true
                 });
                 
