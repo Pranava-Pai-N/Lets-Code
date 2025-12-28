@@ -8,12 +8,14 @@ dotenv.config();
 const sendEmail = async (toEmail, subject, emailBody) => {
     try {
         const transporter = nodemailer.createTransport({
-            host: "smtp.gmail.com",
-            port: 587,
-            secure: false,
+            service: 'gmail',
             auth: {
                 user: process.env.EMAIL_USER,
                 pass: process.env.EMAIL_PASS,
+            },
+            tls: {
+                rejectUnauthorized: false,
+                minVersion: "TLSv1.2"
             },
             connectionTimeout: 10000,
         });
@@ -25,7 +27,7 @@ const sendEmail = async (toEmail, subject, emailBody) => {
             html: emailBody,
         };
 
-        const response  = await transporter.sendMail(emailOptions);
+        const response = await transporter.sendMail(emailOptions);
         return response;
 
     } catch (error) {
