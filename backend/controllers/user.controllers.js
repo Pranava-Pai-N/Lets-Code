@@ -214,9 +214,9 @@ const loginUser = async (req, res) => {
 
     res.cookie("token", token, {
         httpOnly: true,
-        secure: true,
+        secure: process.env.NODE_ENV === production,
         maxAge: 24 * 60 * 60 * 1000,
-        sameSite: 'none',
+        sameSite: 'lax',
         path: "/"
     });
     user.password = null;
@@ -433,9 +433,9 @@ const googleAuthSuccess = async (req, res) => {
 
         res.cookie("token", token, {
             httpOnly: true,
-            secure: true,
+            secure: process.env.NODE_ENV === production,
             maxAge: 24 * 60 * 60 * 1000,
-            sameSite: 'same',
+            sameSite: 'lax',
             path: "/"
         });
 
@@ -466,10 +466,10 @@ const githubAuthSuccess = async (req, res) => {
 
         res.cookie("token", token, {
             httpOnly: true,
-            secure: true,
+            secure: process.env.NODE_ENV === production,
             maxAge: 24 * 60 * 60 * 1000,
-            sameSite: 'none',
-            path: '/'
+            sameSite: 'lax',
+            path: "/"
         });
 
         res.redirect(`${process.env.FRONTEND_URL}/dashboard`)
@@ -591,9 +591,9 @@ const getLeetCodeDatabyUsername = async (req, res) => {
         const userId = req.user?.id || req.user?._id;
 
         const user = await User.findById(userId);
-        
 
-        if(!user)
+
+        if (!user)
             return res.status(400).json({
                 success: false,
                 message: "User does not exists. Try again later"
@@ -604,7 +604,7 @@ const getLeetCodeDatabyUsername = async (req, res) => {
                 success: false,
                 message: "Please provide a username to connect ..."
             });
-        
+
 
         const userDetails = await fetchLeetCodeData(leetcodeUsername);
 
@@ -613,7 +613,7 @@ const getLeetCodeDatabyUsername = async (req, res) => {
                 success: false,
                 message: "User Profile does not exists. Try again later ..."
             });
-        
+
         user.leetcodeUsername = leetcodeUsername;
 
         await user.save();
@@ -659,7 +659,7 @@ const getGeminiHelp = async (req, res) => {
         const { source_code, problem } = req.body;
 
         const stream = await geminiHelp(source_code, problem); // Streaming of data
-        
+
 
         res.setHeader('Content-Type', 'text/plain; charset=utf-8');
         res.setHeader('Transfer-Encoding', 'chunked');
@@ -669,7 +669,7 @@ const getGeminiHelp = async (req, res) => {
 
         for await (const chunk of stream) {
             try {
-                const chunkText = chunk.text ;
+                const chunkText = chunk.text;
                 if (chunkText) {
                     res.write(chunkText)
                 }
