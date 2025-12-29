@@ -367,7 +367,8 @@ const handlePasswordReset = async (req, res) => {
             message: "Password updated successfully . You can now login with the new passsword"
         });
     } catch (error) {
-        console.log("Error verifying user . Try again Later ...")
+        console.log("Error verifying user . Try again Later ...");
+        
         return res.status(500).json({
             success: false,
             message: `Error verifying and reseting users password : ${error}`
