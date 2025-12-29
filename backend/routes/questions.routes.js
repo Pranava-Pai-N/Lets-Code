@@ -9,7 +9,7 @@ const router = Router();
 
 
 // Post a question
-router.post("/post-question",checkAuth , checkRole("admin"),asyncHandler(questionController.addQuestion))
+router.post("/post-question",checkAuth,checkRole("admin"),asyncHandler(questionController.addQuestion))
 
 
 // Run a question to compiler
@@ -21,7 +21,7 @@ router.post("/submit-question",checkAuth, asyncHandler(questionController.submit
 
 
 // Make a daily question
-router.post("/daily-question/:id",asyncHandler(questionController.makeaDailyQuestion))
+router.post("/daily-question/:id",checkAuth, checkRole("admin") ,asyncHandler(questionController.makeaDailyQuestion))
 
 
 // Get any question by id 
