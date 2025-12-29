@@ -2,13 +2,14 @@ import express , { Router } from "express";
 import questionController from "../controllers/questions.contollers.js";
 import asyncHandler from "../utils/asyncHandler.js"
 import checkAuth from "../middleware/auth.middleware.js"
+import { checkRole } from "../middleware/checkrole.middleware.js";
 
 
 const router = Router();
 
 
 // Post a question
-router.post("/post-question",asyncHandler(questionController.addQuestion))
+router.post("/post-question",checkAuth , checkRole("admin"),asyncHandler(questionController.addQuestion))
 
 
 // Run a question to compiler

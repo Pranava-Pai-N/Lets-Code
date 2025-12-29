@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState  } from "react";
 import { Link } from "react-router-dom";
 import useFetchProblems from "../hooks/useFetchProblems.js";
 import { useAuth } from "../context/AuthContext.jsx";
@@ -21,13 +21,18 @@ const ProblemList = () => {
 
   const [searchTerm, setSearchTerm] = useState("");
 
+  const now = Date.now();
+
   if (loading) return <Loader />;
-  if (error) return <div className="p-10 text-red-500 text-center font-bold">Error: {error}</div>;
+  if (error)
+    return <div className="p-10 text-red-500 text-center font-bold">Error: {error}</div>;
 
   const filteredProblems = problems.filter((p) =>
     p.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     p.topicsList?.some(topic => topic.toLowerCase().includes(searchTerm.toLowerCase()))
   );
+
+
 
   return (
     <div className="p-8 md:p-12 bg-gray-50 dark:bg-gray-950 min-h-screen">
@@ -55,12 +60,14 @@ const ProblemList = () => {
 
           const isSolved = user?.solvedQuestionIds?.includes(problem._id);
 
+          const isPotdActive = problem.isDailyQuestion && now < problem.validTill
+
 
           return (
-            <Link key={problem._id} to={`/problems/${problem._id}`} className="block group">
+            <Link key={problem._id} to={`/problems/${problem._id}`} className="block group relative">
               <Card className={`p-6 h-full flex flex-col justify-between rounded-xl shadow-lg dark:shadow-2xl bg-white dark:bg-gray-800 border-t-4 ${style.border} hover:scale-[1.02] transition-transform duration-300`}>
 
-                {problem.isDailyQuestion && (
+                {isPotdActive && (
                   <div className="absolute top-0 right-0 z-10">
                     <div className="bg-gradient-to-l from-amber-600 to-amber-400 text-white text-[10px] font-black px-3 py-1 rounded-bl-xl flex items-center gap-1.5 shadow-md tracking-wider uppercase">
                       <StarIcon className="w-3.5 h-3.5 fill-white" />

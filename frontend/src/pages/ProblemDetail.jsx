@@ -300,8 +300,6 @@ const ProblemDetail = () => {
                 withCredentials: true
             });
 
-            console.log(response)
-
 
             if (response.data.success && response.data.allPassed) {
                 setSubmissionData(response.data);

@@ -324,13 +324,6 @@ const submitaQuestion = async (req, res) => {
                 updateFields.$push.solvedQuestionIds = questionIdString;
                 updateFields.$inc.solvedQuestionCount = 1;
 
-                if (questionData.isDailyQuestion && questionData.validTill < Date.now()) {
-                    return res.status(200).json({
-                        success: true,
-                        message: "Time expired now it is not a daily question .."
-                    })
-                }
-
                 if (questionData.isDailyQuestion && questionData.validTill > Date.now()) {
                     updateFields.$inc.currentStreak = 1;
                 }
