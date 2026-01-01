@@ -118,7 +118,7 @@ const userSchema = new Schema(
     },
 
     otpexpiresin: {
-      type: String,
+      type: Date,
       default: null
     },
 

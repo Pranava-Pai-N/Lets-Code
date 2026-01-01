@@ -9,6 +9,10 @@ import sendOtpEmail from "../utils/otpemailpasswordforgot.js";
 import { uploadtoCloudinary } from "../utils/cloudinary.js";
 import { fetchLeetCodeData } from "../utils/getLeetcodeData.js";
 import { geminiHelp } from "../utils/geminiHelp.js";
+import { registerSchema } from "../validations/registrationValidation.js";
+import { profileCompletionSchema } from "../validations/profileValidation.js";
+import { forgotPasswordSchema } from "../validations/forgotPassword.js";
+import { passwordResetSchema } from "../validations/passwordresetValidation.js";
 
 const getMe = async (req, res) => {
     try {
@@ -53,15 +57,15 @@ const getallUsers = async (req, res) => {
 
 const registerUser = async (req, res) => {
     try {
-        const { userName, email, password, profileUrl } = req.body;
+        const { data, success } = registerSchema.safeParse(req.body);
 
-        if (!userName || !email || !password)
+        if (!success)
             return res.status(400).json({
                 success: false,
-                message: "Username, email, and password are required."
+                message: "Username, email, and password are not meeting expecting format"
             });
 
-        const existingUser = await User.findOne({ email });
+        const existingUser = await User.findOne({ email: data.email });
 
         if (existingUser)
             return res.status(400).json({
@@ -69,15 +73,15 @@ const registerUser = async (req, res) => {
                 message: "A user with this email already exists."
             });
 
-        const hashedPassword = await bcrypt.hash(password, 10);
+        const hashedPassword = await bcrypt.hash(data.password, 10);
 
         const token = uuidv4();
 
         const newUser = {
-            userName,
-            email,
+            userName: data.userName,
+            email: data.email,
             password: hashedPassword,
-            profile_url: profileUrl,
+            profile_url: data.profileUrl,
             token: token,
             isProfileComplete: false
         };
@@ -86,7 +90,7 @@ const registerUser = async (req, res) => {
 
         createdUser.password = null;
 
-        await sendVerifyEmail(email, userName, token);
+        await sendVerifyEmail(data.email, data.userName, token);
 
         return res.status(201).json({
             success: true,
@@ -143,25 +147,32 @@ const verifyUser = async (req, res) => {
 const completeProfile = async (req, res) => {
     try {
         const userId = req.user.id;
-        const { age, languagesProficient, collegeName, targetingCompanies, socialLinks, interests } = req.body;
+
+        const result = profileCompletionSchema.safeParse(req.body)
 
 
-        if (!age || !languagesProficient || !collegeName || !targetingCompanies) {
-            return res.status(400).json({ success: false, message: "Please fill all required profile fields." });
+        if (!result.success) {
+            return res.status(400).json({
+                success: false,
+                message: "Please fill all required profile fields and match the required criterias, validation failed",
+                errors: result.error.flatten()
+            });
         }
+
+        const data = result.data;
 
         const updatedUser = await User.findByIdAndUpdate(
             userId,
             {
-                age,
-                languagesProficient,
-                collegeName,
-                targetingCompanies,
-                socialLinks: socialLinks || {},
-                interests: interests || [],
+                age: data.age,
+                languagesProficient: data.languagesProficient,
+                collegeName: data.collegeName,
+                targetingCompanies: data.targetingCompanies,
+                socialLinks: data.socialLinks,
+                interests: data.interests,
                 profileCompleted: true
             },
-            { new: true }
+            { new: true, select: "-password" }
         );
 
         return res.status(200).json({
@@ -255,15 +266,17 @@ const logoutUser = async (req, res) => {
 
 const forgotPasswordwithotp = async (req, res) => {
     try {
-        const { email } = req.body;
+        const result = forgotPasswordSchema.safeParse(req.body);
 
-        if (!email)
+        if (!result.success)
             return res.status(400).json({
                 success: false,
-                message: "Please Provide a email to find account"
+                message: "Please Provide a email to find account or validation failed"
             });
 
-        const user = await User.findOne({ email });
+        const data = result.data;
+
+        const user = await User.findOne({ email: data.email });
 
         if (!user)
             return res.status(400).json({
@@ -277,7 +290,7 @@ const forgotPasswordwithotp = async (req, res) => {
                 message: "User has not verified his email . Not available functionality ..."
             });
 
-        const otp = Math.floor(1000 + Math.random() * 9999);
+        const otp = Math.floor(1000 + Math.random() * 9000);
 
         user.otp = otp;
         user.otpexpiresin = new Date(Date.now() + 10 * 60 * 1000);
@@ -303,15 +316,18 @@ const forgotPasswordwithotp = async (req, res) => {
 
 const handlePasswordReset = async (req, res) => {
     try {
-        const { email, otp, newPassword } = req.body;
+        const result = passwordResetSchema.safeParse(req.body);
 
-        if (!email || !otp || !newPassword)
+        if (!result.success)
             return res.status(400).json({
                 success: false,
-                message: "Please provide all required details for password reset"
+                message: "Please provide all required details for password reset or validation failed",
+                errors: result.error.flatten()
             });
 
-        const user = await User.findOne({ email });
+        const data = result.data;
+
+        const user = await User.findOne({ email: data.email });
 
         if (!user)
             return res.status(404).json({
@@ -319,13 +335,24 @@ const handlePasswordReset = async (req, res) => {
                 message: "User with this email does not exists . Try with another email ..."
             });
 
-        const isMatching = (user.otp === otp);
-
-        if (user.otp === undefined)
+        if (!user.otp)
             return res.status(404).json({
                 success: false,
                 message: "The otp has expired or your password has been already changed ."
             });
+
+        if (Date.now() > user.otpexpiresin) {
+            user.otp = undefined,
+            user.otpexpiresin = undefined;
+            await user.save();
+            return res.status(404).json({
+                success: false,
+                message: "The OTP has expired . Please try again later ..."
+            });
+        }
+
+        const isMatching = Number(user.otp) === Number(data.otp);
+
 
         if (!isMatching)
             return res.status(400).json({
@@ -333,17 +360,9 @@ const handlePasswordReset = async (req, res) => {
                 message: "The otp does not match with the sent otp. Please enter correct otp and try again .."
             });
 
+        
 
-        if (Date.now() > user.otpexpiresin) {
-            user.otp = undefined,
-                user.otpexpiresin = undefined;
-            return res.status(404).json({
-                success: false,
-                message: "The OTP has expired . Please try again later ..."
-            });
-        }
-
-        const isMatchingPassword = await bcrypt.compare(newPassword, user.password);
+        const isMatchingPassword = await bcrypt.compare(data.newPassword, user.password);
 
 
         if (isMatchingPassword)
@@ -352,7 +371,7 @@ const handlePasswordReset = async (req, res) => {
                 message: "New Password cannot be same as the old password ..."
             });
 
-        const newHashPassword = await bcrypt.hash(newPassword, 10);
+        const newHashPassword = await bcrypt.hash(data.newPassword, 10);
 
         user.password = newHashPassword;
         user.otp = undefined;
@@ -368,7 +387,7 @@ const handlePasswordReset = async (req, res) => {
         });
     } catch (error) {
         console.log("Error verifying user . Try again Later ...");
-        
+
         return res.status(500).json({
             success: false,
             message: `Error verifying and reseting users password : ${error}`
