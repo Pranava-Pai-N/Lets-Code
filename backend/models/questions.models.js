@@ -1,5 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
+
 const questionSchema = new Schema(
   {
     title: {
@@ -49,21 +50,10 @@ const questionSchema = new Schema(
       default: [],
     },
 
-    discussion: {
-      type: [
-        {
-          userId: { type: mongoose.Schema.Types.ObjectId , ref : "User"},
-          comment: { type: String, required: true },
-          postedAt: { type: Date, default: Date.now },
-        },
-      ],
-      default: [],
-    },
-
-    solvedBy: {
-      type: [String], 
-      default: [],
-    },
+    discussion: [{
+      type: Schema.Types.ObjectId,
+      ref : "Discussion"
+    }],
 
     expectedTimeComplexity :{
         type : String,
@@ -86,8 +76,8 @@ const questionSchema = new Schema(
     },
 
     validTill : {
-      type : String,
-      default : ""
+      type : Date,
+      default : null
     },
     
   },

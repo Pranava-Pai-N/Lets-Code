@@ -7,7 +7,7 @@ export const checkRole = (role = "user") => {
             const userId = req.user?.id || req.user?._id;
 
             if (!userId) {
-                return next(new ExpressError(401, "Unauthorized: No user ID found"));
+                return next(new ExpressError(401, "Unauthorized: No user ID found or please login."));
             }
 
             const user = await User.findById({ _id: userId });

@@ -13,11 +13,11 @@ router.post("/post-question",checkAuth,checkRole("admin"),asyncHandler(questionC
 
 
 // Run a question to compiler
-router.post("/run-question", checkAuth, asyncHandler(questionController.runaQuestion));
+router.post("/run-question", checkAuth, checkRole("user"), asyncHandler(questionController.runaQuestion));
 
 
 // Submit a question to compiler
-router.post("/submit-question",checkAuth, asyncHandler(questionController.submitaQuestion));
+router.post("/submit-question",checkAuth, checkRole("user"), asyncHandler(questionController.submitaQuestion));
 
 
 // Make a daily question
@@ -25,11 +25,11 @@ router.post("/daily-question/:id",checkAuth, checkRole("admin") ,asyncHandler(qu
 
 
 // Get any question by id 
-router.get("/questions/:id",asyncHandler(questionController.getQuestionById))
+router.get("/questions/:id",checkRole("user"), asyncHandler(questionController.getQuestionById))
 
 
 // Get all Questions 
-router.get("/questions",checkAuth,asyncHandler(questionController.getAllQuestions))
+router.get("/questions",checkAuth,checkRole("user"), asyncHandler(questionController.getAllQuestions))
 
 
 export default router;
