@@ -25,7 +25,7 @@ router.post("/daily-question/:id",checkAuth, checkRole("admin") ,asyncHandler(qu
 
 
 // Get any question by id 
-router.get("/questions/:id",checkRole("user"), asyncHandler(questionController.getQuestionById))
+router.get("/questions/:id",checkAuth, checkRole("user"), asyncHandler(questionController.getQuestionById))
 
 
 // Get all Questions 
