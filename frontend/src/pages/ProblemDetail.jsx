@@ -206,7 +206,9 @@ const ProblemDetail = () => {
         const fetchProblem = async () => {
             try {
                 const res = await axios.get(
-                    `${import.meta.env.VITE_BACKEND_URL}/questions/questions/${id}`
+                    `${import.meta.env.VITE_BACKEND_URL}/questions/questions/${id}`,{
+                        withCredentials : true
+                    }
                 );
 
                 const data = res.data.question || res.data;
