@@ -225,9 +225,9 @@ const loginUser = async (req, res) => {
 
     res.cookie("token", token, {
         httpOnly: true,
-        secure: true,
+        secure: process.env.NODE_ENV === "production",
         maxAge: 24 * 60 * 60 * 1000,
-        sameSite: 'none',
+        sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax',
         path: "/"
     });
     user.password = null;
@@ -343,7 +343,7 @@ const handlePasswordReset = async (req, res) => {
 
         if (Date.now() > user.otpexpiresin) {
             user.otp = undefined,
-            user.otpexpiresin = undefined;
+                user.otpexpiresin = undefined;
             await user.save();
             return res.status(404).json({
                 success: false,
@@ -360,7 +360,7 @@ const handlePasswordReset = async (req, res) => {
                 message: "The otp does not match with the sent otp. Please enter correct otp and try again .."
             });
 
-        
+
 
         const isMatchingPassword = await bcrypt.compare(data.newPassword, user.password);
 
@@ -453,9 +453,9 @@ const googleAuthSuccess = async (req, res) => {
 
         res.cookie("token", token, {
             httpOnly: true,
-            secure: true,
+            secure: process.env.NODE_ENV === "production",
             maxAge: 24 * 60 * 60 * 1000,
-            sameSite: 'none',
+            sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax',
             path: "/"
         });
 
@@ -484,11 +484,12 @@ const githubAuthSuccess = async (req, res) => {
             { expiresIn: '1h' }
         );
 
+        
         res.cookie("token", token, {
             httpOnly: true,
-            secure: true,
+            secure: process.env.NODE_ENV === "production",
             maxAge: 24 * 60 * 60 * 1000,
-            sameSite: 'none',
+            sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax',
             path: "/"
         });
 

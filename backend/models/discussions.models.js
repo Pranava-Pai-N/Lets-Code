@@ -24,14 +24,16 @@ const discussionSchema = new Schema({
 
     likedBy: [{
         type: Schema.Types.ObjectId,
-        ref: "User"
+        ref: "User",
+        default : []
     }],
 
     tags: [String],
 
     comments: [{
         type: Schema.Types.ObjectId,
-        ref: "Comment"
+        ref: "Comment",
+        default : []
     }]
 },
     {

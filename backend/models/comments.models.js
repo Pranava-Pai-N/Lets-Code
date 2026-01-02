@@ -22,9 +22,8 @@ const commentSchema = new Schema({
     }],
 
     replies: [{
-        userId: { type: Schema.Types.ObjectId, ref: "User" },
-        text: { type: String, required: true },
-        createdAt: { type: Date, default: Date.now }
+        type : Schema.Types.ObjectId,
+        ref : "Comment"
     }],
 },
     {

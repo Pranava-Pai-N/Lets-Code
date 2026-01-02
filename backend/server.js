@@ -3,9 +3,11 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import connectDb from "./utils/dbConnect.js";
-import userRoutes from "./routes/user.routes.js"
-import questionRoutes from "./routes/questions.routes.js"
-import pathRoutes from "./routes/paths.routes.js"
+import userRoutes from "./routes/user.routes.js";
+import questionRoutes from "./routes/questions.routes.js";
+import pathRoutes from "./routes/paths.routes.js";
+import discussionRoutes from "./routes/discussion.routes.js";
+import commentRoutes from "./routes/comments.routes.js"
 import passport from "passport";
 import './utils/passport.js'
 
@@ -39,6 +41,10 @@ app.use("/api/users",userRoutes);
 app.use("/api/questions",questionRoutes);
 
 app.use("/api/paths",pathRoutes);
+
+app.use("/api/discussions",discussionRoutes);
+
+app.use("/api/comments",commentRoutes);
 
 connectDb()
 
