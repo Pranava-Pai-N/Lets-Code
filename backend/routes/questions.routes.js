@@ -21,7 +21,7 @@ router.post("/submit-question",checkAuth, checkRole("user"), asyncHandler(questi
 
 
 // Make a daily question
-router.post("/daily-question/:id",checkAuth, checkRole("admin") ,asyncHandler(questionController.makeaDailyQuestion))
+router.post("/daily-question/:id", asyncHandler(questionController.makeaDailyQuestion))
 
 
 // Get any question by id 

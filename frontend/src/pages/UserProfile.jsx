@@ -5,6 +5,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { CameraIcon } from '@heroicons/react/24/outline';
+import { useAuth } from "../context/AuthContext.jsx";
 
 const getCodingStats = (user) => [
     { title: "Problems Solved", value: user.problemsSolved, icon: "", color: "text-red-500" },
@@ -20,6 +21,7 @@ const UserProfile = () => {
     const [saveLoading, setSaveLoading] = useState(false);
     const navigate = useNavigate();
     const fileInputRef = useRef(null);
+    const { updateUser } = useAuth()
 
     const [formData, setFormData] = useState({
         userName: "",
@@ -52,15 +54,15 @@ const UserProfile = () => {
         try {
             setSaveLoading(true);
 
-            const response = await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/users/update-profileURL`, formData, {
+            const response = await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/users/update-profileurl`, formData, {
                 headers: { "Content-Type": "multipart/form-data" },
                 withCredentials: true,
             });
 
-
             if (response.data.success) {
                 setUser(prev => ({ ...prev, profile_url: response.data.user.profile_url }));
                 toast.success(response.data.message);
+                updateUser({ profile_url : response.data.user.profile_url })
             }
 
         } catch (error) {

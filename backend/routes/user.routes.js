@@ -46,7 +46,7 @@ router.post("/leetcode-data",checkAuth ,checkRole("user"),asyncHandler(userContr
 
 
 // Change user profile url
-router.patch("/update-profileURL",checkAuth,checkRole("role"),uploadFile.single("profileImage"),asyncHandler(userController.handleProfileURlChange))
+router.patch("/update-profileurl", checkAuth , checkRole("user") , uploadFile.single("profileImage") , asyncHandler(userController.handleProfileURlChange))
 
 
 // Get Gemini Help

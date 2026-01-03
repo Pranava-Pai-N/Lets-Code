@@ -42,6 +42,11 @@ const SubmissionsPage = () => {
                 <h1 className="text-3xl font-black text-gray-900 dark:text-white">My Submissions</h1>
                 <p className="text-gray-500 dark:text-gray-400">History of all your code attempts</p>
             </header>
+            {submissions.length == 0 ? (
+                <p className="text-gray-500 dark:text-gray-400">Please submit aleast one submission to view your submissions. Currently empty</p>
+            ) : (
+                <p className="text-gray-500 dark:text-gray-400">All your {`${submissions.length}`} submissions</p>
+            )}
 
             <Card className="overflow-hidden border-gray-200 dark:border-gray-800">
                 <div className="overflow-x-auto">

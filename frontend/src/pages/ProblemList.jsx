@@ -21,9 +21,10 @@ const ProblemList = () => {
 
   const [searchTerm, setSearchTerm] = useState("");
 
-  const now = Date.now();
 
-  if (loading) return <Loader />;
+  if (loading) 
+    return <Loader />;
+  
   if (error)
     return <div className="p-10 text-red-500 text-center font-bold">Error: {error}</div>;
 
@@ -60,7 +61,7 @@ const ProblemList = () => {
 
           const isSolved = user?.solvedQuestionIds?.includes(problem._id);
 
-          const isPotdActive = problem.isDailyQuestion && now < problem.validTill
+          const isPotdActive = problem.isDailyQuestion
 
 
           return (

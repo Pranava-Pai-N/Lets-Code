@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
         setUser(response.data.user);
         setIsAuthenticated(true);
       }
-      
+
     } catch (_error) {
       setUser(null);
       setIsAuthenticated(false);
@@ -51,19 +51,29 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => { 
-    fetchUser(); 
+  const updateUser = (newData) => {
+    setUser((prev) => {
+      if (!prev) 
+        return null;
+      
+      return { ...prev, ...newData }; 
+    });
+  };
+
+  useEffect(() => {
+    fetchUser();
   }, []);
 
   return (
-    <AuthContext.Provider value={{ 
-        user, 
-        isAuthenticated, 
-        loading, 
-        setUser, 
-        login,
-        setIsAuthenticated, 
-        logout 
+    <AuthContext.Provider value={{
+      user,
+      isAuthenticated,
+      loading,
+      setUser,
+      updateUser,
+      login,
+      setIsAuthenticated,
+      logout
     }}>
       {children}
     </AuthContext.Provider>

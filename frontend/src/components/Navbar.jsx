@@ -55,13 +55,16 @@ const Navbar = () => {
                   }`}>
 
                   <FireIcon
+                    key={`${user?.currentStreak}`}
                     className={`w-5 h-5 transition-all duration-500 ${user?.currentStreak > 0
                       ? 'text-orange-500 animate-pulse drop-shadow-[0_0_5px_rgba(249,115,22,0.8)]'
                       : 'text-gray-400'
                       }`}
                   />
 
-                  <span className={`ml-1 text-sm font-bold transition-colors duration-300 ${user?.currentStreak > 0
+                  <span 
+                  key={`${user?.currentStreak}`}
+                  className={`ml-1 text-sm font-bold transition-colors duration-300 ${user?.currentStreak > 0
                     ? 'text-orange-600 dark:text-orange-400'
                     : 'text-gray-500 dark:text-gray-500'
                     }`}>
@@ -70,6 +73,7 @@ const Navbar = () => {
                 </div>
                 <Link to="/profile" className="flex items-center space-x-2 p-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition">
                   <img
+                    key={`${user.profile_url}`}
                     src={`${user.profile_url}`}
                     alt="Profile Image"
                     className="w-8 h-8 rounded-full border border-indigo-500"
