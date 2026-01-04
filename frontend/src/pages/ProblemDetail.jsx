@@ -9,6 +9,8 @@ import { XCircleIcon, StopCircleIcon, CheckCircleIcon, ArrowRightIcon, SparklesI
 import Loader from "../components/Loader.jsx";
 import { toast } from "react-toastify"
 import ReactConfetti from "react-confetti";
+import Discussion from "../components/Discussion.jsx"
+import { useAuth } from "../context/AuthContext.jsx";
 
 
 const getDifficultyBadge = (level) => {
@@ -31,6 +33,7 @@ const getDifficultyBadge = (level) => {
 
 const ProblemDetail = () => {
     const { id } = useParams();
+    const { user } = useAuth
     const [problem, setProblem] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
@@ -57,6 +60,7 @@ const ProblemDetail = () => {
     const [isAiLoading, setIsAiLoading] = useState(false);
     const [showAiPanel, setShowAiPanel] = useState(false);
     const responseEndRef = useRef(null);
+    const [leftActiveTab, setLeftActiveTab] = useState("description");
 
     const hDividerRef = useRef();
     const vDividerRef = useRef();
@@ -206,9 +210,9 @@ const ProblemDetail = () => {
         const fetchProblem = async () => {
             try {
                 const res = await axios.get(
-                    `${import.meta.env.VITE_BACKEND_URL}/questions/questions/${id}`,{
-                        withCredentials : true
-                    }
+                    `${import.meta.env.VITE_BACKEND_URL}/questions/questions/${id}`, {
+                    withCredentials: true
+                }
                 );
 
                 const data = res.data.question || res.data;
@@ -220,7 +224,9 @@ const ProblemDetail = () => {
             } catch (err) {
                 setError(err.message);
             } finally {
-                setLoading(false);
+                setTimeout(() => {
+                    setLoading(false);
+                }, 1000)
             }
         };
         fetchProblem();
@@ -453,39 +459,75 @@ const ProblemDetail = () => {
 
             <div className="flex flex-1 h-full overflow-hidden">
                 <div
-                    className="bg-white dark:bg-gray-800 p-6 overflow-y-auto custom-scrollbar transition-all duration-100 ease-linear flex-shrink-0"
+                    className="bg-white dark:bg-gray-800 flex flex-col overflow-hidden transition-all duration-100 ease-linear flex-shrink-0"
                     style={{ width: `${leftWidth}%` }}
                 >
-                    <section className="mb-8">
-                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 border-b-4 border-indigo-500/50 inline-block pb-1">Problem Statement</h2>
-                        <div className="text-gray-700 dark:text-gray-300 space-y-4 leading-relaxed text-base"
-                            dangerouslySetInnerHTML={{ __html: problem.description }}
-                        />
-                    </section>
+                    {/* 1. ADD TAB NAVIGATION HERE */}
+                    <div className="flex px-6 pt-3 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 flex-shrink-0">
+                        <button
+                            onClick={() => setLeftActiveTab("description")}
+                            className={`px-4 py-2 text-sm font-bold transition-all border-b-2 ${leftActiveTab === "description"
+                                ? "text-indigo-600 border-indigo-600 dark:text-indigo-400 dark:border-indigo-400"
+                                : "text-gray-500 border-transparent hover:text-gray-700 dark:hover:text-gray-300"
+                                }`}
+                        >
+                            Description
+                        </button>
+                        <button
+                            onClick={() => setLeftActiveTab("discussion")}
+                            className={`px-4 py-2 text-sm font-bold transition-all border-b-2 ${leftActiveTab === "discussion"
+                                ? "text-indigo-600 border-indigo-600 dark:text-indigo-400 dark:border-indigo-400"
+                                : "text-gray-500 border-transparent hover:text-gray-700 dark:hover:text-gray-300"
+                                }`}
+                        >
+                            Discussion
+                        </button>
+                    </div>
 
-                    <section className="mt-10 border-t border-gray-200 dark:border-gray-700 pt-6">
-                        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Details & Constraints</h3>
+                    <div className="flex-1 overflow-y-auto p-6 custom-scrollbar">
+                        {leftActiveTab === "description" ? (
+                            <>
+                                <section className="mb-8">
+                                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 border-b-4 border-indigo-500/50 inline-block pb-1">
+                                        Problem Statement
+                                    </h2>
+                                    <div
+                                        className="text-gray-700 dark:text-gray-300 space-y-4 leading-relaxed text-base"
+                                        dangerouslySetInnerHTML={{ __html: problem.description }}
+                                    />
+                                </section>
 
-                        {problem.constraints?.length > 0 && (
-                            <Card className="p-4 mb-4 bg-gray-50 dark:bg-gray-900 border-l-4 border-yellow-500 rounded-lg shadow-sm">
-                                <h4 className="font-semibold text-base text-gray-800 dark:text-gray-200 mb-2">Constraints</h4>
-                                <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 text-sm space-y-1">
-                                    {problem.constraints.map((c, idx) => (
-                                        <li key={idx}>{c}</li>
-                                    ))}
-                                </ul>
-                            </Card>
-                        )}
+                                <section className="mt-10 border-t border-gray-200 dark:border-gray-700 pt-6">
+                                    <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Details & Constraints</h3>
 
-                        <Card className="p-4 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm">
-                            <h4 className="font-semibold text-base text-gray-800 dark:text-gray-200 mb-2">Stats</h4>
-                            <div className="grid grid-cols-2 gap-2 text-sm text-gray-700 dark:text-gray-300">
-                                <p><strong>Rating:</strong> <span className="text-yellow-500">{problem.ratingLevel} / 5</span></p>
-                                <p><strong>Accepted Rate:</strong> <span className="text-green-500">{problem.acceptedRate}%</span></p>
-                                <p><strong>Max Time:</strong> {maxTime} mins</p>
+                                    {problem.constraints?.length > 0 && (
+                                        <Card className="p-4 mb-4 bg-gray-50 dark:bg-gray-900 border-l-4 border-yellow-500 rounded-lg shadow-sm">
+                                            <h4 className="font-semibold text-base text-gray-800 dark:text-gray-200 mb-2">Constraints</h4>
+                                            <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 text-sm space-y-1">
+                                                {problem.constraints.map((c, idx) => (
+                                                    <li key={idx}>{c}</li>
+                                                ))}
+                                            </ul>
+                                        </Card>
+                                    )}
+
+                                    <Card className="p-4 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm">
+                                        <h4 className="font-semibold text-base text-gray-800 dark:text-gray-200 mb-2">Stats</h4>
+                                        <div className="grid grid-cols-2 gap-2 text-sm text-gray-700 dark:text-gray-300">
+                                            <p><strong>Rating:</strong> <span className="text-yellow-500">{problem.ratingLevel} / 5</span></p>
+                                            <p><strong>Accepted Rate:</strong> <span className="text-green-500">{problem.acceptedRate}%</span></p>
+                                            <p><strong>Max Time:</strong> {maxTime} mins</p>
+                                        </div>
+                                    </Card>
+                                </section>
+                            </>
+                        ) : (
+                            /* 3. DISCUSSION TAB CONTENT */
+                            <div className="animate-fadeIn">
+                                <Discussion problemId={id} user={user} />
                             </div>
-                        </Card>
-                    </section>
+                        )}
+                    </div>
                 </div>
 
                 <div

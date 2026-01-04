@@ -93,7 +93,6 @@ const CompleteProfile = () => {
                 navigate("/dashboard");
             }
         } catch (err) {
-            console.log(err)
             toast.error(err.response?.data?.message || "Transmission Failed");
         } finally {
             setLoading(false);

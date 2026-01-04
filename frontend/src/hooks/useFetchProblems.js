@@ -9,10 +9,10 @@ const useFetchProblems = () => {
     const fetchProblems = async () => {
         setLoading(true);
         try {
-            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/questions/questions`,{
-                withCredentials : true
+            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/questions/questions`, {
+                withCredentials: true
             });
-            if (!response.data.success) 
+            if (!response.data.success)
                 throw new Error("Failed to fetch problems");
 
             const data = response.data.questions;
@@ -20,7 +20,10 @@ const useFetchProblems = () => {
         } catch (err) {
             setError(err.message);
         } finally {
-            setLoading(false);
+            setTimeout(() => {
+                setLoading(false);
+            }, 1000);
+
         }
     };
 

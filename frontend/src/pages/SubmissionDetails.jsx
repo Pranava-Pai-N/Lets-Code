@@ -4,6 +4,7 @@ import axios from 'axios';
 import { ChevronLeftIcon, CommandLineIcon, DocumentDuplicateIcon, CheckIcon } from "@heroicons/react/24/outline";
 import Card from "../components/Card.jsx";
 import { toast } from 'react-toastify';
+import Loader from "../components/Loader.jsx"
 
 const SubmissionDetails = () => {
     const { id } = useParams();
@@ -22,7 +23,9 @@ const SubmissionDetails = () => {
             } catch (error) {
                 console.error("Error:", error);
             } finally {
-                setLoading(false);
+                setTimeout(() => {
+                    setLoading(false);
+                }, 1000)
             }
         };
         fetchDetail();
@@ -30,17 +33,14 @@ const SubmissionDetails = () => {
 
     const copyToClipboard = () => {
         window.navigator.clipboard.writeText(submission.sourceCode)
-        toast.success("Code copied to clipboard");
+        toast.success("Code copied to clipboard successfully !");
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
     };
 
-    if (loading) return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-950">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
-        </div>
-    );
-    
+    if (loading)
+        <Loader />
+
     if (!submission) return <div className="p-10 text-center">Submission not found</div>;
 
     const isAccepted = submission.status === 'Accepted';
@@ -56,7 +56,7 @@ const SubmissionDetails = () => {
                     <ChevronLeftIcon className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
                     Back to History
                 </button>
-                
+
                 <div className="flex items-center gap-3">
                     <span className="text-xs font-mono text-gray-400 bg-gray-200/50 dark:bg-gray-800 px-3 py-1 rounded-full">
                         ID: {submission._id}
@@ -65,14 +65,13 @@ const SubmissionDetails = () => {
             </div>
 
             <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
-                
+
                 <div className="lg:col-span-8 space-y-8">
-                    
-                    <div className={`relative overflow-hidden rounded-3xl p-8 shadow-2xl transition-all border border-white/20 ${
-                        isAccepted 
-                        ? 'bg-gradient-to-br from-green-500 to-emerald-700 text-white' 
-                        : 'bg-gradient-to-br from-red-500 to-rose-700 text-white'
-                    }`}>
+
+                    <div className={`relative overflow-hidden rounded-3xl p-8 shadow-2xl transition-all border border-white/20 ${isAccepted
+                            ? 'bg-gradient-to-br from-green-500 to-emerald-700 text-white'
+                            : 'bg-gradient-to-br from-red-500 to-rose-700 text-white'
+                        }`}>
                         <div className="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
                             <div>
                                 <h2 className="text-sm uppercase tracking-widest font-black opacity-80 mb-2">Submission Result</h2>
@@ -103,7 +102,7 @@ const SubmissionDetails = () => {
                                 </div>
                                 <span className="ml-4 text-xs font-mono text-gray-400">solution.txt</span>
                             </div>
-                            <button 
+                            <button
                                 onClick={copyToClipboard}
                                 className="flex items-center gap-2 text-xs font-bold text-gray-400 hover:text-white transition-colors bg-gray-800 hover:bg-gray-700 px-3 py-1.5 rounded-lg"
                             >

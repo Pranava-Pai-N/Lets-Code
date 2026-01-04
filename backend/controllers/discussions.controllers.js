@@ -121,11 +121,20 @@ const likeaDiscussion = async (req, res) => {
 
         const isExisting = discussion.likedBy.includes(userId);
 
+        const yourDiscussion = discussion.userId.equals(userId);
+
+        if (yourDiscussion)
+            return res.status(200).json({
+                success: false,
+                message: "You cannot like your discussion.."
+            });
+
         if (isExisting)
             return res.status(200).json({
-                success: true,
+                success: false,
                 message: "You have already liked this discussion."
             });
+
 
         discussion.likedBy.push(userId);
 
@@ -137,6 +146,7 @@ const likeaDiscussion = async (req, res) => {
             likeCounts: discussion.likedBy.length,
             discussion
         });
+
     } catch (error) {
         console.log("Error liking the discussion , try again later : ", error);
         throw new ExpressError(500, "Internal server error")

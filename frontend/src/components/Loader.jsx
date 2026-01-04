@@ -2,37 +2,48 @@ import React from 'react';
 
 const Loader = () => {
   return (
-    // Outer container for centering and dark background
-    <div className="flex items-center justify-center min-h-screen bg-gray-900 overflow-hidden">
-      
-      <div className="relative w-80 h-80 flex items-center justify-center bg-gray-800 rounded-2xl shadow-2xl backdrop-blur-md">
+    <div className="flex flex-col items-center justify-center min-h-[400px] w-full bg-transparent">
+      <div className="relative">
+        <div className="absolute inset-0 rounded-full bg-indigo-500/20 blur-xl animate-pulse"></div>
         
-        <div 
-          className="absolute w-full h-full rounded-2xl crazy-spin" 
-          style={{
-            '--gradient-start': '#8b5cf6', 
-            '--gradient-end': '#ec4899',   
-          }}
-        >
-          <div className="absolute inset-4 rounded-full bg-black/30 animate-pulse"></div>
-        </div>
+        <div className="relative flex flex-col items-center">
+          <div className="flex items-center gap-3 mb-4">
+            <span className="text-4xl font-mono font-bold text-indigo-500 animate-[bounce_1s_infinite_100ms]">
+              &lt;
+            </span>
+            <div className="flex gap-1">
+              <div className="w-2 h-8 bg-gray-300 dark:bg-gray-600 rounded-full animate-[bounce_1s_infinite_200ms]"></div>
+              <div className="w-2 h-8 bg-indigo-500 rounded-full animate-[bounce_1s_infinite_300ms]"></div>
+              <div className="w-2 h-8 bg-gray-300 dark:bg-gray-600 rounded-full animate-[bounce_1s_infinite_400ms]"></div>
+            </div>
+            <span className="text-4xl font-mono font-bold text-indigo-500 animate-[bounce_1s_infinite_500ms]">
+              /&gt;
+            </span>
+          </div>
 
-        <div className="relative z-10 text-center">
-          <svg 
-            className="w-16 h-16 text-white mx-auto mb-2 opacity-90 animate-bounce" 
-            fill="none" 
-            viewBox="0 0 24 24" 
-            stroke="currentColor" 
-            strokeWidth="1.5"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6a7.5 7.5 0 107.5 7.5h-7.5V6z" />
-            <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0013.5 3v7.5z" />
-          </svg>
-          <p className="text-sm font-light text-gray-300 tracking-wider">
-            Processing the Craziness...
-          </p>
+          <div className="flex flex-col items-center">
+            <p className="text-sm font-mono font-medium text-gray-500 dark:text-gray-400 tracking-tight flex items-center gap-1">
+              <span>Entering the Matrix</span>
+              <span className="flex">
+                <span className="animate-[bounce_1s_infinite_100ms]">.</span>
+                <span className="animate-[bounce_1s_infinite_200ms]">.</span>
+                <span className="animate-[bounce_1s_infinite_300ms]">.</span>
+              </span>
+            </p>
+            
+            <div className="mt-4 w-48 h-1 bg-gray-200 dark:bg-gray-800 rounded-full overflow-hidden">
+              <div className="h-full bg-indigo-500 w-1/2 animate-[load_1.5s_infinite_ease-in-out]"></div>
+            </div>
+          </div>
         </div>
       </div>
+
+      <style jsx>{`
+        @keyframes load {
+          0% { transform: translateX(-100%); }
+          100% { transform: translateX(200%); }
+        }
+      `}</style>
     </div>
   );
 };

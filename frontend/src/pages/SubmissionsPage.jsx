@@ -3,12 +3,16 @@ import axios from 'axios';
 import { CheckCircleIcon, XCircleIcon, EyeIcon } from "@heroicons/react/24/outline";
 import Card from "../components/Card.jsx";
 import { useNavigate } from 'react-router-dom';
+import Loader from "../components/Loader.jsx"
 
 const SubmissionsPage = () => {
     const [submissions, setSubmissions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedCode, setSelectedCode] = useState(null);
     const navigate = useNavigate();
+
+    if(loading)
+        <Loader />
 
     useEffect(() => {
         const fetchSubmissions = async () => {
@@ -24,7 +28,9 @@ const SubmissionsPage = () => {
             } catch (error) {
                 console.error("Error fetching submissions:", error);
             } finally {
-                setLoading(false);
+                setTimeout(() => {
+                    setLoading(false);
+                }, 1000)
             }
         };
         fetchSubmissions();
@@ -69,7 +75,7 @@ const SubmissionsPage = () => {
                                     </tr>
                                 ))
                             ) : submissions.map((sub) => (
-                                <tr key={sub._id} onClick = {() => navigate(`/submissions/${sub._id}`)} className="hover:bg-gray-50 dark:hover:bg-gray-900/30 transition-colors">
+                                <tr key={sub._id} onClick={() => navigate(`/submissions/${sub._id}`)} className="hover:bg-gray-50 dark:hover:bg-gray-900/30 transition-colors">
                                     <td className="p-4">
                                         <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold ${getStatusStyle(sub.status)}`}>
                                             {sub.status === 'Accepted' ? <CheckCircleIcon className="w-4 h-4" /> : <XCircleIcon className="w-4 h-4" />}
