@@ -19,7 +19,9 @@ const SubmissionDetails = () => {
                 const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/users/submissions/${id}`, {
                     withCredentials: true
                 });
-                if (response.data.success) setSubmission(response.data.foundSubmission);
+                console.log(response.data);
+                if (response.data.success) 
+                    setSubmission(response.data.foundSubmission);
             } catch (error) {
                 console.error("Error:", error);
             } finally {
@@ -100,7 +102,7 @@ const SubmissionDetails = () => {
                                     <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
                                     <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
                                 </div>
-                                <span className="ml-4 text-xs font-mono text-gray-400">solution.txt</span>
+                                <span className="ml-4 text-xs font-mono text-gray-400">Solution.txt</span>
                             </div>
                             <button
                                 onClick={copyToClipboard}

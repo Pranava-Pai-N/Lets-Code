@@ -9,10 +9,20 @@ const Navbar = () => {
   const { user, isAuthenticated, logout } = useAuth();
 
 
-  const links = [
-    { name: "Problems", path: "/problems" },
-    { name: "Dashboard", path: "/dashboard" },
-  ];
+  const links = [];
+
+  if(!isAuthenticated){
+    links.push(
+      { name: "Login", path: "/login" },
+      { name: "Signup", path: "/register" },
+    )
+  }
+
+  if (isAuthenticated) {
+    links.push(
+      { name: "Problems", path: "/problems" },
+      { name: "Dashboard", path: "/dashboard" },)
+  }
 
   const activeClass = "border-b-2 border-indigo-500 text-indigo-600 dark:text-indigo-400 font-semibold";
   const inactiveClass = "text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition";
@@ -62,12 +72,12 @@ const Navbar = () => {
                       }`}
                   />
 
-                  <span 
-                  key={`${user?.currentStreak}`}
-                  className={`ml-1 text-sm font-bold transition-colors duration-300 ${user?.currentStreak > 0
-                    ? 'text-orange-600 dark:text-orange-400'
-                    : 'text-gray-500 dark:text-gray-500'
-                    }`}>
+                  <span
+                    key={`${user?.currentStreak}`}
+                    className={`ml-1 text-sm font-bold transition-colors duration-300 ${user?.currentStreak > 0
+                      ? 'text-orange-600 dark:text-orange-400'
+                      : 'text-gray-500 dark:text-gray-500'
+                      }`}>
                     {user?.currentStreak || 0}
                   </span>
                 </div>

@@ -49,9 +49,9 @@ const SubmissionsPage = () => {
                 <p className="text-gray-500 dark:text-gray-400">History of all your code attempts</p>
             </header>
             {submissions.length == 0 ? (
-                <p className="text-gray-500 dark:text-gray-400">Please submit aleast one submission to view your submissions. Currently empty</p>
+                <p className="text-gray-500 dark:text-gray-400">Please submit aleast one submission to view your submissions. Currently no submissions</p>
             ) : (
-                <p className="text-gray-500 dark:text-gray-400">All your {`${submissions.length}`} submissions</p>
+                <p className="text-gray-500 dark:text-gray-400">All your {submissions.length} {submissions.length === 1 ? "Submission": "Submissions"}</p>
             )}
 
             <Card className="overflow-hidden border-gray-200 dark:border-gray-800">
@@ -64,7 +64,7 @@ const SubmissionsPage = () => {
                                 <th className="p-4 text-xs font-bold uppercase tracking-wider text-gray-500">Runtime</th>
                                 <th className="p-4 text-xs font-bold uppercase tracking-wider text-gray-500">Memory</th>
                                 <th className="p-4 text-xs font-bold uppercase tracking-wider text-gray-500">Date</th>
-                                <th className="p-4 text-xs font-bold uppercase tracking-wider text-gray-500 text-right">Action</th>
+                                <th className="p-4 text-xs font-bold uppercase tracking-wider text-gray-500 text-right">View</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-100 dark:divide-gray-800">

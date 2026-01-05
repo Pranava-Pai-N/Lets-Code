@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { CameraIcon } from '@heroicons/react/24/outline';
 import { useAuth } from "../context/AuthContext.jsx";
+import Loader from "../components/Loader.jsx";
 
 const getCodingStats = (user) => [
     { title: "Problems Solved", value: user.problemsSolved, icon: "", color: "text-red-500" },
@@ -34,7 +35,7 @@ const UserProfile = () => {
 
 
     const handleImageClick = () => {
-        if(isEditing){
+        if (isEditing) {
             toast.info("Please change your profile image seperately ...")
             return;
         }
@@ -62,14 +63,17 @@ const UserProfile = () => {
             if (response.data.success) {
                 setUser(prev => ({ ...prev, profile_url: response.data.user.profile_url }));
                 toast.success(response.data.message);
-                updateUser({ profile_url : response.data.user.profile_url })
+                updateUser({ profile_url: response.data.user.profile_url })
             }
 
         } catch (error) {
             console.error("Upload error:", error);
             toast.error(error);
         } finally {
-            setSaveLoading(false);
+            setTimeout(() => {
+                setSaveLoading(false);
+            }, 1000)
+
         }
     }
 
@@ -79,6 +83,7 @@ const UserProfile = () => {
 
     const fetchUser = async () => {
         try {
+            setLoading(true);
             const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/users/me`, {
                 withCredentials: true,
             });
@@ -109,7 +114,9 @@ const UserProfile = () => {
         } catch (err) {
             console.error("Error fetching user:", err);
         } finally {
-            setLoading(false);
+            setTimeout(() => {
+                setLoading(false);
+            }, 2000)
         }
     };
 
@@ -184,13 +191,11 @@ const UserProfile = () => {
         }
     };
 
-    if (loading) return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900">
-            <p className="text-gray-700 dark:text-gray-200 text-lg animate-pulse">Fetching Coder Profile...</p>
-        </div>
-    );
+    if (loading)
+        <Loader />
 
-    if (!user) return null;
+    if (!user)
+        return null;
     const stats = getCodingStats(user);
 
     return (

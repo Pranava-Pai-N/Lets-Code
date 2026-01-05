@@ -80,7 +80,10 @@ const Discussion = ({ problemId }) => {
     try {
       setLoading(true);
       setIsRefreshing(true);
-      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/discussions/question/${problemId}`, { withCredentials: true });
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/discussions/question/${problemId}`,
+        {
+          withCredentials: true
+        });
 
       setDiscussions(res.data.allDiscussions || []);
       setIsRefreshing(false);

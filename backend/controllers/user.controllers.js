@@ -302,15 +302,15 @@ const forgotPasswordwithotp = async (req, res) => {
 
         return res.status(200).json({
             success: true,
-            message: "A Email with OTP has been sent to your registered email to reset your password"
+            message: `A Email with OTP has been sent to ${user.email} to reset your password`
         });
 
 
     } catch (error) {
-        console.log("Error changing password ...");
+        console.log("Error changing password .");
         return res.status(404).json({
             success: false,
-            message: "Error changing the password . Try Again Later ..."
+            message: "Error changing the password . Try Again Later ."
         });
     }
 }
@@ -344,7 +344,7 @@ const handlePasswordReset = async (req, res) => {
 
         if (Date.now() > user.otpexpiresin) {
             user.otp = undefined,
-                user.otpexpiresin = undefined;
+            user.otpexpiresin = undefined;
             await user.save();
             return res.status(404).json({
                 success: false,
@@ -369,7 +369,7 @@ const handlePasswordReset = async (req, res) => {
         if (isMatchingPassword)
             return res.status(400).json({
                 success: false,
-                message: "New Password cannot be same as the old password ..."
+                message: "New Password cannot be same as the old password ."
             });
 
         const newHashPassword = await bcrypt.hash(data.newPassword, 10);

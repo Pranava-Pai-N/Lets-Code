@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify"
+import Loader from "../components/Loader";
 
 const AuthContext = createContext();
 
@@ -8,6 +9,9 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
+
+  if (loading)
+    <Loader />
 
   const fetchUser = async () => {
     try {
@@ -24,7 +28,9 @@ export const AuthProvider = ({ children }) => {
       setUser(null);
       setIsAuthenticated(false);
     } finally {
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000)
     }
   };
 
@@ -53,10 +59,10 @@ export const AuthProvider = ({ children }) => {
 
   const updateUser = (newData) => {
     setUser((prev) => {
-      if (!prev) 
+      if (!prev)
         return null;
-      
-      return { ...prev, ...newData }; 
+
+      return { ...prev, ...newData };
     });
   };
 

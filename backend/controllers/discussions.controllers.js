@@ -126,7 +126,7 @@ const likeaDiscussion = async (req, res) => {
         if (yourDiscussion)
             return res.status(200).json({
                 success: false,
-                message: "You cannot like your discussion.."
+                message: "You cannot like your own discussion."
             });
 
         if (isExisting)

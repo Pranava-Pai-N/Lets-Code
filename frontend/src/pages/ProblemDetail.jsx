@@ -353,6 +353,7 @@ const ProblemDetail = () => {
             const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/users/ai-help`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
+                credentials : "include",
                 body: JSON.stringify({ source_code: code, problem })
             })
 
@@ -378,6 +379,7 @@ const ProblemDetail = () => {
 
             }
         } catch (error) {
+            console.log(error);
             toast.error("AI Assistant is currently unavailable.Try again later : ", error);
             setIsAiLoading(false);
         }
@@ -462,7 +464,7 @@ const ProblemDetail = () => {
                     className="bg-white dark:bg-gray-800 flex flex-col overflow-hidden transition-all duration-100 ease-linear flex-shrink-0"
                     style={{ width: `${leftWidth}%` }}
                 >
-                    {/* 1. ADD TAB NAVIGATION HERE */}
+
                     <div className="flex px-6 pt-3 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 flex-shrink-0">
                         <button
                             onClick={() => setLeftActiveTab("description")}
@@ -522,7 +524,6 @@ const ProblemDetail = () => {
                                 </section>
                             </>
                         ) : (
-                            /* 3. DISCUSSION TAB CONTENT */
                             <div className="animate-fadeIn">
                                 <Discussion problemId={id} user={user} />
                             </div>
