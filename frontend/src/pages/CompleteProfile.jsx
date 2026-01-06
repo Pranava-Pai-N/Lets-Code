@@ -66,6 +66,12 @@ const CompleteProfile = () => {
             return;
         }
 
+        if(Number(formData.age) < 0 || Number(formData.age) > 100){
+            toast.error("Please enter a valid age.");
+            setLoading(false);
+            return;
+        }
+
 
         const payload = {
             age: Number(formData.age),
@@ -108,109 +114,118 @@ useEffect(() => {
 },[user , navigate])
 
     return (
-        <div className="min-h-screen bg-[#050505] text-white p-4 md:p-10 relative overflow-hidden flex items-center justify-center">
-            <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,_rgba(20,184,166,0.05)_0%,_transparent_50%)] pointer-events-none"></div>
+    <div className="min-h-screen bg-gray-50 text-gray-800 p-6 md:p-12 flex items-center justify-center relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-64 bg-gradient-to-b from-indigo-50 to-transparent pointer-events-none"></div>
 
-            <div className="w-full max-w-5xl bg-gray-900/30 backdrop-blur-2xl border border-white/5 rounded-[2.5rem] p-6 md:p-14 shadow-2xl relative z-10 overflow-hidden">
-                <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-teal-500 to-transparent opacity-20 animate-scan"></div>
+        <div className="w-full max-w-5xl bg-white border border-gray-200 rounded-[2.5rem] p-8 md:p-14 shadow-xl shadow-indigo-100/50 relative z-10">
+            
+            <header className="mb-12 text-center lg:text-left">
+                <div className="flex items-center justify-center lg:justify-start gap-3 mb-3">
+                    <span className="h-1.5 w-1.5 rounded-full bg-indigo-600"></span>
+                    <span className="text-indigo-600 font-bold text-[10px] tracking-[0.2em] uppercase">Step 2: Profile Setup</span>
+                </div>
+                <h1 className="text-4xl md:text-5xl font-black text-gray-900 tracking-tight">
+                    Complete Your <span className="text-indigo-600">Profile</span>
+                </h1>
+                <p className="text-gray-500 text-sm mt-2">Let us know a bit more about your technical background.</p>
+            </header>
 
-                <header className="mb-12">
-                    <div className="flex items-center gap-4 mb-2">
-                        <div className="h-[2px] w-12 bg-teal-500"></div>
-                        <span className="text-teal-500 font-mono text-xs tracking-[0.5em] uppercase">Security Clearance: Level 1</span>
-                    </div>
-                    <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter">
-                        Digital<span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-pink-500"> Avatar</span>
-                    </h1>
-                </header>
-
-                <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                    <div className="space-y-8">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                            <InputGroup label="Age" icon={CalendarIcon}>
+            <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <div className="space-y-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div className="space-y-2">
+                            <label className="text-xs font-bold text-gray-500 uppercase ml-1">Age</label>
+                            <div className="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-2xl px-4 py-1 focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/5 transition-all">
+                                <CalendarIcon className="w-5 h-5 text-gray-400" />
                                 <input 
-                                    type="number" name="age" required placeholder="Lifecycle Count" 
-                                    className="w-full bg-white/5 border-b-2 border-teal-500/20 px-0 py-3 focus:border-pink-500 outline-none transition font-mono text-xl"
+                                    type="number" name="age" required placeholder="Years" 
+                                    className="w-full bg-transparent py-3 outline-none font-semibold text-gray-700"
                                     onChange={handleChange} value={formData.age}
                                 />
-                            </InputGroup>
-                            <InputGroup label="College Name" icon={AcademicCapIcon}>
-                                <input 
-                                    type="text" name="collegeName" required placeholder="College Name" 
-                                    className="w-full bg-white/5 border-b-2 border-teal-500/20 px-4 py-3 focus:border-pink-500 outline-none transition font-mono"
-                                    onChange={handleChange} value={formData.collegeName}
-                                />
-                            </InputGroup>
-                        </div>
-
-                        <InputGroup label="Tech Stack (Comma Separated)" icon={CodeBracketIcon}>
-                            <input 
-                                name="languagesProficient" required placeholder="React, Node, C++"
-                                className="w-full bg-white/5 border-b-2 border-teal-500/20 px-4 py-3 focus:border-pink-500 outline-none transition font-mono"
-                                onChange={handleChange} value={formData.languagesProficient}
-                            />
-                        </InputGroup>
-
-                        <InputGroup label="Targeting Companies" icon={BriefcaseIcon}>
-                            <input 
-                                name="targetingCompanies" placeholder="Google, NVIDIA, Apple"
-                                className="w-full bg-white/5 border-b-2 border-teal-500/20 px-4 py-3 focus:border-pink-500 outline-none transition font-mono"
-                                onChange={handleChange} value={formData.targetingCompanies}
-                            />
-                        </InputGroup>
-
-                        <InputGroup label="Core Interests / Domains" icon={HeartIcon}>
-                            <input 
-                                name="interests" required placeholder="Web3, AI, CyberSec, Low-Level"
-                                className="w-full bg-white/5 border-b-2 border-teal-500/20 px-4 py-3 focus:border-pink-500 outline-none transition font-mono"
-                                onChange={handleChange} value={formData.interests}
-                            />
-                        </InputGroup>
-                        <p className="text-[10px] text-gray-500 font-mono text-center" onClick={() => navigate("/profile")}>
-                                Profile Completed ?
-                            </p>
-                    </div>
-
-                    <div className="flex flex-col justify-between space-y-8">
-                        <div className="bg-black/40 p-8 rounded-3xl border border-white/5 space-y-6">
-                            <h3 className="text-[10px] font-bold text-gray-500 uppercase tracking-[0.4em] mb-4 flex items-center">
-                                <GlobeAltIcon className="w-4 h-4 mr-2" /> Social Connects
-                            </h3>
-                            <div className="grid grid-cols-1 gap-4">
-                                {['github', 'linkedin', 'twitter', 'portfolio'].map((social) => (
-                                    <div key={social} className="flex items-center gap-4 bg-white/5 rounded-xl px-4 py-2 border border-transparent focus-within:border-teal-500/30 transition">
-                                        <LinkIcon className="h-4 w-4 text-pink-500" />
-                                        <input 
-                                            type="url" name={social} placeholder={`${social.toUpperCase()} URL`}
-                                            className="w-full bg-transparent text-sm font-mono outline-none py-1"
-                                            required={social === 'github'}
-                                            onChange={handleChange} value={formData[social]}
-                                        />
-                                    </div>
-                                ))}
                             </div>
                         </div>
-
-                        <div className="space-y-4">
-                            <p className="text-[10px] text-gray-500 font-mono text-center">
-                                By clicking initialize, you agree to sync your technical data with the platform . &copy; Terms and Conditions apply.
-                            </p>
-                            <button
-                                type="submit"
-                                disabled={loading}
-                                className="w-full group relative flex items-center justify-center px-8 py-6 font-black uppercase tracking-[0.3em] bg-white text-black rounded-2xl hover:scale-[1.02] active:scale-95 transition-all duration-300"
-                            >
-                                <span className="relative z-10 flex items-center text-lg">
-                                    {loading ? "Completing..." : "Start your journey"}
-                                    {!loading && <RocketLaunchIcon className="w-6 h-6 ml-3 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />}
-                                </span>
-                            </button>
+                        <div className="space-y-2">
+                            <label className="text-xs font-bold text-gray-500 uppercase ml-1">College</label>
+                            <div className="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-2xl px-4 py-1 focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/5 transition-all">
+                                <AcademicCapIcon className="w-5 h-5 text-gray-400" />
+                                <input 
+                                    type="text" name="collegeName" required placeholder="College Name" 
+                                    className="w-full bg-transparent py-3 outline-none text-sm font-medium"
+                                    onChange={handleChange} value={formData.collegeName}
+                                />
+                            </div>
                         </div>
                     </div>
-                </form>
-            </div>
+
+                    <InputGroup label="Tech Stack (Comma Seperated)" icon={CodeBracketIcon}>
+                        <input 
+                            name="languagesProficient" required placeholder="e.g. React, Node.js, Python"
+                            className="w-full bg-white border border-gray-200 rounded-2xl px-6 py-4 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/5 outline-none transition shadow-sm"
+                            onChange={handleChange} value={formData.languagesProficient}
+                        />
+                    </InputGroup>
+
+                    <InputGroup label="Targeting Companies (Comma Seperated)" icon={BriefcaseIcon}>
+                        <input 
+                            name="targetingCompanies" placeholder="e.g. Google, Facebook, Netflix"
+                            className="w-full bg-white border border-gray-200 rounded-2xl px-6 py-4 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/5 outline-none transition shadow-sm"
+                            onChange={handleChange} value={formData.targetingCompanies}
+                        />
+                    </InputGroup>
+
+                    <InputGroup label="Core Interests (Comma Seperated)" icon={HeartIcon}>
+                        <input 
+                            name="interests" required placeholder="e.g. BlockChain, Web3, AI"
+                            className="w-full bg-white border border-gray-200 rounded-2xl px-6 py-4 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/5 outline-none transition shadow-sm"
+                            onChange={handleChange} value={formData.interests}
+                        />
+                    </InputGroup>
+                    
+                    <button type="button" onClick={() => navigate("/profile")} className="block text-center w-full text-xs text-gray-400 hover:text-indigo-600 transition-colors font-medium">
+                        Already completed? Go to Profile
+                    </button>
+                </div>
+
+                <div className="flex flex-col justify-between space-y-8">
+                    <div className="bg-gray-50 p-8 rounded-[2rem] border border-gray-100 space-y-6">
+                        <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] flex items-center">
+                            <GlobeAltIcon className="w-4 h-4 mr-2" /> Digital Presence
+                        </h3>
+                        <div className="grid grid-cols-1 gap-4">
+                            {['github', 'linkedin', 'twitter', 'portfolio'].map((social) => (
+                                <div key={social} className="flex items-center gap-4 bg-white rounded-xl px-4 py-1 border border-gray-200 focus-within:border-indigo-500 transition-all shadow-sm">
+                                    <LinkIcon className="h-4 w-4 text-indigo-400" />
+                                    <input 
+                                        type="url" name={social} placeholder={`${social.charAt(0).toUpperCase() + social.slice(1)} URL`}
+                                        className="w-full bg-transparent text-sm outline-none py-3 text-gray-600"
+                                        required={social === 'github'}
+                                        onChange={handleChange} value={formData[social]}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="space-y-4">
+                        <p className="text-[11px] text-gray-400 text-center px-4 leading-relaxed italic">
+                            By clicking finish, you agree to our terms of service regarding data synchronization.
+                        </p>
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            className="w-full group relative flex items-center justify-center px-8 py-6 bg-indigo-600 text-white rounded-2xl font-bold uppercase tracking-widest hover:bg-indigo-700 hover:shadow-lg hover:shadow-indigo-200 active:scale-95 transition-all duration-300"
+                        >
+                            <span className="flex items-center text-lg">
+                                {loading ? "Saving..." : "Finish Setup"}
+                                {!loading && <RocketLaunchIcon className="w-6 h-6 ml-3 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />}
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
-    );
+    </div>
+);
 };
 
 export default CompleteProfile;

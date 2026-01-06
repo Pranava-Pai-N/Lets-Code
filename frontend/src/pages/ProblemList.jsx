@@ -35,88 +35,107 @@ const ProblemList = () => {
 
 
 
-  return (
-    <div className="p-8 md:p-12 bg-gray-50 dark:bg-gray-950 min-h-screen">
-
-      <header className="mb-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white">
-          All Challenges
+ return (
+  <div className="min-h-screen bg-gray-50 text-gray-800 p-4 md:p-10 font-sans">
+    <div className="max-w-7xl mx-auto mb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
+      <div className="space-y-1">
+        <h1 className="text-3xl font-black tracking-tight text-gray-900 uppercase">
+          Problem <span className="text-indigo-600">List</span>
         </h1>
+        <p className="text-[11px] font-mono uppercase tracking-widest text-gray-500">
+          Network Status: <span className="text-emerald-600 font-bold">Stable</span>{" "}Available Challenges: {filteredProblems.length}
+        </p>
+      </div>
 
-        <div className="relative w-full md:w-80">
-          <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-          <input
-            type="text"
-            placeholder="Search problems or topics..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 p-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none dark:bg-gray-800 dark:text-gray-200 transition"
-          />
-        </div>
-      </header>
+      <div className="relative w-full md:w-80 group">
+        <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-indigo-500 transition-colors" />
+        <input
+          type="text"
+          placeholder="Filter by title or topic..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="w-full bg-white border border-gray-200 rounded-xl py-2.5 pl-10 pr-4 text-sm outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500/50 transition-all shadow-sm"
+        />
+      </div>
+    </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-        {filteredProblems.map((problem) => {
+    <div className="max-w-7xl mx-auto bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+      <div className="grid grid-cols-12 gap-4 px-6 py-4 border-b border-gray-100 text-[10px] font-bold uppercase tracking-[0.15em] text-gray-400 bg-gray-50/50">
+        <div className="col-span-1">Status</div>
+        <div className="col-span-6 md:col-span-7">Title</div>
+        <div className="col-span-3 md:col-span-2 text-center">Difficulty</div>
+        <div className="col-span-2 text-right">Acceptance</div>
+      </div>
+
+      <div className="divide-y divide-gray-100">
+        {filteredProblems.map((problem, index) => {
           const style = getDifficultyColor(problem.difficultyLevel);
-
           const isSolved = user?.solvedQuestionIds?.includes(problem._id);
-
-          const isPotdActive = problem.isDailyQuestion
-
+          const isPotdActive = problem.isDailyQuestion;
 
           return (
-            <Link key={problem._id} to={`/problems/${problem._id}`} className="block group relative">
-              <Card className={`p-6 h-full flex flex-col justify-between rounded-xl shadow-lg dark:shadow-2xl bg-white dark:bg-gray-800 border-t-4 ${style.border} hover:scale-[1.02] transition-transform duration-300`}>
+            <Link
+              key={problem._id}
+              to={`/problems/${problem._id}`}
+              className={`grid grid-cols-12 gap-4 px-6 py-5 items-center transition-all duration-200 hover:bg-indigo-50/40 group relative ${
+                index % 2 === 0 ? "bg-white" : "bg-gray-50/30"
+              }`}
+            >
+              <div className="absolute left-0 w-1 h-0 bg-indigo-600 transition-all duration-300 group-hover:h-full" />
 
-                {isPotdActive && (
-                  <div className="absolute top-0 right-0 z-10">
-                    <div className="bg-gradient-to-l from-amber-600 to-amber-400 text-white text-[10px] font-black px-3 py-1 rounded-bl-xl flex items-center gap-1.5 shadow-md tracking-wider uppercase">
-                      <StarIcon className="w-3.5 h-3.5 fill-white" />
-                      POTD
-                    </div>
-                  </div>
+
+              <div className="col-span-1 flex items-center">
+                {isSolved ? (
+                  <CheckCircleIcon className="w-6 h-6 text-emerald-500 drop-shadow-sm" />
+                ) : (
+                  <div className="w-5 h-5 rounded-full border-2 border-gray-200 group-hover:border-indigo-300 transition-colors bg-white" />
                 )}
-                <div className="flex flex-col gap-3">
-                  <div className="flex justify-between items-start">
-                    <div className="flex items-center gap-2">
-                      <h3 className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-indigo-600 transition">
-                        {problem.title}
-                      </h3>
-                      {isSolved && <CheckCircleIcon className="w-5 h-5 text-green-500" />}
-                    </div>
-                    <span className={`px-2 py-1 text-[10px] font-bold uppercase rounded-full ${style.bg} ${style.text}`}>
-                      {problem.difficultyLevel}
+              </div>
+
+              <div className="col-span-6 md:col-span-7 flex flex-col gap-1">
+                <div className="flex items-center gap-3">
+                  <span className="text-gray-900 font-bold group-hover:text-indigo-600 transition-colors truncate">
+                    {problem.title}
+                  </span>
+                  {isPotdActive && (
+                    <span className="bg-amber-100 text-amber-700 text-[9px] font-black px-2 py-0.5 rounded-md border border-amber-200 tracking-tight">
+                      POTD
                     </span>
-                  </div>
-
-                  <div className="flex flex-wrap gap-2">
-                    {problem.topicsList?.slice(0, 3).map((topic, idx) => (
-                      <span key={idx} className="bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 px-2 py-1 rounded text-[11px]">
-                        {topic}
-                      </span>
-                    ))}
-                  </div>
+                  )}
                 </div>
-
-                <div className="mt-6">
-                  <div className="flex justify-between text-xs mb-1">
-                    <span className="text-gray-500">Success Rate</span>
-                    <span className="font-semibold dark:text-gray-300">{problem.acceptedRate}%</span>
-                  </div>
-                  <div className="w-full bg-gray-200 dark:bg-gray-700 h-1.5 rounded-full overflow-hidden">
-                    <div
-                      className="bg-indigo-500 h-full transition-all duration-500"
-                      style={{ width: `${problem.acceptedRate}%` }}
-                    />
-                  </div>
+                <div className="flex gap-3">
+                  {problem.topicsList?.slice(0, 3).map((topic, idx) => (
+                    <span key={idx} className="text-[10px] font-medium text-gray-400 group-hover:text-indigo-400">
+                      {topic}
+                    </span>
+                  ))}
                 </div>
-              </Card>
+              </div>
+
+              <div className="col-span-3 md:col-span-2 text-center">
+                <span className={`text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full border ${style.border} ${style.bg} ${style.text} shadow-sm`}>
+                  {problem.difficultyLevel}
+                </span>
+              </div>
+
+              <div className="col-span-2 text-right flex flex-col items-end gap-1.5">
+                <span className="text-xs font-mono font-bold text-gray-600">
+                  {problem.acceptedRate}%
+                </span>
+                <div className="w-16 h-1.5 bg-gray-100 rounded-full overflow-hidden hidden md:block border border-gray-200/50">
+                  <div 
+                    className="h-full bg-indigo-500 rounded-full transition-all" 
+                    style={{ width: `${problem.acceptedRate}%` }}
+                  />
+                </div>
+              </div>
             </Link>
           );
         })}
       </div>
     </div>
-  );
+  </div>
+);
 };
 
 export default ProblemList;
