@@ -20,6 +20,7 @@ import CompleteProfile from "./pages/CompleteProfile.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import SubmissionsPage from "./pages/SubmissionsPage.jsx";
 import SubmissionDetails from "./pages/SubmissionDetails.jsx";
+import AboutPage from "./pages/AboutPage.jsx";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
                     <Route path="/register" element={<RegisterPage />} />
                     <Route path="/verify" element={<VerifyEmail />} />
                     <Route path="/forgot-password" element={<ForgotPassword />} />
+                    <Route path="/about-me" element ={<AboutPage />}/>
 
                     <Route element={<ProtectedRoute />}>
                       <Route path="/dashboard" element={<Dashboard />} />

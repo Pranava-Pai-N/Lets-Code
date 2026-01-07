@@ -17,6 +17,7 @@ const SubmissionsPage = () => {
     useEffect(() => {
         const fetchSubmissions = async () => {
             try {
+                setLoading(true);
                 const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/users/submissions`, {
                     withCredentials: true
                 });
@@ -30,7 +31,7 @@ const SubmissionsPage = () => {
             } finally {
                 setTimeout(() => {
                     setLoading(false);
-                }, 1000)
+                }, 3000)
             }
         };
         fetchSubmissions();

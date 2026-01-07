@@ -43,7 +43,7 @@ const ProblemList = () => {
           Problem <span className="text-indigo-600">List</span>
         </h1>
         <p className="text-[11px] font-mono uppercase tracking-widest text-gray-500">
-          Network Status: <span className="text-emerald-600 font-bold">Stable</span>{" "}Available Challenges: {filteredProblems.length}
+          Network Status: <span className="text-emerald-600 font-bold">Stable</span>{" "}Available {filteredProblems.length === 1 ? "Challenge:" : "Challenges:"} {filteredProblems.length}
         </p>
       </div>
 
