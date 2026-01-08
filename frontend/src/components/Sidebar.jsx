@@ -57,7 +57,7 @@ const Sidebar = () => {
             <div className="bg-indigo-600 p-2 rounded-xl shadow-lg shadow-indigo-200">
               <CodeBracketIcon className="w-6 h-6 text-white flex-shrink-0" />
             </div>
-            {!isCollapsed && <h1 className="text-xl font-black text-gray-900 dark:text-white tracking-tighter">LET'S CODE</h1>}
+            {!isCollapsed && <h1 className="text-xl font-black text-gray-900 dark:text-white tracking-tighter">LET'S <span className="text-indigo-600">CODE</span></h1>}
           </div>
         </div>
 

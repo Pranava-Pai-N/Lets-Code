@@ -45,7 +45,8 @@ export const fetchLeetCodeData = async (username) => {
     
     const data = response.data.data.matchedUser;
     
-    if (!data) return null;
+    if (!data) 
+      return null;
 
 
     const stats = {

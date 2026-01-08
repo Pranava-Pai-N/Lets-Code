@@ -136,7 +136,7 @@ const Dashboard = () => {
       icon: RocketLaunchIcon,
       color: "text-indigo-500",
       bg: "bg-indigo-50 dark:bg-indigo-900/20",
-      description: "Percentage of correct submissions."
+      description: "Percentage of total correct submissions."
     },
     {
       title: "Maximum Streak",
@@ -272,7 +272,7 @@ const Dashboard = () => {
               </div>
             ) : (
               <button onClick={() => setIsEditing(true)} className="w-full py-2 bg-yellow-600/10 hover:bg-yellow-600 dark:bg-yellow-600/20 text-yellow-700 dark:text-yellow-500 hover:text-white text-[10px] font-bold rounded-lg transition-all uppercase tracking-tighter border border-yellow-600/20 hover:border-yellow-600">
-                {leetcodeUsername ? "Switch Account" : "Sync LeetCode"}
+                {leetcodeUsername ? "Switch Account" : "Connect LeetCode"}
               </button>
             )}
           </div>
@@ -285,7 +285,7 @@ const Dashboard = () => {
               Activity
             </h3>
             <span className="text-[10px] bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 px-2 py-0.5 rounded-md font-bold uppercase tracking-wider">
-              {activityData.submissionCount || 0} Total
+              Total : {activityData.submissionCount || 0}
             </span>
           </div>
 

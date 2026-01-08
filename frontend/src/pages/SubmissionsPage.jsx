@@ -46,7 +46,7 @@ const SubmissionsPage = () => {
     return (
         <div className="p-6 md:p-10 bg-gray-50 dark:bg-gray-950 min-h-screen">
             <header className="mb-8">
-                <h1 className="text-3xl font-black text-gray-900 dark:text-white">My Submissions</h1>
+                <h1 className="text-3xl font-black text-gray-900 dark:text-white">My <span className="text-indigo-600">Submissions</span></h1>
                 <p className="text-gray-500 dark:text-gray-400">History of all your code attempts</p>
             </header>
             {submissions.length == 0 ? (

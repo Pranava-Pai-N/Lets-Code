@@ -73,7 +73,7 @@ router.get("/recent-activity",checkAuth,checkRole("user"),asyncHandler(userContr
 router.get("/logout",asyncHandler(userController.logoutUser));
 
 
-// Get all avialable users in the platform
+// Get all available users in the platform
 router.get("/users" ,checkRole("admin"), asyncHandler(userController.getallUsers));
 
 
