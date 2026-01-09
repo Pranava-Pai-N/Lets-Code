@@ -11,8 +11,6 @@ const SubmissionsPage = () => {
     const [selectedCode, setSelectedCode] = useState(null);
     const navigate = useNavigate();
 
-    if(loading)
-        <Loader />
 
     useEffect(() => {
         const fetchSubmissions = async () => {
@@ -43,6 +41,9 @@ const SubmissionsPage = () => {
             : 'text-red-600 bg-red-50 dark:bg-red-900/20';
     };
 
+    if (loading)
+        return <Loader />
+
     return (
         <div className="p-6 md:p-10 bg-gray-50 dark:bg-gray-950 min-h-screen">
             <header className="mb-8">
@@ -52,7 +53,7 @@ const SubmissionsPage = () => {
             {submissions.length == 0 ? (
                 <p className="text-gray-500 dark:text-gray-400">Please submit aleast one submission to view your submissions. Currently no submissions</p>
             ) : (
-                <p className="text-gray-500 dark:text-gray-400">All your {submissions.length} {submissions.length === 1 ? "Submission": "Submissions"}</p>
+                <p className="text-gray-500 dark:text-gray-400">All your {submissions.length} {submissions.length === 1 ? "Submission" : "Submissions"}</p>
             )}
 
             <Card className="overflow-hidden border-gray-200 dark:border-gray-800">
