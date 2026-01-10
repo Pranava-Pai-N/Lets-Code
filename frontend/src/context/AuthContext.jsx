@@ -10,8 +10,8 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  if (loading)
-    <Loader />
+  axios.defaults.withCredentials = true;
+
 
   const fetchUser = async () => {
     try {
@@ -81,7 +81,7 @@ export const AuthProvider = ({ children }) => {
       setIsAuthenticated,
       logout
     }}>
-      {children}
+      {loading ? <Loader /> : children}
     </AuthContext.Provider>
   );
 };
