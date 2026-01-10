@@ -16,7 +16,7 @@ const SubmissionsPage = () => {
         const fetchSubmissions = async () => {
             try {
                 setLoading(true);
-                const response = await axios.get(`/api/users/submissions`, {
+                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/users/submissions`, {
                     withCredentials: true
                 });
 

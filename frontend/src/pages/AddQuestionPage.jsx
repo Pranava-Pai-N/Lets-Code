@@ -130,7 +130,7 @@ const AddQuestionPage = () => {
 
         try {
             const _res = await axios.post(
-                `/api/questions/post-question`,
+                 `${import.meta.env.VITE_BACKEND_URL}/questions/post-question`,
                 dataToSend,{
                     withCredentials : true
                 }

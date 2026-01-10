@@ -16,7 +16,7 @@ const SubmissionDetails = () => {
     useEffect(() => {
         const fetchDetail = async () => {
             try {
-                const response = await axios.get(`/api/users/submissions/${id}`, {
+                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/users/submissions/${id}`, {
                     withCredentials: true
                 });
                 console.log(response.data);

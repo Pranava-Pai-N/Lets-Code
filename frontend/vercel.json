@@ -4,10 +4,6 @@
     {
       "source": "/((?!api/).*)",
       "destination": "/index.html"
-    },
-    {
-      "source": "/api/:path*",
-      "destination": "https://lets-code-c5hz.onrender.com/api/:path*"
     }
   ]
 }

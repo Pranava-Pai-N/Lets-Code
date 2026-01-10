@@ -97,7 +97,7 @@ const Register = () => {
         setLoading(true);
 
         try {
-            const response = await axios.post(`/api/users/register`, {
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/users/register`, {
                 userName: formData.userName,
                 email: formData.email,
                 password: formData.password,
@@ -166,12 +166,12 @@ const Register = () => {
     }
 
     const handleGoogleLogin = () => {
-        window.location.href = `/api/users/google-auth`
+        window.location.href = `${import.meta.env.VITE_BACKEND_URL}/users/google-auth`
     };
 
 
     const handleGitHubLogin = () => {
-        window.location.href = `/api/users/github-auth`
+        window.location.href = `${import.meta.env.VITE_BACKEND_URL}/users/github-auth`
     }
 
     return (

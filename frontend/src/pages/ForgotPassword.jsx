@@ -24,7 +24,7 @@ const ForgotPassword = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await axios.post(`/api/users/forgot-password`, {
+      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/users/forgot-password`, {
         email: formData.email,
       });
 
@@ -47,7 +47,7 @@ const ForgotPassword = () => {
     }
     setLoading(true);
     try {
-      const res = await axios.post(`/api/users/reset-password`, {
+      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/users/reset-password`, {
         email: formData.email,
         otp: Number(formData.otp),
         newPassword: formData.newPassword,

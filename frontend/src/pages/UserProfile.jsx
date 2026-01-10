@@ -55,7 +55,7 @@ const UserProfile = () => {
         try {
             setSaveLoading(true);
 
-            const response = await axios.patch(`/api/users/update-profileurl`, formData, {
+            const response = await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/users/update-profileurl`, formData, {
                 headers: { "Content-Type": "multipart/form-data" },
                 withCredentials: true,
             });
@@ -84,7 +84,7 @@ const UserProfile = () => {
     const fetchUser = async () => {
         try {
             setLoading(true);
-            const res = await axios.get(`/api/users/me`, {
+            const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/users/me`, {
                 withCredentials: true,
             });
             const data = res.data.user;
@@ -173,7 +173,7 @@ const UserProfile = () => {
                 socialLinks: formData.socialLinks
             };
 
-            const res = await axios.patch(`/api/users/edit-profile`, payload, {
+            const res = await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/users/edit-profile`, payload, {
                 withCredentials: true
             });
 

@@ -37,7 +37,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        `/api/users/login`,
+        `${import.meta.env.VITE_BACKEND_URL}/users/login`,
         { email, password },
         { withCredentials: true }
       );
@@ -60,11 +60,11 @@ const Login = () => {
 
 
   const handleGoogleLogin = () => {
-    window.location.href = `/api/users/google-auth`
+     window.location.href = `${import.meta.env.VITE_BACKEND_URL}/users/google-auth`
   };
 
   const handleGitHubLogin = () => {
-    window.location.href = `/api/users/github-auth`
+    window.location.href = `${import.meta.env.VITE_BACKEND_URL}/users/github-auth`
   };
 
   return (

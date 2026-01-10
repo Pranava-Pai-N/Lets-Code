@@ -10,12 +10,12 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  axios.defaults.withCredentials = true;
-
+  if (loading)
+    return <Loader />
 
   const fetchUser = async () => {
     try {
-      const response = await axios.get(`/api/users/me`, {
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/users/me`, {
         withCredentials: true
       });
 
@@ -41,7 +41,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      const response = await axios.get(`/api/users/logout`, {
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/users/logout`, {
         withCredentials: true
       });
 
@@ -81,7 +81,7 @@ export const AuthProvider = ({ children }) => {
       setIsAuthenticated,
       logout
     }}>
-      {loading ? <Loader /> : children}
+      {children}
     </AuthContext.Provider>
   );
 };

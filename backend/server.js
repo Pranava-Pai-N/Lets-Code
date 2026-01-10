@@ -14,7 +14,7 @@ import './utils/passport.js'
 const app = express();
 
 // Proxy Configuration
-app.set("trust proxy",1);
+// app.set("trust proxy",1);
 
 dotenv.config()
 
