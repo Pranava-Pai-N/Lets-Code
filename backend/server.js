@@ -13,6 +13,9 @@ import './utils/passport.js'
 
 const app = express();
 
+// Proxy Configuration
+app.set("trust proxy",1);
+
 dotenv.config()
 
 const PORT = process.env.PORT || 3000
