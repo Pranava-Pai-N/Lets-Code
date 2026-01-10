@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   if (loading)
-    return <Loader />
+    <Loader />
 
   const fetchUser = async () => {
     try {
