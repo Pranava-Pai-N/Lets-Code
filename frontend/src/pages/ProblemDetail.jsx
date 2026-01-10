@@ -210,7 +210,7 @@ const ProblemDetail = () => {
         const fetchProblem = async () => {
             try {
                 const res = await axios.get(
-                    `${import.meta.env.VITE_BACKEND_URL}/questions/questions/${id}`, {
+                    `/api/questions/questions/${id}`, {
                     withCredentials: true
                 }
                 );
@@ -250,7 +250,7 @@ const ProblemDetail = () => {
                 test_cases: problem.testCases
             };
 
-            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/questions/run-question`, body, {
+            const response = await axios.post(`/api/questions/run-question`, body, {
                 withCredentials: true
             });
 
@@ -304,7 +304,7 @@ const ProblemDetail = () => {
                 test_cases: problem.testCases
             };
 
-            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/questions/submit-question`, body, {
+            const response = await axios.post(`/api/questions/submit-question`, body, {
                 withCredentials: true
             });
 
@@ -350,7 +350,7 @@ const ProblemDetail = () => {
             setShowAiPanel(true);
             setIsAiLoading(true);
 
-            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/users/ai-help`, {
+            const response = await fetch(`/api/users/ai-help`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 credentials : "include",

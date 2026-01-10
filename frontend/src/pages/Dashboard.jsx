@@ -25,7 +25,7 @@ const Dashboard = () => {
     setIsSyncing(true);
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/users/leetcode-data`,
+        `/api/users/leetcode-data`,
         { leetcodeUsername: username },
         { withCredentials: true }
       );
@@ -45,7 +45,7 @@ const Dashboard = () => {
 
   const fetchRecentActivity = useCallback(async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/users/recent-activity`, {
+      const response = await axios.get(`/api/users/recent-activity`, {
         withCredentials: true
       });
       if (response.data.success) {
@@ -100,7 +100,7 @@ const Dashboard = () => {
     try {
       setIsSyncing(true);
       const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/users/leetcode-data`,
+        `/api/users/leetcode-data`,
         { leetcodeUsername: tempUsername },
         { withCredentials: true }
       );

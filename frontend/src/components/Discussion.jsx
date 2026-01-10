@@ -27,7 +27,7 @@ const Discussion = ({ problemId }) => {
   const fetchDiscussions = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/discussions/question/${problemId}`, { withCredentials: true });
+      const res = await axios.get(`/api/discussions/question/${problemId}`, { withCredentials: true });
 
       setDiscussions(res.data.allDiscussions || []);
 
@@ -55,7 +55,7 @@ const Discussion = ({ problemId }) => {
     };
 
     try {
-      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/discussions/post-discussion`, payload,
+      const res = await axios.post(`/api/discussions/post-discussion`, payload,
         {
           withCredentials: true
         });
@@ -80,7 +80,7 @@ const Discussion = ({ problemId }) => {
     try {
       setLoading(true);
       setIsRefreshing(true);
-      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/discussions/question/${problemId}`,
+      const res = await axios.get(`/api/discussions/question/${problemId}`,
         {
           withCredentials: true
         });
@@ -107,7 +107,7 @@ const Discussion = ({ problemId }) => {
     }
     setPostLiked(true);
     try {
-      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/discussions/like-discussion/${id}`, {},
+      const res = await axios.post(`/api/discussions/like-discussion/${id}`, {},
         {
           withCredentials: true
         });

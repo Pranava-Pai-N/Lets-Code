@@ -88,7 +88,7 @@ const CompleteProfile = () => {
         };
 
         try {
-            const res = await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/users/complete-profile`, 
+            const res = await axios.patch(`/api/users/complete-profile`, 
                 payload, 
                 { withCredentials: true });
             

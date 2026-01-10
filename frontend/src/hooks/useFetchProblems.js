@@ -9,7 +9,7 @@ const useFetchProblems = () => {
     const fetchProblems = async () => {
         setLoading(true);
         try {
-            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/questions/questions`, {
+            const response = await axios.get(`/api/questions/questions`, {
                 withCredentials: true
             });
             if (!response.data.success)

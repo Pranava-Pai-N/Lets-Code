@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
 
   const fetchUser = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/users/me`, {
+      const response = await axios.get(`/api/users/me`, {
         withCredentials: true
       });
 
@@ -41,7 +41,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/users/logout`, {
+      const response = await axios.get(`/api/users/logout`, {
         withCredentials: true
       });
 
