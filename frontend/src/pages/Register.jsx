@@ -139,7 +139,7 @@ const Register = () => {
                         </h2>
 
                         <p className="mt-6 text-gray-500 text-sm font-medium leading-relaxed">
-                            An secure link to verif your account has been sent to:
+                            An secure link to verify your account has been sent to:
                             <span className="block mt-2 text-indigo-600 font-bold text-base tracking-tight">
                                 {formData.email}
                             </span>
