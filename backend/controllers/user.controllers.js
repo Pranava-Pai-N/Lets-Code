@@ -90,7 +90,9 @@ const registerUser = async (req, res) => {
 
         createdUser.password = null;
 
-        await sendVerifyEmail(data.email, data.userName, token);
+        sendVerifyEmail(data.email, data.userName, token).catch((err) => {
+            console.error("Background Email Error:", err);
+        });
 
         return res.status(201).json({
             success: true,
@@ -243,7 +245,6 @@ const loginUser = async (req, res) => {
 
 const logoutUser = async (req, res) => {
     try {
-
         res.clearCookie("token", {
             httpOnly: true,
             secure: true,
@@ -298,7 +299,9 @@ const forgotPasswordwithotp = async (req, res) => {
 
         await user.save();
 
-        await sendOtpEmail(user.email, user.userName, otp);
+        sendOtpEmail(user.email, user.userName, otp).catch((err) => {
+            console.error("Background Email Error:", err);
+        });
 
         return res.status(200).json({
             success: true,
@@ -344,7 +347,7 @@ const handlePasswordReset = async (req, res) => {
 
         if (Date.now() > user.otpexpiresin) {
             user.otp = undefined,
-            user.otpexpiresin = undefined;
+                user.otpexpiresin = undefined;
             await user.save();
             return res.status(404).json({
                 success: false,
@@ -485,7 +488,7 @@ const githubAuthSuccess = async (req, res) => {
             { expiresIn: '1h' }
         );
 
-        
+
         res.cookie("token", token, {
             httpOnly: true,
             secure: true,
