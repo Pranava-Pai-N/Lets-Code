@@ -517,7 +517,7 @@ const handleProfileURlChange = async (req, res) => {
             });
 
 
-        const cloudinaryResponse = await uploadtoCloudinary(req.file.path);
+        const cloudinaryResponse = await uploadtoCloudinary(req.file.path,userId);
 
         if (!cloudinaryResponse)
             return res.status(500).json({

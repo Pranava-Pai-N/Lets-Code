@@ -14,14 +14,14 @@ cloudinary.config({
 })
 
 
-export const uploadtoCloudinary = async (localFilePath) => {
+export const uploadtoCloudinary = async (localFilePath,id) => {
     try {
         if (!localFilePath)
             throw new ExpressError(404, "File local path not found ..");
 
         const response = await cloudinary.uploader.upload(localFilePath, {
             resource_type : "auto",
-            folder : "profile_urls"
+            folder : `profile_urls/${id}`
         })
         
         if(fs.existsSync(localFilePath)){
