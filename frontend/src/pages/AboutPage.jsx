@@ -18,7 +18,7 @@ const AboutPage = () => {
             <div className="relative group w-48 h-48 mx-auto lg:mx-0">
               <div className="absolute inset-0 bg-indigo-500 rounded-[2.5rem] rotate-6 group-hover:rotate-3 transition-transform duration-500 opacity-20"></div>
               <img
-                src="https://res.cloudinary.com/doqlot2yq/image/upload/v1767808410/Passport_photo_tf97b3.jpg"
+                src="../../public/assets/Developer.jpg"
                 alt="My-Profile-Image"
                 className="relative z-10 w-full h-full object-cover rounded-[2.5rem] border-2 border-white shadow-xl"
               />
