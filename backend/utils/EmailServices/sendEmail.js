@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer';
-import ExpressError from './expressError.js';
+import ExpressError from '../expressError.js';
 import dotenv from "dotenv"
 
 dotenv.config();

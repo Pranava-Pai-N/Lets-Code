@@ -3,9 +3,9 @@ import Submissions from "../models/submissions.models.js"
 import ExpressError from "../utils/expressError.js";
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid"
-import sendVerifyEmail from "../utils/sendVerifyEmail.js";
+import sendVerifyEmail from "../utils/EmailServices/sendVerifyEmail.js";
 import jwt from "jsonwebtoken"
-import sendOtpEmail from "../utils/otpemailpasswordforgot.js";
+import sendOtpEmail from "../utils/EmailServices/otpemailpasswordforgot.js";
 import { uploadtoCloudinary } from "../utils/cloudinary.js";
 import { fetchLeetCodeData } from "../utils/getLeetcodeData.js";
 import { geminiHelp } from "../utils/geminiHelp.js";
@@ -347,7 +347,7 @@ const handlePasswordReset = async (req, res) => {
 
         if (Date.now() > user.otpexpiresin) {
             user.otp = undefined,
-                user.otpexpiresin = undefined;
+            user.otpexpiresin = undefined;
             await user.save();
             return res.status(404).json({
                 success: false,
