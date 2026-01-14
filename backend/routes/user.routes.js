@@ -84,26 +84,59 @@ router.get("/me",checkAuth,checkRole("user"),asyncHandler(userController.getMe))
 
 
 // Google authentication
-router.get("/google-auth", passport.authenticate("google", { scope : ["profile","email"]}));
+router.get("/google-auth", (req,res,next) =>{
+    const mode = req.query.mode || "signup";
+
+    passport.authenticate("google", { scope : ["profile","email"] , state : mode })(req,res,next);
+});
 
 
 
 // User will be redirected after login
-router.get("/google/callback", 
-    passport.authenticate("google", { session: false, failureRedirect: "/login" , failureFlash : true}),
-    asyncHandler(userController.googleAuthSuccess)
+router.get("/google/callback", (req, res, next) => {
+    passport.authenticate("google", { session: false }, (err, user, info) => {
+        if (err) {
+            return res.redirect(`${process.env.FRONTEND_URL}/login?errorMessage=${encodeURIComponent(err)}`);
+        }
+        if (!user) {
+            const errorMessage = info?.message || "Authentication failed";
+            
+            return res.redirect(`${process.env.FRONTEND_URL}/login?errorMessage=${encodeURIComponent(errorMessage)}`);
+        }
+        
+        req.user = user;
+        next();
+
+    })(req, res, next);
+}, asyncHandler(userController.googleAuthSuccess)
 );
 
 
 // Github Authentication
-router.get("/github-auth",passport.authenticate("github" , { scope : ["user:email", "read:user"]}));
+router.get("/github-auth",(req,res,next) =>{
+    const mode = req.query.mode || "signup";
+
+    passport.authenticate("github" , { scope : ["user:email", "read:user"] , state : mode })(req,res,next)
+});
 
 
 
 // User will be redirected after login
-router.get("/github/callback",
-    passport.authenticate("github", { session : false , failureRedirect : "/login" , failureFlash : true}),
-    asyncHandler(userController.githubAuthSuccess)
+router.get("/github/callback", (req, res, next) => {
+    passport.authenticate("github", { session : false , failureRedirect : "/login" , failureFlash : true}, (err, user, info) => {
+        if (err) {
+            return res.redirect(`${process.env.FRONTEND_URL}/login?errorMessage=${encodeURIComponent(err)}`);
+        }
+        if (!user) {
+            const errorMessage = info?.message || "Authentication failed";
+            return res.redirect(`${process.env.FRONTEND_URL}/login?errorMessage=${encodeURIComponent(errorMessage)}`);
+        }
+        
+        req.user = user;
+        next();
+
+    })(req, res, next);
+} , asyncHandler(userController.githubAuthSuccess)
 )
 
 

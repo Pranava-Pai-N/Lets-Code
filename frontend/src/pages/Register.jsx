@@ -166,12 +166,12 @@ const Register = () => {
     }
 
     const handleGoogleLogin = () => {
-        window.location.href = `${import.meta.env.VITE_BACKEND_URL}/users/google-auth`
+        window.location.href = `${import.meta.env.VITE_BACKEND_URL}/users/google-auth?mode=signup`
     };
 
 
     const handleGitHubLogin = () => {
-        window.location.href = `${import.meta.env.VITE_BACKEND_URL}/users/github-auth`
+        window.location.href = `${import.meta.env.VITE_BACKEND_URL}/users/github-auth?mode=signup`
     }
 
     return (

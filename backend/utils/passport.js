@@ -7,17 +7,20 @@ passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: `${process.env.BACKEND_URL}/api/users/google/callback`,
-    scope: ["profile", "email"]
+    scope: ["profile", "email"],
+    passReqToCallback : true
 },
 
-    async (accessToken, refreshToken, profile, done) => {
+    async (req , accessToken, refreshToken, profile, done) => {
         try {
+            const mode = req.query.state;
+
             let user = await User.findOne({ email: profile.emails[0].value });
             
             const name = profile.displayName || profile.username || "User";
 
-
             if (!user) {
+                if(mode === "signup"){
                 user = await User.create({
                     userName: name,
                     email: profile.emails[0].value,
@@ -29,8 +32,12 @@ passport.use(new GoogleStrategy({
                     languagesProficient: [],
                     targetingCompanies: []
                 });
+                return done(null, user);
             }
-
+            else{
+                return done(null,false,{ message: "Account doesn't exist. Please Sign up first." });
+            }
+        }
             return done(null, user);
 
         } catch (error) {
@@ -44,11 +51,14 @@ passport.use(new GithubStrategy({
     clientID: process.env.GITHUB_CLIENT_ID,
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
     callbackURL: `${process.env.BACKEND_URL}/api/users/github/callback`,
-    scope : ['user:email']
+    scope : ['user:email'],
+    passReqToCallback : true
 },
 
-    async(accessToken , refreshToken , profile , done) =>{
+    async(req, accessToken , refreshToken , profile , done) =>{
         try {
+            const mode = req.query.state;
+
             let email = profile.emails && profile.emails.length > 0 ? profile.emails[0].value : null;
 
             if (!email) {
@@ -61,6 +71,7 @@ passport.use(new GithubStrategy({
 
             
             if(!user){
+                if(mode === "signup"){
                 user = await User.create({
                     userName : name,
                     email : email ,
@@ -72,9 +83,14 @@ passport.use(new GithubStrategy({
                     languagesProficient : [],
                     targetingCompanies : []
                 });
+                return done(null,user);
             }
+            else{
+                return done(null,false,{ message: "Account doesn't exist. Please Signup first." })
+            }
+        }
 
-            return done(null,user);
+        return done(null,user);
 
         } catch (error) {
             return done(error,null);

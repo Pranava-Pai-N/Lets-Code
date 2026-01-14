@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link , useSearchParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import {
@@ -19,6 +19,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const[ searchParams ] = useSearchParams ();
 
   const navigate = useNavigate();
   const { login, user } = useAuth();
@@ -58,13 +59,23 @@ const Login = () => {
   };
 
 
+  useEffect(() => {
+      const error = searchParams.get('errorMessage');
+
+      if(error){
+        navigate("/register", { replace : true})
+        toast.error(error);
+      }
+
+  } , [searchParams, navigate])
+
 
   const handleGoogleLogin = () => {
-     window.location.href = `${import.meta.env.VITE_BACKEND_URL}/users/google-auth`
+     window.location.href = `${import.meta.env.VITE_BACKEND_URL}/users/google-auth?mode=login`
   };
 
   const handleGitHubLogin = () => {
-    window.location.href = `${import.meta.env.VITE_BACKEND_URL}/users/github-auth`
+    window.location.href = `${import.meta.env.VITE_BACKEND_URL}/users/github-auth?mode=login`
   };
 
   return (
