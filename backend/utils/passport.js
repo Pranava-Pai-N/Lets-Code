@@ -25,7 +25,7 @@ passport.use(new GoogleStrategy({
                     userName: name,
                     email: profile.emails[0].value,
                     isVerified: true,
-                    profile_url : `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=4F46E5&color=fff&size=150`,
+                    profile_url : profile.photos[0].value ,
                     googleId: profile.id,
                     age: 0,
                     collegeName: "",
@@ -60,6 +60,7 @@ passport.use(new GithubStrategy({
             const mode = req.query.state;
 
             let email = profile.emails && profile.emails.length > 0 ? profile.emails[0].value : null;
+            
 
             if (!email) {
                 email = `${profile.username || profile.id}@github.generated.com`;
@@ -76,7 +77,7 @@ passport.use(new GithubStrategy({
                     userName : name,
                     email : email ,
                     isVerified : true,
-                    profile_url : `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=4F46E5&color=fff&size=150`,
+                    profile_url : profile.photos[0].value,
                     githubId : profile.id,
                     age : 0,
                     collegeName : "",
