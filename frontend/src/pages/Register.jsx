@@ -40,20 +40,22 @@ const NeonInput = ({ id, name, type = "text", label, placeholder, value, onChang
                     placeholder={placeholder}
                     value={value}
                     onChange={onChange}
-                    className={`
-            w-full py-3 ${Icon ? 'pl-11' : 'pl-4'} pr-4
-            bg-gray-50/50 border border-gray-200 rounded-xl
-            text-[14px] font-semibold text-gray-800
-            placeholder:text-gray-400 placeholder:font-normal
-            outline-none transition-all duration-300 ease-out
-            
-            /* Elevation & Focus */
-            hover:border-gray-300 hover:bg-white
-            focus:bg-white focus:border-indigo-500 focus:ring-[5px] focus:ring-indigo-500/10
-            
-            /* Subtle Inner Depth */
-            shadow-[inset_0_1px_2px_rgba(0,0,0,0.02)]
-          `}
+className={`
+    w-full py-3 ${Icon ? 'pl-11' : 'pl-4'} pr-4
+    /* Light Mode */
+    bg-gray-50/50 border-gray-200 text-gray-800 placeholder:text-gray-400
+    /* Dark Mode */
+    dark:bg-slate-900/50 dark:border-slate-800 dark:text-gray-100 dark:placeholder:text-gray-600
+    
+    rounded-xl outline-none transition-all duration-300 ease-out
+    
+    /* Elevation & Focus */
+    hover:border-gray-300 dark:hover:border-slate-700
+    focus:bg-white dark:focus:bg-slate-900 
+    focus:border-indigo-500 focus:ring-[5px] focus:ring-indigo-500/10
+    
+    shadow-[inset_0_1px_2px_rgba(0,0,0,0.02)]
+`}
                 />
 
                 <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-[2px] bg-indigo-500 transition-all duration-500 ease-in-out group-focus-within:w-[40%] opacity-0 group-focus-within:opacity-100 rounded-full" />
@@ -175,13 +177,13 @@ const Register = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-6 sm:p-12 relative overflow-hidden font-sans">
+        <div className="min-h-screen bg-gray-50 dark:bg-slate-950  dark:text-gray-100 flex flex-col items-center justify-center p-6 sm:p-12 relative overflow-hidden font-sans transition-colors duration-300">
             <div className="mb-10 text-center relative z-10">
-                <h1 className="text-3xl font-black text-gray-900 tracking-tight">Create Your Account</h1>
+                <h1 className="text-3xl font-black text-gray-900 tracking-tight"><span className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">Create Your Account</span></h1>
                 <p className="text-gray-500 text-sm mt-2 font-medium">Join the next generation of coders.</p>
             </div>
 
-            <div className="w-full max-w-xl bg-white border border-gray-200 rounded-[2.5rem] p-8 md:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative z-10">
+            <div className="w-full max-w-xl bg-white dark:bg-slate-950 border border-gray-200 dark:text-gray-100 rounded-[2.5rem] p-8 md:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative z-10">
 
                 <div className="flex flex-col sm:flex-row gap-3 mb-10">
                     <button onClick={handleGoogleLogin} className="flex-1 flex items-center justify-center gap-3 px-4 py-3 border border-gray-200 rounded-2xl hover:bg-gray-50 transition-all font-bold text-[10px] text-gray-600 uppercase tracking-widest">
@@ -197,7 +199,9 @@ const Register = () => {
                 <div className="relative mb-10">
                     <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-gray-100"></div></div>
                     <div className="relative flex justify-center text-[9px] uppercase tracking-[0.3em] font-black text-gray-300">
-                        <span className="bg-white px-4 text-gray-400">Personal Details</span>
+                        <span className="bg-white dark:bg-slate-950 px-4 text-gray-400 transition-colors duration-300">
+                            Personal Details
+                        </span>
                     </div>
                 </div>
 

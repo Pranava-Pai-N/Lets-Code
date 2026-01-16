@@ -3,7 +3,7 @@ import { ArrowRightIcon , ListBulletIcon , CommandLineIcon , TrophyIcon } from "
 
 const Home = () => {
   return (
-  <div className="min-h-screen bg-white text-slate-900 selection:bg-indigo-100 selection:text-indigo-700">
+  <div className="min-h-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-gray-100 selection:bg-indigo-100 selection:text-indigo-700 transition-colors duration-300">
     <div className="absolute inset-0 z-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:40px_40px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)]"></div>
 
     <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
@@ -16,7 +16,7 @@ const Home = () => {
           </div>
           
           <h1 className="text-6xl md:text-7xl font-[950] tracking-tight leading-[1.05] text-slate-900 mb-8">
-            Code at Ease.<br />
+            <span className="text-red-600">Code at Ease.</span><br />
             <span className="text-indigo-600 italic">With Zero Limits.</span>
           </h1>
           
@@ -55,7 +55,7 @@ const Home = () => {
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
           <div>
             <h2 className="text-[10px] font-black text-indigo-500 uppercase tracking-[0.3em] mb-2">The Advantage</h2>
-            <p className="text-4xl font-bold text-slate-900">Engineered for Excellence.</p>
+            <p className="text-4xl font-bold text-slate-900"><span className="text-blue-600">Engineered for Excellence.</span></p>
           </div>
         </div>
 
