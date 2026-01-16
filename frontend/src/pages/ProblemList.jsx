@@ -36,11 +36,11 @@ const ProblemList = () => {
 
 
  return (
-  <div className="min-h-screen bg-gray-50 text-gray-800 p-4 md:p-10 font-sans">
+  <div className="min-h-screen bg-gray-50 dark:bg-slate-950 text-gray-800 dark:text-gray-100 p-4 md:p-10 transition-colors duration-300">
     <div className="max-w-7xl mx-auto mb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
       <div className="space-y-1">
-        <h1 className="text-3xl font-black tracking-tight text-gray-900 uppercase">
-          Problem <span className="text-indigo-600">List</span>
+        <h1 className="text-3xl font-black text-gray-900 dark:text-white uppercase">
+          <span className="text-red-600">Problem</span> <span className="text-indigo-600">List</span>
         </h1>
         <p className="text-[11px] font-mono uppercase tracking-widest text-gray-500">
           Network Status: <span className="text-emerald-600 font-bold">Stable</span>{" "}Available {filteredProblems.length === 1 ? "Challenge:" : "Challenges:"} {filteredProblems.length}
@@ -54,7 +54,7 @@ const ProblemList = () => {
           placeholder="Filter by title or topic..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full bg-white border border-gray-200 rounded-xl py-2.5 pl-10 pr-4 text-sm outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500/50 transition-all shadow-sm"
+          className="w-full bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 text-gray-900 dark:text-gray-100 rounded-xl py-2.5 pl-10 pr-4 text-sm outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500/50 transition-all shadow-sm"
         />
       </div>
     </div>
@@ -77,8 +77,9 @@ const ProblemList = () => {
             <Link
               key={problem._id}
               to={`/problems/${problem._id}`}
-              className={`grid grid-cols-12 gap-4 px-6 py-5 items-center transition-all duration-200 hover:bg-indigo-50/40 group relative ${
-                index % 2 === 0 ? "bg-white" : "bg-gray-50/30"
+              className={`grid grid-cols-12 gap-4 px-6 py-5 items-center transition-all duration-200 
+    hover:bg-indigo-50/40 dark:hover:bg-indigo-900/20 group relative ${
+                index % 2 === 0 ? "bg-gray-50/30 dark:bg-slate-800/20" : "bg-gray-50/30 dark:bg-slate-800/20"
               }`}
             >
               <div className="absolute left-0 w-1 h-0 bg-indigo-600 transition-all duration-300 group-hover:h-full" />
@@ -88,7 +89,7 @@ const ProblemList = () => {
                 {isSolved ? (
                   <CheckCircleIcon className="w-6 h-6 text-emerald-500 drop-shadow-sm" />
                 ) : (
-                  <div className="w-5 h-5 rounded-full border-2 border-gray-200 group-hover:border-indigo-300 transition-colors bg-white" />
+                  <div className="w-5 h-5 rounded-full border-2 border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900 group-hover:border-indigo-300" />
                 )}
               </div>
 
