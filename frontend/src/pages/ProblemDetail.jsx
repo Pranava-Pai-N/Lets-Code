@@ -33,7 +33,7 @@ const getDifficultyBadge = (level) => {
 
 const ProblemDetail = () => {
     const { id } = useParams();
-    const { user } = useAuth
+    const { user , isAuthenticated } = useAuth();
     const [problem, setProblem] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
@@ -275,7 +275,7 @@ const ProblemDetail = () => {
             setActiveTab("output");
 
         } catch (err) {
-            toast.error("Execution failed. Check console.");
+            toast.error(err.response.data.message);
             console.error(err);
         } finally {
             setIsRunning(false);
@@ -417,15 +417,16 @@ const ProblemDetail = () => {
                     ) : (
                         <Button
                             className="px-4 py-2 text-sm bg-red-600 hover:bg-red-600 text-gray-800 font-medium rounded-md transition duration-200 shadow-sm dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200"
-                            onClick={handleTestMode}
+                            onClick={isAuthenticated ? handleTestMode : null}
+                            disabled = {!isAuthenticated}
                         >
                             Test Mode
                         </Button>
                     )}
                     <Button
                         className="px-5 py-2 text-sm bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-md transition duration-200 shadow-md flex items-center justify-center min-w-[100px] disabled:opacity-70 disabled:cursor-not-allowed"
-                        onClick={handleRunCode}
-                        disabled={!isTestMode || isRunning}
+                        onClick={isAuthenticated ? handleRunCode : null}
+                        disabled={!isAuthenticated}
                     >
                         {isRunning ? (
                             <>

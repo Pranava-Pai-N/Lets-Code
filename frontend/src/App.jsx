@@ -40,12 +40,12 @@ function App() {
                     <Route path="/verify" element={<VerifyEmail />} />
                     <Route path="/forgot-password" element={<ForgotPassword />} />
                     <Route path="/about-me" element ={<AboutPage />}/>
+                    <Route path="/problems" element={<ProblemList />} />
+                    <Route path="/problems/:id" element={<ProblemDetail />} />
 
                     <Route element={<ProtectedRoute />}>
                       <Route path="/dashboard" element={<Dashboard />} />
                       <Route path="/complete-profile" element={<CompleteProfile />} />
-                      <Route path="/problems" element={<ProblemList />} />
-                      <Route path="/problems/:id" element={<ProblemDetail />} />
                       <Route path="/profile" element={<UserProfile />} />
                       <Route path="/post-question" element={<AddQuestionPage />} />
                       <Route path="/submissions" element={<SubmissionsPage />} />

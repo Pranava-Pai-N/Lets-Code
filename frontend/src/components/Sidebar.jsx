@@ -31,7 +31,7 @@ const Sidebar = () => {
 
   const menuItems = [
     { name: "Home", path: "/", icon: <HomeIcon className="w-5 h-5" /> },
-    { name: "Problems", path: "/problems", icon: <CodeBracketIcon className="w-5 h-5" /> },
+    { name: "View Problems", path: "/problems", icon: <CodeBracketIcon className="w-5 h-5" /> },
   ];
 
   if (!isAuthenticated && !loading) {
