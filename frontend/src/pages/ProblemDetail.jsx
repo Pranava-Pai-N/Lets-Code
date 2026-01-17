@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Card from "../components/Card.jsx";
 import Button from "../components/Button.jsx";
 import CodeEditor from "../components/CodeEditor.jsx";
 import axios from "axios";
 import CountUpTimer from "../components/CountdownTimer.jsx";
-import { XCircleIcon, StopCircleIcon, CheckCircleIcon, ArrowRightIcon, SparklesIcon } from "@heroicons/react/24/outline";
+import { XCircleIcon, StopCircleIcon, CheckCircleIcon, ArrowRightIcon, SparklesIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
 import Loader from "../components/Loader.jsx";
 import { toast } from "react-toastify"
 import ReactConfetti from "react-confetti";
@@ -33,7 +33,7 @@ const getDifficultyBadge = (level) => {
 
 const ProblemDetail = () => {
     const { id } = useParams();
-    const { user , isAuthenticated } = useAuth();
+    const { user, isAuthenticated } = useAuth();
     const [problem, setProblem] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
@@ -353,7 +353,7 @@ const ProblemDetail = () => {
             const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/users/ai-help`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                credentials : "include",
+                credentials: "include",
                 body: JSON.stringify({ source_code: code, problem })
             })
 
@@ -390,6 +390,13 @@ const ProblemDetail = () => {
 
             <header className="flex justify-between items-center px-6 py-3 bg-white dark:bg-gray-800 shadow-lg border-b border-gray-200 dark:border-gray-700 z-10">
                 <div className="flex items-center space-x-4">
+                    <Link to="/problems">
+                        <Button
+                            className="group flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-indigo-600 rounded-lg shadow-sm transition-all duration-200 hover:bg-indigo-700 hover:shadow-indigo-200 active:scale-95 disabled:opacity-70 disabled:pointer-events-none"
+                        >
+                            <ArrowLeftIcon className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+                        </Button>
+                    </Link>
                     <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white truncate max-w-xs md:max-w-xl">
                         {problem.title}
                     </h1>
@@ -418,7 +425,7 @@ const ProblemDetail = () => {
                         <Button
                             className="px-4 py-2 text-sm bg-red-600 hover:bg-red-600 text-gray-800 font-medium rounded-md transition duration-200 shadow-sm dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200"
                             onClick={isAuthenticated ? handleTestMode : null}
-                            disabled = {!isAuthenticated}
+                            disabled={!isAuthenticated}
                         >
                             Test Mode
                         </Button>
