@@ -98,7 +98,7 @@ const AboutPage = () => {
             </section>
 
             <footer className="pt-8 border-t border-slate-100">
-              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.3em]">Built with Precision &copy;2026</p>
+              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.3em]">Built with Precision &copy;{new Date().getFullYear()}</p>
             </footer>
           </div>
 

@@ -12,7 +12,7 @@ const Home = () => {
         <div className="max-w-2xl">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 mb-6 transition-transform hover:scale-105">
             <span className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></span>
-            <span className="text-xs font-bold text-indigo-600 uppercase tracking-widest">Platform Live 2026</span>
+            <span className="text-xs font-bold text-indigo-600 uppercase tracking-widest">Platform Live {new Date().getFullYear()}</span>
           </div>
           
           <h1 className="text-6xl md:text-7xl font-[950] tracking-tight leading-[1.05] text-slate-900 mb-8">
@@ -97,7 +97,9 @@ const Home = () => {
           &copy; {new Date().getFullYear()} Let's Code 
         </p>
         <div className="flex gap-8 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+          <Link to="/privacy">
           <span className="hover:text-indigo-600 cursor-pointer">Privacy</span>
+          </Link>
           <span className="hover:text-indigo-600 cursor-pointer">Terms</span>
           <Link to="/about-me">
           <span className="hover:text-indigo-600 cursor-pointer">Developed By</span>

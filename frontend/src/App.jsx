@@ -21,6 +21,7 @@ import NotFound from "./pages/NotFound.jsx";
 import SubmissionsPage from "./pages/SubmissionsPage.jsx";
 import SubmissionDetails from "./pages/SubmissionDetails.jsx";
 import AboutPage from "./pages/AboutPage.jsx";
+import Privacy from "./pages/Privacy.jsx"
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
                     <Route path="/about-me" element ={<AboutPage />}/>
                     <Route path="/problems" element={<ProblemList />} />
                     <Route path="/problems/:id" element={<ProblemDetail />} />
+                    <Route path="/privacy" element={<Privacy />} />
 
                     <Route element={<ProtectedRoute />}>
                       <Route path="/dashboard" element={<Dashboard />} />
