@@ -208,26 +208,37 @@ const loginUser = async (req, res) => {
             message: "Account does not exist . Please create a new account and then login ."
         });
 
-    if (!password) {
-        const token = jwt.sign({ id: user._id, email: email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    if (user) {
+        if (!password) {
+            const token = jwt.sign({ id: user._id, email: email }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-        res.cookie("token", token, {
-            httpOnly: true,
-            secure: true,
-            maxAge: 24 * 60 * 60 * 1000,
-            sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax',
-            path: "/"
-        });
+            res.cookie("token", token, {
+                httpOnly: true,
+                secure: true,
+                maxAge: 24 * 60 * 60 * 1000,
+                sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax',
+                path: "/"
+            });
 
-        user.password = null;
+            user.password = null;
 
-        return res.status(200).json({
-            success: true,
-            token,
-            user,
-            message: `Welcome back , ${user.userName}`
+            return res.status(200).json({
+                success: true,
+                token,
+                user,
+                message: `Welcome back , ${user.userName}`
+            });
+        }
+    }
+    
+    if(!password){
+        return res.status(400).json({
+            success: false,
+            message: "Password missing for Login . Please Provide them and then login ..."
         });
     }
+
+
     const isMatching = await bcrypt.compare(password, user.password);
 
     if (!isMatching)
