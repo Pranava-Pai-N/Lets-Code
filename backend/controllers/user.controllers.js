@@ -194,10 +194,10 @@ const completeProfile = async (req, res) => {
 const loginUser = async (req, res) => {
     const { email, password } = req.body;
 
-    if (!email || !password)
+    if (!email)
         return res.status(400).json({
             success: false,
-            message: "Email or password missing for Login . Please Provide them and then login ..."
+            message: "Email missing for Login . Please Provide them and then login ..."
         });
 
     const user = await User.findOne({ email: email });
@@ -208,6 +208,26 @@ const loginUser = async (req, res) => {
             message: "Account does not exist . Please create a new account and then login ."
         });
 
+    if (!password) {
+        const token = jwt.sign({ id: user._id, email: email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: true,
+            maxAge: 24 * 60 * 60 * 1000,
+            sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax',
+            path: "/"
+        });
+
+        user.password = null;
+
+        return res.status(200).json({
+            success: true,
+            token,
+            user,
+            message: `Welcome back , ${user.userName}`
+        });
+    }
     const isMatching = await bcrypt.compare(password, user.password);
 
     if (!isMatching)
@@ -347,7 +367,7 @@ const handlePasswordReset = async (req, res) => {
 
         if (Date.now() > user.otpexpiresin) {
             user.otp = undefined,
-            user.otpexpiresin = undefined;
+                user.otpexpiresin = undefined;
             await user.save();
             return res.status(404).json({
                 success: false,
@@ -517,7 +537,7 @@ const handleProfileURlChange = async (req, res) => {
             });
 
 
-        const cloudinaryResponse = await uploadtoCloudinary(req.file.path,userId);
+        const cloudinaryResponse = await uploadtoCloudinary(req.file.path, userId);
 
         if (!cloudinaryResponse)
             return res.status(500).json({
