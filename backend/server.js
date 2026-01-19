@@ -1,5 +1,6 @@
 import express from "express";
 import cors from 'cors';
+import http from "http";
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import connectDb from "./utils/dbConnect.js";
@@ -7,14 +8,22 @@ import userRoutes from "./routes/user.routes.js";
 import questionRoutes from "./routes/questions.routes.js";
 import pathRoutes from "./routes/paths.routes.js";
 import discussionRoutes from "./routes/discussion.routes.js";
-import commentRoutes from "./routes/comments.routes.js"
+import commentRoutes from "./routes/comments.routes.js";
 import passport from "passport";
 import './utils/passport.js'
-
-const app = express();
-
+import { Server } from "socket.io";
 
 dotenv.config()
+
+const app = express();
+const server = http.createServer(app);
+const io = new Server(server,{
+    cors :{
+        origin : process.env.FRONTEND_URL,
+        methods : ["POST","GET","PUT","PATCH","DELETE"]
+    }
+})
+app.set("io",io);
 
 const PORT = process.env.PORT || 3000
 
@@ -34,6 +43,15 @@ app.use(express.json())
 app.use(express.urlencoded({ extended : true }))
 app.use(cookieParser());
 
+
+// Socket configuration
+io.on('connection' ,(socket) => {
+    socket.join("notifications");
+})
+
+io.on('close' ,() =>{
+    console.log("Socket closed ...");
+})
 
 
 
@@ -61,7 +79,7 @@ app.get("/",(req,res) => {
 })
 
 
-app.listen(PORT,() => {
+server.listen(PORT,() => {
     console.log(`Server is running at PORT ${PORT}`);
 })
 

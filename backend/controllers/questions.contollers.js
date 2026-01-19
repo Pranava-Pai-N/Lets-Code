@@ -2,7 +2,10 @@ import axios from "axios";
 import Question from "../models/questions.models.js";
 import ExpressError from "../utils/expressError.js";
 import User from "../models/user.models.js";
-import Submissions from "../models/submissions.models.js"
+import Submissions from "../models/submissions.models.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 
 const getAllQuestions = async (req, res) => {
@@ -379,6 +382,11 @@ const makeaDailyQuestion = async (req, res) => {
                 message: "Please provide question id in the params" 
             });
 
+        const url = `${process.env.FRONTEND_URL}/problems/${id}`
+
+        const io = req.app.get("io");
+
+
         await Question.updateMany({ isDailyQuestion: true }, { isDailyQuestion: false, validTill: "" });
 
         const question = await Question.findById(id);
@@ -389,11 +397,18 @@ const makeaDailyQuestion = async (req, res) => {
                 message: "Question not found please try again later." 
             });
 
+        const messageBody = {
+            message : "Problem of the day updated successfully",
+            link : url,
+            added_on : new Date()
+        }
 
         question.isDailyQuestion = true;
         question.validTill = Date.now() + (24 * 60 * 60 * 1000);
 
         await question.save();
+
+        io.emit("potd-notification",messageBody);
 
         return res.status(200).json({
             success: true,

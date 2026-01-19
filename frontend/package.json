@@ -28,6 +28,7 @@
     "react-syntax-highlighter": "^16.1.0",
     "react-toastify": "^11.0.5",
     "remark-gfm": "^4.0.1",
+    "socket.io-client": "^4.8.3",
     "tailwindcss": "^4.1.17"
   },
   "devDependencies": {
