@@ -5,7 +5,7 @@ import { useAuth } from "../context/AuthContext.jsx";
 import Button from "../components/Button.jsx"
 import { useTheme } from "../context/themecontext.jsx"
 import { toast } from "react-toastify";
-import { io } from "socket.io-client"
+import { io } from "socket.io-client";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -46,7 +46,8 @@ const Navbar = () => {
     socket.on("potd-notification", (data) => {
       setNotifications((prev) => [data, ...prev]);
       setUnreadCount((prev) => prev + 1);
-      toast.info(data.message);
+      if(isAuthenticated)
+        toast.info(data.message);
     })
 
     const handleClickOutside = (event) => {
