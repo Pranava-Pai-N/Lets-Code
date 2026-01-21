@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { CodeBracketIcon, XMarkIcon, ArrowRightOnRectangleIcon, BellIcon, UserIcon, FireIcon, MoonIcon, SunIcon } from "@heroicons/react/24/outline";
 import { useAuth } from "../context/AuthContext.jsx";
@@ -6,14 +6,16 @@ import Button from "../components/Button.jsx"
 import { useTheme } from "../context/themecontext.jsx"
 import { toast } from "react-toastify";
 import { io } from "socket.io-client";
+import axios from "axios";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isNotifyOpen, setIsNotifyOpen] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
+  const [Top_k, _setTop_k] = useState(5);
 
-  
+
   const notifyRef = useRef(null);
   const location = useLocation();
   const { user, isAuthenticated, logout } = useAuth();
@@ -46,9 +48,25 @@ const Navbar = () => {
     socket.on("potd-notification", (data) => {
       setNotifications((prev) => [data, ...prev]);
       setUnreadCount((prev) => prev + 1);
-      if(isAuthenticated)
-        toast.info(data.message);
+      toast.info(data.message);
+      setIsNotifyOpen(true);
     })
+
+    const fetchNotifications = async () => {
+      const result = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/notifications/top-k`, {
+        "top_n": Number(Top_k)
+      }, {
+        withCredentials: true
+      })
+
+      const allNotifications = result.data.allNotifications || [];
+
+      setNotifications(allNotifications);
+    }
+
+    if (isAuthenticated) {
+      fetchNotifications();
+    }
 
     const handleClickOutside = (event) => {
       if (notifyRef.current && !notifyRef.current.contains(event.target)) {
@@ -61,7 +79,7 @@ const Navbar = () => {
       socket.disconnect();
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [])
+  }, [isAuthenticated, Top_k])
 
 
   const handleToggleNotify = () => {
@@ -130,7 +148,10 @@ const Navbar = () => {
                         <div className="p-4 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center">
                           <h3 className="font-bold text-gray-900 dark:text-white">Notifications</h3>
                           <span className="text-xs text-indigo-500 font-medium">Total : {notifications.length}</span>
-                          <button onClick={() => setUnreadCount(0)} className="text-xs text-indigo-500 font-medium">Mark as Read</button>
+                          <button onClick={() => {
+                            unreadCount != 0 ? setUnreadCount(0) : null;
+                            unreadCount != 0 ? setIsNotifyOpen(false) : setIsNotifyOpen(true)
+                          }} className="text-xs text-indigo-500 font-medium">Mark as Read</button>
                         </div>
                         <div className="max-h-96 overflow-y-auto">
                           {notifications.length === 0 ? (
@@ -152,7 +173,8 @@ const Navbar = () => {
                           )}
                         </div>
                       </div>
-                    )}
+                    )
+                    }
                   </div>
 
                   <div className={`flex items-center px-2 py-1 rounded-full transition-all duration-300 shadow-sm border 

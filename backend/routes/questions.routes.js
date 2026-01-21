@@ -1,4 +1,4 @@
-import express , { Router } from "express";
+import { Router } from "express";
 import questionController from "../controllers/questions.contollers.js";
 import asyncHandler from "../utils/asyncHandler.js"
 import checkAuth from "../middleware/auth.middleware.js"
@@ -21,7 +21,7 @@ router.post("/submit-question",checkAuth, checkRole("user"), asyncHandler(questi
 
 
 // Make a daily question
-router.post("/daily-question/:id",checkAuth , checkRole("admin"), asyncHandler(questionController.makeaDailyQuestion))
+router.post("/daily-question/:id", checkAuth , checkRole("user") ,asyncHandler(questionController.makeaDailyQuestion))
 
 
 // Get any question by id 

@@ -1,9 +1,9 @@
-import express from "express";
+import { Router } from "express";
 import pathController from "../controllers/paths.controllers.js";
 import asyncHandler from "../utils/asyncHandler.js"
 
 
-const router = express.Router();
+const router = Router();
 
 
 // Get all the available paths 

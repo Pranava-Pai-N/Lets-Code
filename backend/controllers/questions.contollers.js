@@ -4,6 +4,7 @@ import ExpressError from "../utils/expressError.js";
 import User from "../models/user.models.js";
 import Submissions from "../models/submissions.models.js";
 import dotenv from "dotenv";
+import Notification from "../models/notifications.models.js";
 
 dotenv.config();
 
@@ -403,6 +404,12 @@ const makeaDailyQuestion = async (req, res) => {
             added_on : new Date()
         }
 
+        const notification = await Notification.create({
+            message : messageBody.message,
+            link : url,
+            added_on : new Date()
+        })
+
         question.isDailyQuestion = true;
         question.validTill = Date.now() + (24 * 60 * 60 * 1000);
 
@@ -412,7 +419,8 @@ const makeaDailyQuestion = async (req, res) => {
 
         return res.status(200).json({
             success: true,
-            message: "Daily question updated successfully."
+            message: "Daily question updated successfully.",
+            notifcation : notification
         });
 
     } catch (error) {

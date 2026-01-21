@@ -14,7 +14,7 @@ cloudinary.config({
 })
 
 
-export const uploadtoCloudinary = async (localFilePath,id) => {
+export const uploadtoCloudinary = async (localFilePath , id) => {
     try {
         if (!localFilePath)
             throw new ExpressError(404, "File local path not found ..");

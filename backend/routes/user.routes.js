@@ -1,4 +1,4 @@
-import express from "express";
+import { Router } from "express";
 import userController from "../controllers/user.controllers.js";
 import asyncHandler from "../utils/asyncHandler.js"
 import checkAuth from "../middleware/auth.middleware.js";
@@ -7,7 +7,7 @@ import { uploadFile } from "../middleware/multer.middleware.js"
 import { checkRole } from "../middleware/checkrole.middleware.js"
 
 
-const router = express.Router();
+const router = Router();
 
 
 // Register a new User
