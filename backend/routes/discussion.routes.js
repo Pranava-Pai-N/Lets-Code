@@ -19,7 +19,7 @@ router.post("/like-discussion/:id", checkAuth, checkRole("user"),asyncHandler(di
 
 
 // Get all discussion for a given questionId
-router.get("/question/:id",checkAuth , checkRole("user"), asyncHandler(discussionController.getallDiscussionforaQuestion))
+router.get("/question/:id", checkAuth , checkRole("user"), asyncHandler(discussionController.getallDiscussionforaQuestion))
 
 
 

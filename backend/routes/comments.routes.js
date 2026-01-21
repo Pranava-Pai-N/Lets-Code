@@ -9,14 +9,14 @@ const router = Router();
 
 
 // Post a comment for a discussion
-router.post("/add-comment",checkAuth , checkRole("user"), asyncHandler(commentController.addaComment))
+router.post("/add-comment", checkAuth , checkRole("user"), asyncHandler(commentController.addaComment))
 
 // Handle comment likes
 router.post("/like-comment/:id", checkAuth, checkRole("user"), asyncHandler(commentController.likeaComment));
 
 
 // Reply to a comment
-router.post("/reply-comment",checkAuth, checkRole("user"),asyncHandler(commentController.addreplytoaComment))
+router.post("/reply-comment", checkAuth, checkRole("user"),asyncHandler(commentController.addreplytoaComment))
 
 
 // Get all comments under a given discussion

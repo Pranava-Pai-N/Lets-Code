@@ -9,7 +9,7 @@ const router = Router();
 
 
 // Post a question
-router.post("/post-question",checkAuth,checkRole("admin"),asyncHandler(questionController.addQuestion))
+router.post("/post-question", checkAuth,checkRole("admin"),asyncHandler(questionController.addQuestion))
 
 
 // Run a question to compiler
@@ -17,7 +17,7 @@ router.post("/run-question", checkAuth, checkRole("user"), asyncHandler(question
 
 
 // Submit a question to compiler
-router.post("/submit-question",checkAuth, checkRole("user"), asyncHandler(questionController.submitaQuestion));
+router.post("/submit-question", checkAuth, checkRole("user"), asyncHandler(questionController.submitaQuestion));
 
 
 // Make a daily question

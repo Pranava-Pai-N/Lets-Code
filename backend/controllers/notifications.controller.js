@@ -4,9 +4,9 @@ import Notification from "../models/notifications.models.js";
 
 const gettopKNotifications = async (req, res) => {
     try {
-        const top_n = parseInt(req.body.top_n) || 5;
+        const top_k = parseInt(req.params.top_k) || 5;
     
-        const notifications = await Notification.find({ }).sort({ createdAt : -1}).limit(top_n).lean();
+        const notifications = await Notification.find({ }).sort({ createdAt : -1}).limit(top_k).lean();
 
         if (notifications.length === 0)
             return res.status(400).json({
@@ -16,7 +16,7 @@ const gettopKNotifications = async (req, res) => {
 
         return res.status(200).json({
             success: true,
-            message: `All top-${top_n} recent notifications retrieved successfully ...`,
+            message: `All top-${notifications.length} recent notifications retrieved successfully ...`,
             count : notifications.length,
             allNotifications: notifications
         });

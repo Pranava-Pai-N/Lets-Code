@@ -53,9 +53,7 @@ const Navbar = () => {
     })
 
     const fetchNotifications = async () => {
-      const result = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/notifications/top-k`, {
-        "top_n": Number(Top_k)
-      }, {
+      const result = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/notifications/${Top_k}`,  {
         withCredentials: true
       })
 
