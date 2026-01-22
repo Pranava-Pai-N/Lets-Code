@@ -3,32 +3,34 @@ import userController from "../controllers/user.controllers.js";
 import asyncHandler from "../utils/asyncHandler.js"
 import checkAuth from "../middleware/auth.middleware.js";
 import passport from "passport";
-import { uploadFile } from "../middleware/multer.middleware.js"
-import { checkRole } from "../middleware/checkrole.middleware.js"
+import { uploadFile } from "../middleware/multer.middleware.js";
+import userProtected from "../middleware/userProtected.middleware.js";
+import adminProtected from "../middleware/adminProtected.middleware.js";
+
 
 
 const router = Router();
 
 
 // Register a new User
-router.post("/register",asyncHandler(userController.registerUser))
+router.post("/register", asyncHandler(userController.registerUser))
 
 
 // Complete user profile
-router.patch("/complete-profile", checkAuth, checkRole("user"),asyncHandler(userController.completeProfile))
+router.patch("/complete-profile", checkAuth, userProtected, asyncHandler(userController.completeProfile))
 
 
 // Verify a User
-router.post("/verify",asyncHandler(userController.verifyUser))
+router.post("/verify", asyncHandler(userController.verifyUser))
 
 
 
 // Login a user 
-router.post("/login",asyncHandler(userController.loginUser));
+router.post("/login", asyncHandler(userController.loginUser));
 
 
 // Edit user profile
-router.patch("/edit-profile", checkAuth , checkRole("user"),asyncHandler(userController.editProfile))
+router.patch("/edit-profile", checkAuth , userProtected , asyncHandler(userController.editProfile))
 
 
 
@@ -42,44 +44,44 @@ router.post("/reset-password", asyncHandler(userController.handlePasswordReset))
 
 
 // Get UserDetails from Leetcode
-router.post("/leetcode-data", checkAuth , checkRole("user"),asyncHandler(userController.getLeetCodeDatabyUsername))
+router.post("/leetcode-data", checkAuth , userProtected , asyncHandler(userController.getLeetCodeDatabyUsername))
 
 
 // Change user profile url
-router.patch("/update-profileurl", checkAuth , checkRole("user") , uploadFile.single("profileImage") , asyncHandler(userController.handleProfileURlChange))
+router.patch("/update-profileurl", checkAuth , userProtected , uploadFile.single("profileImage") , asyncHandler(userController.handleProfileURlChange))
 
 
 // Get Gemini Help
-router.post("/ai-help" ,checkAuth , checkRole("user"),asyncHandler(userController.getGeminiHelp));
+router.post("/ai-help" ,checkAuth , userProtected , asyncHandler(userController.getGeminiHelp));
 
 
 
 // Get all submissions by a user
-router.get("/submissions", checkAuth, checkRole("user"),asyncHandler(userController.getallSubmissions));
+router.get("/submissions", checkAuth, userProtected , asyncHandler(userController.getallSubmissions));
 
 
 
 // Get submission by id
-router.get("/submissions/:submissionId", checkAuth, checkRole("user"),asyncHandler(userController.getSubmissionbyId))
+router.get("/submissions/:submissionId", checkAuth, userProtected , asyncHandler(userController.getSubmissionbyId))
 
 
 
 // Get recent activity
-router.get("/recent-activity", checkAuth, checkRole("user"),asyncHandler(userController.getRecentActivity))
+router.get("/recent-activity", checkAuth, userProtected , asyncHandler(userController.getRecentActivity))
 
 
 
 // Logout a User
-router.get("/logout",asyncHandler(userController.logoutUser));
+router.get("/logout", asyncHandler(userController.logoutUser));
 
 
 // Get all available users in the platform
-router.get("/users" , checkRole("admin"), asyncHandler(userController.getallUsers));
+router.get("/users" , adminProtected , asyncHandler(userController.getallUsers));
 
 
 
 // Get Logged in User
-router.get("/me", checkAuth, checkRole("user"),asyncHandler(userController.getMe));
+router.get("/me", checkAuth, userProtected , asyncHandler(userController.getMe));
 
 
 

@@ -7,12 +7,12 @@ const router = Router();
 
 
 // Get all the available paths 
-router.get("/paths",asyncHandler(pathController.getallPaths));
+router.get("/paths", asyncHandler(pathController.getallPaths));
 
 
 
 // Get a path by a Id
-router.get("/:id",asyncHandler(pathController.getPathById));
+router.get("/:id", asyncHandler(pathController.getPathById));
 
 
 
