@@ -13,6 +13,7 @@ import { registerSchema } from "../validations/registrationValidation.js";
 import { profileCompletionSchema } from "../validations/profileValidation.js";
 import { forgotPasswordSchema } from "../validations/forgotPassword.js";
 import { passwordResetSchema } from "../validations/passwordresetValidation.js";
+import isValidObjectId from "../utils/isValidObjectId.js";
 
 const getMe = async (req, res) => {
     try {
@@ -230,8 +231,8 @@ const loginUser = async (req, res) => {
             });
         }
     }
-    
-    if(!password){
+
+    if (!password) {
         return res.status(400).json({
             success: false,
             message: "Password missing for Login . Please Provide them and then login ..."
@@ -617,6 +618,14 @@ const getSubmissionbyId = async (req, res) => {
             return res.status(400).json({
                 success: false,
                 message: "Please provide a submissionId to search for submissions"
+            });
+
+        const isValid = isValidObjectId(submissionId);
+
+        if (!isValid)
+            return res.status(400).json({
+                success: false,
+                message: "Please provide a valid submissionId to search for submissions"
             });
 
         const userId = req.user?.id || req.user?._id;

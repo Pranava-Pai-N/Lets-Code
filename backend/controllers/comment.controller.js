@@ -3,6 +3,7 @@ import Discussion from "../models/discussions.models.js";
 import { commentSchema } from "../validations/addCommentValidation.js";
 import ExpressError from "../utils/expressError.js";
 import { commentreplySchema } from "../validations/commentReplyValidation.js";
+import isValidObjectId from "../utils/isValidObjectId.js";
 
 
 // Add a comment under a given discussion
@@ -66,6 +67,14 @@ const getallCommentsforaDiscussion = async (req, res) => {
                 message: "Please provide a valid discussion id for retrieval of comments"
             });
 
+        const isValid = isValidObjectId(id);
+
+        if(!isValid)
+            return res.status(404).json({
+                success: false,
+                message: "Please Provide a valid discussion id ..."
+            })
+
         const discussion = await Discussion.findById(id);
 
         if (!discussion)
@@ -109,6 +118,14 @@ const likeaComment = async (req, res) => {
                 message: "Please provide a valid comment id for retrieval of comment likes"
             });
 
+        const isValid = isValidObjectId(id)
+        
+        if(!isValid)
+            return res.status(404).json({
+                success: false,
+                message: "Please Provide a valid comment id .."
+            })
+
         const userId = req.user?.id || req.user?._id;
 
         const comment = await Comment.findById(id);
@@ -144,6 +161,7 @@ const likeaComment = async (req, res) => {
             likeCounts: comment.likedBy.length,
             comment
         });
+
     } catch (error) {
         console.log("Error liking the comment , try again later : ", error);
         throw new ExpressError(500, "Internal server error")

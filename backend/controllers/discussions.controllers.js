@@ -1,7 +1,8 @@
 import Question from "../models/questions.models.js"
 import Discussion from "../models/discussions.models.js";
-import ExpressError from "../utils/expressError.js"
-import { discussionPostSchema } from "../validations/discussionPost.js"
+import ExpressError from "../utils/expressError.js";
+import { discussionPostSchema } from "../validations/discussionPost.js";
+import isValidObjectId from "../utils/isValidObjectId.js";
 
 
 
@@ -64,6 +65,14 @@ const getallDiscussionforaQuestion = async (req, res) => {
                 success: false,
                 message: "Please provide a valid question id for retrieval of discussions"
             });
+        
+        const isValid = isValidObjectId(id)
+
+        if(!isValid)
+            return res.status(404).json({
+                success: false,
+                message: "Please Provide a valid discussion id ..."
+            })
 
         const question = await Question.findById(id);
 
@@ -107,6 +116,14 @@ const likeaDiscussion = async (req, res) => {
                 success: false,
                 message: "Please provide a valid discussion id for retrieval of discussion likes"
             });
+
+        const isValid = isValidObjectId(id);
+
+        if(!isValid)
+            return res.status(404).json({
+                success: false,
+                message: "Please Provide a valid like id ..."
+            })
 
         const userId = req.user?.id || req.user?._id;
 

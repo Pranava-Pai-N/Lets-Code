@@ -1,5 +1,6 @@
 import Path from "../models/paths.models.js";
 import ExpressError from "../utils/expressError.js";
+import isValidObjectId from "../utils/isValidObjectId.js";
 
 const getPathById = async(req,res) =>{
     try {
@@ -7,6 +8,14 @@ const getPathById = async(req,res) =>{
     
         if(!pathId)
             throw new ExpressError(404,"Please provide a pathId to search for any paths .")
+
+        const isValid = isValidObjectId(pathId);
+
+        if(!isValid)
+            return res.status(404).json({
+                success: false,
+                message: "Please Provide a valid path id .. "
+            })
     
         const path = await Path.findById(pathId);
     

@@ -5,6 +5,7 @@ import User from "../models/user.models.js";
 import Submissions from "../models/submissions.models.js";
 import dotenv from "dotenv";
 import Notification from "../models/notifications.models.js";
+import isValidObjectId from "../utils/isValidObjectId.js";
 
 dotenv.config();
 
@@ -128,6 +129,14 @@ const getQuestionById = async (req, res) => {
             return res.status(404).json({
                 success: false,
                 message: "Please Provide an Id .. "
+            })
+
+        const isValid = isValidObjectId(id);
+
+        if (!isValid)
+            return res.status(404).json({
+                success: false,
+                message: "Please Provide a valid object id"
             })
 
         const question = await Question.findById(id);
@@ -377,11 +386,19 @@ const makeaDailyQuestion = async (req, res) => {
     try {
         const { id } = req.params;
 
-        if (!id) 
-            return res.status(400).json({ 
-                success: false, 
-                message: "Please provide question id in the params" 
+        if (!id)
+            return res.status(400).json({
+                success: false,
+                message: "Please provide question id in the params"
             });
+
+        const isValid = isValidObjectId(id)
+
+        if(!isValid)
+            return res.status(404).json({
+                success: false,
+                message: "Please Provide an valid object id ..."
+            })
 
         const url = `${process.env.FRONTEND_URL}/problems/${id}`
 
@@ -392,22 +409,22 @@ const makeaDailyQuestion = async (req, res) => {
 
         const question = await Question.findById(id);
 
-        if (!question) 
-            return res.status(404).json({ 
-                success: false, 
-                message: "Question not found please try again later." 
+        if (!question)
+            return res.status(404).json({
+                success: false,
+                message: "Question not found please try again later."
             });
 
         const messageBody = {
-            message : "Problem of the day updated successfully",
-            link : url,
-            added_on : new Date()
+            message: "Problem of the day updated successfully",
+            link: url,
+            added_on: new Date()
         }
 
         const notification = await Notification.create({
-            message : messageBody.message,
-            link : url,
-            added_on : new Date()
+            message: messageBody.message,
+            link: url,
+            added_on: new Date()
         })
 
         question.isDailyQuestion = true;
@@ -415,12 +432,12 @@ const makeaDailyQuestion = async (req, res) => {
 
         await question.save();
 
-        io.emit("potd-notification",messageBody);
+        io.emit("potd-notification", messageBody);
 
         return res.status(200).json({
             success: true,
             message: "Daily question updated successfully.",
-            notifcation : notification
+            notifcation: notification
         });
 
     } catch (error) {
