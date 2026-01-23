@@ -100,7 +100,9 @@ const Home = () => {
           <Link to="/privacy">
           <span className="hover:text-indigo-600 cursor-pointer">Privacy</span>
           </Link>
+          <Link to="/terms">
           <span className="hover:text-indigo-600 cursor-pointer">Terms</span>
+          </Link>
           <Link to="/about-me">
           <span className="hover:text-indigo-600 cursor-pointer">Developed By</span>
           </Link>

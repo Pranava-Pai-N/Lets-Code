@@ -187,7 +187,7 @@ const Register = () => {
 
                 <div className="flex flex-col sm:flex-row gap-3 mb-10">
                     <button onClick={handleGoogleLogin} className="flex-1 flex items-center justify-center gap-3 px-4 py-3 border border-gray-200 rounded-2xl hover:bg-gray-50 transition-all font-bold text-[10px] text-gray-600 uppercase tracking-widest">
-                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" className="w-4 h-4" alt="" />
+                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" className="w-4 h-4" alt="Google Login" />
                         Google
                     </button>
                     <button onClick={handleGitHubLogin} className="flex-1 flex items-center justify-center gap-3 px-4 py-3 bg-gray-900 border border-gray-900 rounded-2xl hover:bg-black transition-all font-bold text-[10px] text-white uppercase tracking-widest shadow-md">
@@ -199,7 +199,7 @@ const Register = () => {
                 <div className="relative mb-10">
                     <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-gray-100"></div></div>
                     <div className="relative flex justify-center text-[9px] uppercase tracking-[0.3em] font-black text-gray-300">
-                        <span className="bg-white dark:bg-slate-950 px-4 text-gray-400 transition-colors duration-300">
+                        <span className="bg-white dark:bg-slate-950 px-4 text-gray-400">
                             Personal Details
                         </span>
                     </div>

@@ -21,7 +21,8 @@ import NotFound from "./pages/NotFound.jsx";
 import SubmissionsPage from "./pages/SubmissionsPage.jsx";
 import SubmissionDetails from "./pages/SubmissionDetails.jsx";
 import AboutPage from "./pages/AboutPage.jsx";
-import Privacy from "./pages/Privacy.jsx"
+import Privacy from "./pages/Privacy.jsx";
+import Terms from "./pages/Terms.jsx";
 
 function App() {
   return (
@@ -40,10 +41,11 @@ function App() {
                     <Route path="/register" element={<RegisterPage />} />
                     <Route path="/verify" element={<VerifyEmail />} />
                     <Route path="/forgot-password" element={<ForgotPassword />} />
-                    <Route path="/about-me" element ={<AboutPage />}/>
+                    <Route path="/about-me" element={<AboutPage />} />
                     <Route path="/problems" element={<ProblemList />} />
                     <Route path="/problems/:id" element={<ProblemDetail />} />
                     <Route path="/privacy" element={<Privacy />} />
+                    <Route path="/terms" element={<Terms />} />
 
                     <Route element={<ProtectedRoute />}>
                       <Route path="/dashboard" element={<Dashboard />} />
@@ -54,7 +56,7 @@ function App() {
                       <Route path="/submissions/:id" element={<SubmissionDetails />} />
                     </Route>
 
-                    <Route path="*" element={<NotFound/>} />
+                    <Route path="*" element={<NotFound />} />
                   </Routes>
                 </main>
               </div>
