@@ -45,7 +45,7 @@ const AboutPage = () => {
                 {Object.entries({
                   Github: "https://github.com/Pranava-Pai-N",
                   LinkedIn: "https://in.linkedin.com/in/pranav-pai-n-563106292/",
-                  Portfolio : "https://pranava-portfolio-smoky.vercel.app"
+                  Portfolio : "https://pranava-pai.vercel.app"
                 }).map(([platform, url]) => (
                   <a
                     key={platform}
