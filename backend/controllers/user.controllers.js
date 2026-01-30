@@ -14,6 +14,7 @@ import { profileCompletionSchema } from "../validations/profileValidation.js";
 import { forgotPasswordSchema } from "../validations/forgotPassword.js";
 import { passwordResetSchema } from "../validations/passwordresetValidation.js";
 import isValidObjectId from "../utils/isValidObjectId.js";
+import { profileEditSchema } from "../validations/profileEditValidation.js";
 
 const getMe = async (req, res) => {
     try {
@@ -380,7 +381,9 @@ const handlePasswordReset = async (req, res) => {
         if (Date.now() > user.otpexpiresin) {
             user.otp = undefined,
                 user.otpexpiresin = undefined;
+
             await user.save();
+
             return res.status(404).json({
                 success: false,
                 message: "The OTP has expired . Please try again later ..."
@@ -421,6 +424,7 @@ const handlePasswordReset = async (req, res) => {
             success: true,
             message: "Password updated successfully . You can now login with the new passsword"
         });
+
     } catch (error) {
         console.log("Error verifying user . Try again Later ...");
 
@@ -435,18 +439,27 @@ const handlePasswordReset = async (req, res) => {
 
 const editProfile = async (req, res) => {
     try {
-        const { userName, collegeName, languagesProficient, interests, targetingCompanies, socialLinks } = req.body;
+        const result = profileEditSchema.safeParse(req.body);
+
+        if (!result.success)
+            return res.status(400).json({
+                success: false,
+                message: "Please provide all required details for Profile Edit",
+                errors: result.error.flatten()
+            });
+
+        const data = result.data;
 
         const userId = req.user?.id;
 
         const user = await User.findByIdAndUpdate(userId, {
             $set: {
-                userName: userName,
-                collegeName: collegeName,
-                languagesProficient: languagesProficient,
-                interests: interests,
-                targetingCompanies: targetingCompanies,
-                socialLinks: socialLinks
+                userName: data.userName,
+                collegeName: data.collegeName,
+                languagesProficient: data.languagesProficient,
+                interests: data.interests,
+                targetingCompanies: data.targetingCompanies,
+                socialLinks: data.socialLinks
             }
         }, {
             new: true,
