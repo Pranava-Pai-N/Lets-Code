@@ -1,4 +1,4 @@
-# Let's Code 🚀
+# Let's Code 
 
 **Let's Code** is a high-performance, full-stack DSA (Data Structures and Algorithms) preparation platform. It is designed for developers to solve algorithmic challenges, follow structured learning paths, and engage in meaningful technical discussions with peers.
 
@@ -6,12 +6,12 @@
 
 
 
-## 🔗 Live Demo
-Experience the platform here: [View Demo Here](https://lets-code-lemon.vercel.app)
+## Live Demo
+Experience the platform here: [View Demo Here](https://lets-code.pranava-pai.live)
 
 
 
-## 🛠 Tech Stack
+## Tech Stack
 
 ### Frontend
 * **React.js (Vite)** – High-performance component-based UI.
@@ -34,7 +34,7 @@ Experience the platform here: [View Demo Here](https://lets-code-lemon.vercel.ap
 
 
 
-## ✨ Key Features
+## Key Features
 
 * **Structured Learning Paths:** Curriculum-based progress tracking for specific DSA topics.
 * **Test Mode Enablement:** To promote distraction free learning enviroment while practicing problems.
@@ -42,8 +42,141 @@ Experience the platform here: [View Demo Here](https://lets-code-lemon.vercel.ap
 * **HandPicked Questions** - Questions are handpicked and given with details like acceptance rate, difficulty meter etc
 
 ---
+## Folder Structure
 
-## 🏗 Installation & Local Setup
+### Frontend
+```
+frontend
+├── .gitignore
+├── eslint.config.js
+├── index.html
+├── package-lock.json
+├── package.json
+├── public
+│   └── assets    
+├── README.md
+├── .env
+├── .env.example
+├── src
+│   ├── App.css
+│   ├── App.jsx
+│   ├── components
+│   │   ├── Button.jsx
+│   │   ├── Card.jsx
+│   │   ├── CodeEditor.jsx
+│   │   ├── CompilerOutput.jsx
+│   │   ├── CountdownTimer.jsx
+│   │   ├── Discussion.jsx
+│   │   ├── Loader.jsx
+│   │   ├── Modal.jsx
+│   │   ├── Navbar.jsx
+│   │   ├── ProtectedRoute.jsx
+│   │   └── Sidebar.jsx
+│   ├── constants
+│   │   └── boilerplates.js
+│   ├── context
+│   │   ├── AuthContext.jsx
+│   │   ├── compilerContext.jsx
+│   │   └── themecontext.jsx
+│   ├── hooks
+│   │   ├── useCompiler.js
+│   │   ├── useFetchProblems.js
+│   │   └── useMobile.js
+│   ├── main.jsx
+│   ├── pages
+│   │   ├── AboutPage.jsx
+│   │   ├── AddQuestionPage.jsx
+│   │   ├── CompleteProfile.jsx
+│   │   ├── Dashboard.jsx
+│   │   ├── ForgotPassword.jsx
+│   │   ├── Home.jsx
+│   │   ├── Login.jsx
+│   │   ├── NotFound.jsx
+│   │   ├── Privacy.jsx
+│   │   ├── ProblemDetail.jsx
+│   │   ├── ProblemList.jsx
+│   │   ├── Register.jsx
+│   │   ├── SubmissionDetails.jsx
+│   │   ├── SubmissionsPage.jsx
+│   │   ├── Terms.jsx
+│   │   ├── UserProfile.jsx
+│   │   └── VerifyEmail.jsx
+│   └── utils
+│       ├── faceMask.js
+│       ├── formatDate.js
+│       ├── languageMap.js
+│       └── validation.js
+├── tailwind.config.js
+├── vercel.json
+└── vite.config.js
+```
+
+### Backend
+```
+backend
+├── .gitignore
+├── .env
+├── .env.example
+├── controllers
+│   ├── comment.controller.js
+│   ├── discussions.controllers.js
+│   ├── notifications.controller.js
+│   ├── paths.controllers.js
+│   ├── questions.contollers.js
+│   └── user.controllers.js
+├── middleware
+│   ├── adminProtected.middleware.js
+│   ├── auth.middleware.js
+│   ├── multer.middleware.js
+│   └── userProtected.middleware.js
+├── models
+│   ├── comments.models.js
+│   ├── discussions.models.js
+│   ├── notifications.models.js
+│   ├── paths.models.js
+│   ├── questions.models.js
+│   ├── submissions.models.js
+│   └── user.models.js
+├── package-lock.json
+├── package.json
+├── routes
+│   ├── comments.routes.js
+│   ├── discussion.routes.js
+│   ├── notifications.routes.js
+│   ├── paths.routes.js
+│   ├── questions.routes.js
+│   └── user.routes.js
+├── server.js
+├── temp
+│   └── profile_urls
+├── utils
+│   ├── asyncHandler.js
+│   ├── cloudinary.js
+│   ├── dbConnect.js
+│   ├── EmailServices
+│   │   ├── otpemailpasswordforgot.js
+│   │   ├── sendEmail.js
+│   │   └── sendVerifyEmail.js
+│   ├── errorHandler.js
+│   ├── expressError.js
+│   ├── geminiHelp.js
+│   ├── getLeetcodeData.js
+│   ├── isValidObjectId.js
+│   └── passport.js
+└── validations
+    ├── addCommentValidation.js
+    ├── commentReplyValidation.js
+    ├── discussionPost.js
+    ├── forgotPassword.js
+    ├── passwordresetValidation.js
+    ├── profileEditValidation.js
+    ├── profileValidation.js
+    └── registrationValidation.js
+```
+---
+
+
+## Installation & Local Setup
 
 ### 1. Clone the repository
 ```bash
@@ -75,7 +208,7 @@ npm run dev
 ```
 
 
-## 🤝 Contribution Options
+## Contribution Options
 Any contributions you make are greatly appreciated.
 
 ### Report Bugs: 
@@ -108,7 +241,7 @@ Open a PR with a valid feature name and comments
 ```
 
 
-## ✉️ Contact
+## Contact
 Project Link: 
 ```
 https://lets-code-lemon.vercel.app
