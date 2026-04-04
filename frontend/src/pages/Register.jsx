@@ -8,6 +8,7 @@ import {
 import axios from 'axios';
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { Turnstile } from "@marsidev/react-turnstile"
 
 
 const NeonInput = ({ id, name, type = "text", label, placeholder, value, onChange, Icon, required }) => {
@@ -40,7 +41,7 @@ const NeonInput = ({ id, name, type = "text", label, placeholder, value, onChang
                     placeholder={placeholder}
                     value={value}
                     onChange={onChange}
-className={`
+                    className={`
     w-full py-3 ${Icon ? 'pl-11' : 'pl-4'} pr-4
     /* Light Mode */
     bg-gray-50/50 border-gray-200 text-gray-800 placeholder:text-gray-400
@@ -75,6 +76,7 @@ const Register = () => {
     const [error, setError] = useState(null);
     const [isEmailSent, setIsEmailSent] = useState(false);
     const navigate = useNavigate();
+    const [turnstileToken, setTurnstileToken] = useState(null)
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -83,6 +85,7 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError(null);
+
 
         const emailregex = /.*?@?[^@]*\.+.*/;
 
@@ -97,6 +100,12 @@ const Register = () => {
         }
 
         setLoading(true);
+
+        if (!turnstileToken) {
+            toast.error("Please wait for captcha verification ..");
+            setLoading(false);
+            return;
+        }
 
         try {
             const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/users/register`, {
@@ -221,6 +230,16 @@ const Register = () => {
                             <NeonInput id="confirmPassword" name="confirmPassword" type="password" label="Confirm" placeholder="Retype your password" value={formData.confirmPassword} onChange={handleChange} Icon={LockClosedIcon} required />
                         </div>
                     </div>
+
+                    <Turnstile
+                    siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
+                    onSuccess={(token) => setTurnstileToken(token)}
+                    onError={() => setTurnstileToken(null)}
+                    options={{
+                        theme: localStorage.getItem("theme"),
+                        size: "flexible"
+                    }}
+                    />
 
                     <button
                         type="submit"

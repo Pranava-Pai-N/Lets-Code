@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate, Link , useSearchParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import {
@@ -12,6 +12,8 @@ import {
 import Button from "../components/Button.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 import { useMobile } from "../hooks/useMobile.js";
+import { Turnstile } from "@marsidev/react-turnstile";
+
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -19,7 +21,8 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const[ searchParams ] = useSearchParams ();
+  const [searchParams] = useSearchParams();
+  const [ turnstileToken, setTurnstileToken ] = useState(null)
 
   const navigate = useNavigate();
   const { login, user } = useAuth();
@@ -35,6 +38,12 @@ const Login = () => {
     e.preventDefault();
     setError("");
     setIsSubmitting(true);
+
+    if (!turnstileToken) {
+      toast.error("Please wait for captcha verification ..");
+      setIsSubmitting(false);
+      return;
+    }
 
     try {
       const response = await axios.post(
@@ -60,18 +69,18 @@ const Login = () => {
 
 
   useEffect(() => {
-      const error = searchParams.get('errorMessage');
+    const error = searchParams.get('errorMessage');
 
-      if(error){
-        navigate("/register", { replace : true})
-        toast.error(error);
-      }
+    if (error) {
+      navigate("/register", { replace: true })
+      toast.error(error);
+    }
 
-  } , [searchParams, navigate])
+  }, [searchParams, navigate])
 
 
   const handleGoogleLogin = () => {
-     window.location.href = `${import.meta.env.VITE_BACKEND_URL}/users/google-auth?mode=login`
+    window.location.href = `${import.meta.env.VITE_BACKEND_URL}/users/google-auth?mode=login`
   };
 
   const handleGitHubLogin = () => {
@@ -182,6 +191,16 @@ const Login = () => {
               </button>
             </div>
           </div>
+
+          <Turnstile
+            siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
+            onSuccess={(token) => setTurnstileToken(token)}
+            onError={() => setTurnstileToken(null)}
+            options={{
+              theme : localStorage.getItem("theme"),
+              size: "flexible"
+            }}
+          />
 
           <Button
             type="submit"
