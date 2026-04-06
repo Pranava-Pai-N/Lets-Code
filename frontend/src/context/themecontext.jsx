@@ -13,9 +13,25 @@ export const ThemeProvider = ({ children }) => {
 
   useEffect(() => {
     document.documentElement.className = theme;
-    
+
     localStorage.setItem("theme", theme);
   }, [theme]);
+
+
+  useEffect(() => {
+    const handleStorageChange = (e) => {
+      if (e.key === "theme") {
+        setTheme(e.newValue || "light");
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+
+  }, [])
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
