@@ -12,11 +12,11 @@ const router = Router();
 
 
 // To get top k notification
-router.get("/:top_k", checkAuth , userProtected , asyncHandler(notificationController.gettopKNotifications));
+router.get("/:top_k", checkAuth , userProtected ,  asyncHandler(notificationController.gettopKNotifications));
 
 
 // To get all notifications 
-router.get("/", checkAuth , userProtected , asyncHandler(notificationController.getAllNotifications));
+router.get("/", checkAuth , userProtected ,  asyncHandler(notificationController.getAllNotifications));
 
 
 

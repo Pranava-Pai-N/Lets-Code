@@ -9,7 +9,7 @@ const router = Router();
 
 
 // Post a question
-router.post("/post-question", checkAuth, adminProtected ,asyncHandler(questionController.addQuestion))
+router.post("/post-question", checkAuth, adminProtected , asyncHandler(questionController.addQuestion))
 
 
 // Run a question to compiler
@@ -17,11 +17,11 @@ router.post("/run-question", checkAuth, userProtected , asyncHandler(questionCon
 
 
 // Submit a question to compiler
-router.post("/submit-question", checkAuth, userProtected, asyncHandler(questionController.submitaQuestion));
+router.post("/submit-question", checkAuth, userProtected,  asyncHandler(questionController.submitaQuestion));
 
 
 // Make a daily question
-router.post("/daily-question/:id", checkAuth, adminProtected, asyncHandler(questionController.makeaDailyQuestion))
+router.post("/daily-question/:id", checkAuth, adminProtected,  asyncHandler(questionController.makeaDailyQuestion))
 
 
 // Get any question by id 
@@ -29,7 +29,7 @@ router.get("/questions/:id", asyncHandler(questionController.getQuestionById))
 
 
 // Get all Questions 
-router.get("/questions", asyncHandler(questionController.getAllQuestions))
+router.get("/questions",  asyncHandler(questionController.getAllQuestions))
 
 
 export default router;

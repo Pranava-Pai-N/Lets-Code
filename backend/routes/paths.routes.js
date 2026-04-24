@@ -1,6 +1,6 @@
 import { Router } from "express";
 import pathController from "../controllers/paths.controllers.js";
-import asyncHandler from "../utils/asyncHandler.js"
+import asyncHandler from "../utils/asyncHandler.js";
 
 
 const router = Router();

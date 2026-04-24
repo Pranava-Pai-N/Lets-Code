@@ -16,7 +16,7 @@ router.post("/like-comment/:id", checkAuth, userProtected , asyncHandler(comment
 
 
 // Reply to a comment
-router.post("/reply-comment", checkAuth, userProtected ,asyncHandler(commentController.addreplytoaComment))
+router.post("/reply-comment", checkAuth, userProtected , asyncHandler(commentController.addreplytoaComment))
 
 
 // Get all comments under a given discussion
