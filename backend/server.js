@@ -16,6 +16,7 @@ import notificationRoutes from "./routes/notifications.routes.js";
 import passport from "passport";
 import './utils/passport.js'
 import { Server } from "socket.io";
+import client from "prom-client"
 
 dotenv.config()
 
@@ -27,6 +28,9 @@ const io = new Server(server,{
         methods : ["POST","GET","PUT","PATCH","DELETE"]
     }
 })
+const collectDefaultMetrics = client.collectDefaultMetrics;
+collectDefaultMetrics({ register : client.register })
+
 app.set("io",io);
 
 const PORT = process.env.PORT || 3000
@@ -82,6 +86,12 @@ app.get("/",(req,res) => {
         success : true,
         message : "Backend is running properly ..."
     })
+})
+
+app.get("/metrics", async(req,res) =>{
+    res.setHeader("Content-Type",client.register.contentType);
+    const metrics = await client.register.getMetricsAsJSON();
+    res.send(metrics)
 })
 
 
