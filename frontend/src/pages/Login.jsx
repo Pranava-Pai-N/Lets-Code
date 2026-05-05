@@ -22,7 +22,8 @@ const Login = () => {
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [searchParams] = useSearchParams();
-  const [ turnstileToken, setTurnstileToken ] = useState(null)
+  const [ turnstileToken, setTurnstileToken ] = useState(null);
+  const [ isHavingTurnstile , setisHavingTurnstile ] = useState(false);
 
   const navigate = useNavigate();
   const { login, user } = useAuth();
@@ -194,7 +195,10 @@ const Login = () => {
 
           <Turnstile
             siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
-            onSuccess={(token) => setTurnstileToken(token)}
+            onSuccess={(token) => {
+              setTurnstileToken(token);
+              setisHavingTurnstile(true);
+            }}
             onError={() => setTurnstileToken(null)}
             options={{
               theme : localStorage.getItem("theme"),
@@ -206,7 +210,8 @@ const Login = () => {
             type="submit"
             variant="primary"
             className="w-full py-4 text-white bg-indigo-600 hover:bg-indigo-700 rounded-2xl font-black text-lg shadow-xl shadow-indigo-500/20 active:scale-[0.98] transition-all disabled:opacity-50"
-            disabled={isSubmitting}
+            disabled={isSubmitting || !isHavingTurnstile}
+            
           >
             {isSubmitting ? (
               <span className="flex items-center justify-center">

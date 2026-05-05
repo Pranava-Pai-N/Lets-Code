@@ -8,7 +8,8 @@ import {
 import axios from 'axios';
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Turnstile } from "@marsidev/react-turnstile"
+import { Turnstile } from "@marsidev/react-turnstile";
+
 
 
 const NeonInput = ({ id, name, type = "text", label, placeholder, value, onChange, Icon, required }) => {
@@ -76,7 +77,8 @@ const Register = () => {
     const [error, setError] = useState(null);
     const [isEmailSent, setIsEmailSent] = useState(false);
     const navigate = useNavigate();
-    const [turnstileToken, setTurnstileToken] = useState(null)
+    const [turnstileToken, setTurnstileToken] = useState(null);
+    const [ isHavingTurnstile , setisHavingTurnstile ] = useState(false);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -233,7 +235,10 @@ const Register = () => {
 
                     <Turnstile
                     siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
-                    onSuccess={(token) => setTurnstileToken(token)}
+                    onSuccess={(token) => {
+                        setTurnstileToken(token);
+                        setisHavingTurnstile(true);
+                    }}
                     onError={() => setTurnstileToken(null)}
                     options={{
                         theme: localStorage.getItem("theme"),
@@ -243,7 +248,7 @@ const Register = () => {
 
                     <button
                         type="submit"
-                        disabled={loading}
+                        disabled={loading || !isHavingTurnstile}
                         className="w-full py-5 bg-indigo-600 text-white rounded-2xl font-black uppercase tracking-[0.2em] text-sm hover:bg-indigo-700 shadow-xl shadow-indigo-100 transition-all active:scale-[0.98] disabled:bg-gray-200 mt-4"
                     >
                         {loading ? "Creating Identity..." : "Generate Identity"}
