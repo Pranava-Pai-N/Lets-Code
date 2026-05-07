@@ -9,6 +9,8 @@ import axios from 'axios';
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Turnstile } from "@marsidev/react-turnstile";
+import { startRegistration } from "@simplewebauthn/browser"
+import Button from '../components/Button';
 
 
 
@@ -78,7 +80,8 @@ const Register = () => {
     const [isEmailSent, setIsEmailSent] = useState(false);
     const navigate = useNavigate();
     const [turnstileToken, setTurnstileToken] = useState(null);
-    const [ isHavingTurnstile , setisHavingTurnstile ] = useState(false);
+    const [isHavingTurnstile, setisHavingTurnstile] = useState(false);
+    const [isPasskeyLoading, setIsPasskeyLoading] = useState(false);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -187,6 +190,49 @@ const Register = () => {
         window.location.href = `${import.meta.env.VITE_BACKEND_URL}/users/github-auth?mode=signup`
     }
 
+    const handlePasskeyRegister = async () => {
+        if (!formData.email) {
+            toast.error("Please provide an email to generate a passkey for Let's Code");
+            return;
+        }
+
+
+        setIsPasskeyLoading(true);
+
+        try {
+            const optionsResponse = await axios.post(
+                `${import.meta.env.VITE_BACKEND_URL}/users/register-passkey-options`,
+                { email: formData.email },
+                { withCredentials: true }
+            );
+
+            const attestationResponse = await startRegistration(optionsResponse.data);
+
+            const verificationResponse = await axios.post(
+                `${import.meta.env.VITE_BACKEND_URL}/users/verify-passkey-registration`,
+                {
+                    email: formData.email,
+                    registrationResponse: attestationResponse
+                },
+                {
+                    withCredentials: true
+                }
+            );
+
+            if (verificationResponse?.data?.success) {
+                toast.success("Passkey registered successfully! You can now login with biometrics.");
+                navigate("/login");
+            }
+
+        } catch (err) {
+            console.error(err);
+            toast.error(err.response?.data?.message || "Passkey registration failed.");
+        }
+        finally {
+            setIsPasskeyLoading(false);
+        }
+    }
+
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-slate-950  dark:text-gray-100 flex flex-col items-center justify-center p-6 sm:p-12 relative overflow-hidden font-sans transition-colors duration-300">
             <div className="mb-10 text-center relative z-10">
@@ -197,15 +243,42 @@ const Register = () => {
             <div className="w-full max-w-xl bg-white dark:bg-slate-950 border border-gray-200 dark:text-gray-100 rounded-[2.5rem] p-8 md:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative z-10">
 
                 <div className="flex flex-col sm:flex-row gap-3 mb-10">
-                    <button onClick={handleGoogleLogin} className="flex-1 flex items-center justify-center gap-3 px-4 py-3 border border-gray-200 rounded-2xl hover:bg-gray-50 transition-all font-bold text-[10px] text-gray-600 uppercase tracking-widest">
+                    <Button
+                        variant="light"
+                        onClick={handleGoogleLogin}
+                        className="flex items-center justify-center py-2.5 px-10 gap-2 border border-gray-300 dark:border-gray-700 text-sm font-bold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl transition-all shadow-sm"
+                    >
                         <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" className="w-4 h-4" alt="Google Login" />
                         Google
-                    </button>
-                    <button onClick={handleGitHubLogin} className="flex-1 flex items-center justify-center gap-3 px-4 py-3 bg-gray-900 border border-gray-900 rounded-2xl hover:bg-black transition-all font-bold text-[10px] text-white uppercase tracking-widest shadow-md">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" className="w-4 h-4 invert" alt="" />
+                    </Button>
+
+                    <Button
+                        variant="light"
+                        onClick={handleGitHubLogin}
+                        className="flex items-center justify-center py-2.5 px-10 border border-gray-300 dark:border-gray-700 text-sm font-bold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl transition-all shadow-sm"
+                    >
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub" className="h-5 w-5 mr-2 dark:invert" />
                         GitHub
-                    </button>
+                    </Button>
+
+                    <Button
+                        variant="light"
+                        onClick={handlePasskeyRegister}
+                        className="flex items-center justify-center py-2.5 gap-2 border border-gray-300 dark:border-gray-700 text-sm font-bold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl transition-all shadow-sm"
+                    >
+                        <ShieldCheckIcon className="w-4 h-4 text-indigo-400" />
+                        Register a Passkey
+                    </Button>
+
                 </div>
+
+
+                <div className="relative flex justify-center text-[9px]  tracking-[0.3em] font-black text-gray-300">
+                    <span className="bg-white dark:bg-slate-950 px-4 text-gray-400">
+                        Please create a Passkey only after creating an account.
+                    </span>
+                </div>
+                <br></br>
 
                 <div className="relative mb-10">
                     <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-gray-100"></div></div>
@@ -234,16 +307,16 @@ const Register = () => {
                     </div>
 
                     <Turnstile
-                    siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
-                    onSuccess={(token) => {
-                        setTurnstileToken(token);
-                        setisHavingTurnstile(true);
-                    }}
-                    onError={() => setTurnstileToken(null)}
-                    options={{
-                        theme: localStorage.getItem("theme"),
-                        size: "flexible"
-                    }}
+                        siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
+                        onSuccess={(token) => {
+                            setTurnstileToken(token);
+                            setisHavingTurnstile(true);
+                        }}
+                        onError={() => setTurnstileToken(null)}
+                        options={{
+                            theme: localStorage.getItem("theme"),
+                            size: "flexible"
+                        }}
                     />
 
                     <button

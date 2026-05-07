@@ -57,11 +57,11 @@ const userSchema = new Schema(
     },
 
     allSubmissions: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref : "Submissions"
-    },
-  ],
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Submissions"
+      },
+    ],
 
 
     pathId: {
@@ -142,11 +142,23 @@ const userSchema = new Schema(
       default: ""
     },
 
-    leetcodeUsername : {
-      type : String,
-      default : "",
-    }
+    leetcodeUsername: {
+      type: String,
+      default: "",
+    },
 
+    currentChallenge: {
+      type: String
+    },
+
+    authenticators: [{
+      credentialID: { type: Buffer, required: true },
+      credentialPublicKey: { type: Buffer, required: true },
+      counter: { type: Number, default: 0 },
+      deviceType: { type: String },
+      transports: [String]
+    }],
+    
   },
   { timestamps: true }
 );

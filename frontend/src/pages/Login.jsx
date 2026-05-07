@@ -7,12 +7,14 @@ import {
   AtSymbolIcon,
   LockClosedIcon,
   EyeIcon,
-  EyeSlashIcon
+  EyeSlashIcon,
+  FingerPrintIcon
 } from "@heroicons/react/24/outline";
 import Button from "../components/Button.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 import { useMobile } from "../hooks/useMobile.js";
 import { Turnstile } from "@marsidev/react-turnstile";
+import { startAuthentication } from "@simplewebauthn/browser"
 
 
 const Login = () => {
@@ -22,8 +24,9 @@ const Login = () => {
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [searchParams] = useSearchParams();
-  const [ turnstileToken, setTurnstileToken ] = useState(null);
-  const [ isHavingTurnstile , setisHavingTurnstile ] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState(null);
+  const [isHavingTurnstile, setisHavingTurnstile] = useState(false);
+  const [isPasskeyLoading, setIsPasskeyLoading] = useState(false);
 
   const navigate = useNavigate();
   const { login, user } = useAuth();
@@ -88,6 +91,45 @@ const Login = () => {
     window.location.href = `${import.meta.env.VITE_BACKEND_URL}/users/github-auth?mode=login`
   };
 
+  const handlePasskeyLogin = async () => {
+    if (!email) {
+      toast.error("Please enter your email to login with Passkey");
+      return;
+    }
+
+    setIsPasskeyLoading(true);
+    try {
+      const optionsResponse = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/users/login-passkey-options`,
+        { email }
+      );
+
+      const assertionResponse = await startAuthentication(optionsResponse.data);
+
+
+      const verificationResponse = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/users/verify-passkey-login`,
+        {
+          email,
+          authResponse: assertionResponse
+        },
+        { withCredentials: true }
+      );
+
+      if (verificationResponse.data.success) {
+        login(verificationResponse.data.user);
+        toast.success(verificationResponse.data.message);
+        navigate("/dashboard", { replace: true });
+      }
+
+    } catch (err) {
+      console.error(err);
+      toast.error(err.response?.data?.message || "Passkey login failed.");
+    } finally {
+      setIsPasskeyLoading(false);
+    }
+  }
+
   return (
     <div className={`flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-950 transition-colors duration-300 ${isMobile ? 'p-4' : 'p-6'}`}>
 
@@ -128,7 +170,23 @@ const Login = () => {
             <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub" className="h-5 w-5 mr-2 dark:invert" />
             GitHub
           </Button>
+
+          <Button
+            variant="light"
+            onClick={handlePasskeyLogin}
+            className="flex items-center justify-center gap-2 py-2.5 border border-gray-300 dark:border-gray-700 text-sm font-bold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl transition-all shadow-sm"
+          >
+            <FingerPrintIcon className="w-4 h-4 text-indigo-400" />
+            Login with PassKey
+          </Button>
+            
+
         </div>
+
+        <div className="relative flex justify-center text-xs tracking-widest">
+          <span className="px-4 bg-white dark:bg-gray-900 text-gray-500 font-bold">Please Login with Passkey after creating an account</span>
+        </div>
+        <br></br>
 
         <div className="relative mb-8">
           <div className="absolute inset-0 flex items-center">
@@ -201,7 +259,7 @@ const Login = () => {
             }}
             onError={() => setTurnstileToken(null)}
             options={{
-              theme : localStorage.getItem("theme"),
+              theme: localStorage.getItem("theme"),
               size: "flexible"
             }}
           />
@@ -211,7 +269,7 @@ const Login = () => {
             variant="primary"
             className="w-full py-4 text-white bg-indigo-600 hover:bg-indigo-700 rounded-2xl font-black text-lg shadow-xl shadow-indigo-500/20 active:scale-[0.98] transition-all disabled:opacity-50"
             disabled={isSubmitting || !isHavingTurnstile}
-            
+
           >
             {isSubmitting ? (
               <span className="flex items-center justify-center">

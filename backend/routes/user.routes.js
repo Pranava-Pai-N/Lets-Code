@@ -44,7 +44,24 @@ router.post("/reset-password",  asyncHandler(userController.handlePasswordReset)
 
 
 // Get UserDetails from Leetcode
-router.post("/leetcode-data", checkAuth , userProtected ,  asyncHandler(userController.getLeetCodeDatabyUsername))
+router.post("/leetcode-data", checkAuth , userProtected ,  asyncHandler(userController.getLeetCodeDatabyUsername));
+
+
+// Register passkey
+router.post("/register-passkey-options",asyncHandler(userController.registerPasskey))
+
+
+// Verify Passkey
+router.post("/verify-passkey-registration",asyncHandler(userController.verifyPasskeyRegistration));
+
+
+// Login passkey
+router.post("/login-passkey-options",asyncHandler(userController.loginPasskey));
+
+
+// Verify passkey options
+router.post("/verify-passkey-login",asyncHandler(userController.verifyLoginPasskey));
+
 
 
 // Change user profile url

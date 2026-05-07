@@ -24,8 +24,10 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server,{
     cors :{
-        origin : process.env.FRONTEND_URL,
-        methods : ["POST","GET","PUT","PATCH","DELETE"]
+        origin : [ process.env.FRONTEND_URL],
+        methods : ["POST","GET","PUT","PATCH","DELETE"],
+        credentials : true,
+        allowedHeaders : ["*"]
     }
 })
 const collectDefaultMetrics = client.collectDefaultMetrics;

@@ -15,6 +15,18 @@ import { forgotPasswordSchema } from "../validations/forgotPassword.js";
 import { passwordResetSchema } from "../validations/passwordresetValidation.js";
 import isValidObjectId from "../utils/isValidObjectId.js";
 import { profileEditSchema } from "../validations/profileEditValidation.js";
+import { generateRegistrationOptions, verifyRegistrationResponse, generateAuthenticationOptions, verifyAuthenticationResponse } from "@simplewebauthn/server";
+
+const rpID = process.env.NODE_ENV === "production" ? `${process.env.FRONTEND_URI}` : "localhost";
+const origin = process.env.NODE_ENV === "production" ? `${process.env.FRONTEND_URL}` : `http://${rpID}:5173`;
+
+const cookieOptions = {
+    httpOnly: true,
+    secure: true,
+    maxAge: 24 * 60 * 60 * 1000,
+    sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax',
+    path: "/"
+}
 
 const getMe = async (req, res) => {
     try {
@@ -214,13 +226,7 @@ const loginUser = async (req, res) => {
         if (!password) {
             const token = jwt.sign({ id: user._id, email: email }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-            res.cookie("token", token, {
-                httpOnly: true,
-                secure: true,
-                maxAge: 24 * 60 * 60 * 1000,
-                sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax',
-                path: "/"
-            });
+            res.cookie("token", token, cookieOptions);
 
             user.password = null;
 
@@ -258,13 +264,7 @@ const loginUser = async (req, res) => {
 
     const token = jwt.sign({ id: user._id, email: email }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-    res.cookie("token", token, {
-        httpOnly: true,
-        secure: true,
-        maxAge: 24 * 60 * 60 * 1000,
-        sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax',
-        path: "/"
-    });
+    res.cookie("token", token, cookieOptions);
 
     user.password = null;
 
@@ -500,13 +500,7 @@ const googleAuthSuccess = async (req, res) => {
             { expiresIn: '1h' }
         );
 
-        res.cookie("token", token, {
-            httpOnly: true,
-            secure: true,
-            maxAge: 24 * 60 * 60 * 1000,
-            sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax',
-            path: "/"
-        });
+        res.cookie("token", token, cookieOptions);
 
 
         res.redirect(`${process.env.FRONTEND_URL}/dashboard`);
@@ -534,13 +528,7 @@ const githubAuthSuccess = async (req, res) => {
         );
 
 
-        res.cookie("token", token, {
-            httpOnly: true,
-            secure: true,
-            maxAge: 24 * 60 * 60 * 1000,
-            sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax',
-            path: "/"
-        });
+        res.cookie("token", token, cookieOptions);
 
         res.redirect(`${process.env.FRONTEND_URL}/dashboard`)
 
@@ -766,8 +754,180 @@ const getGeminiHelp = async (req, res) => {
             res.end();
         }
     }
+};
 
+const registerPasskey = async (req, res) => {
+    try {
+        const { email } = req.body;
+        const user = await User.findOne({ email });
+
+        if (!user)
+            return res.status(404).json({ success: false, message: "User not found . You have to create an account first!" });
+
+        const options = await generateRegistrationOptions({
+            rpName: "Let's Code",
+            rpID,
+            userID: Buffer.from(user._id.toString()),
+            userName: user.userName,
+            userDisplayName: user.userName,
+            attestationType: 'none',
+            authenticatorSelection: {
+                residentKey: 'preferred',
+                userVerification: 'preferred',
+            },
+        });
+
+        user.currentChallenge = options.challenge;
+        await user.save();
+
+        res.json(options);
+
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
 }
+
+const verifyPasskeyRegistration = async (req, res) => {
+    try {
+        const { email, registrationResponse } = req.body;
+        const user = await User.findOne({ email });
+
+        if (!user || !user.currentChallenge) {
+            return res.status(400).json({ success: false, message: "Registration session expired" });
+        }
+
+        const verification = await verifyRegistrationResponse({
+            response: registrationResponse,
+            expectedChallenge: user.currentChallenge,
+            expectedOrigin: origin,
+            expectedRPID: rpID,
+        });
+
+        if (verification?.verified) {
+            const { registrationInfo } = verification;
+
+            user.authenticators.push({
+                credentialID: Buffer.from(registrationInfo?.credential?.id, 'base64url'),
+                credentialPublicKey: Buffer.from(registrationInfo?.credential?.publicKey),
+                counter: registrationInfo?.credential?.counter,
+                deviceType: registrationInfo.credentialDeviceType,
+                transports: registrationInfo?.credential.transports || []
+            });
+
+            user.currentChallenge = undefined;
+            await user.save();
+
+            return res.status(200).json({ success: true, message: "Passkey registered successfully" });
+        }
+
+        res.status(400).json({ success: false, message: "Verification failed" });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+}
+
+const loginPasskey = async (req, res) => {
+    try {
+        const { email } = req.body;
+
+        const user = await User.findOne({ email });
+
+        if (!user || user.authenticators.length === 0) {
+            return res.status(400).json({ success: false, message: "No passkeys found for this user" });
+        }
+
+        const options = await generateAuthenticationOptions({
+            rpID,
+            allowCredentials: user.authenticators.map(auth => ({
+                id: Buffer.from(auth.credentialID).toString('base64url'),
+                type: 'public-key',
+                transports: auth.transports,
+            })),
+            userVerification: 'preferred',
+        });
+
+        user.currentChallenge = options.challenge;
+        await user.save();
+
+        res.json(options);
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+}
+
+const verifyLoginPasskey = async (req, res) => {
+    try {
+        const { email, authResponse } = req.body;
+
+        const user = await User.findOne({ email }).lean();
+
+        if (!user)
+            return res.status(404).json({ success: false, message: "User not found. Please login first!" });
+
+
+        const dbAuthenticator = user.authenticators.find(auth => {
+            if (!auth.credentialID)
+                return false;
+
+            const storedId = Buffer.from(auth.credentialID.buffer || auth.credentialID).toString('base64url');
+            return storedId === authResponse.id;
+        });
+
+        if (!dbAuthenticator) {
+            return res.status(400).json({ success: false, message: "Authenticator not found" });
+        }
+
+        const authInfo = {
+            credentialID: new Uint8Array(dbAuthenticator.credentialID.buffer || dbAuthenticator.credentialID),
+            credentialPublicKey: new Uint8Array(dbAuthenticator.credentialPublicKey.buffer || dbAuthenticator.credentialPublicKey),
+            publicKey: new Uint8Array(dbAuthenticator.credentialPublicKey.buffer || dbAuthenticator.credentialPublicKey),
+            counter: Number(dbAuthenticator.counter),
+            transports: Array.from(dbAuthenticator.transports || []),
+        };
+
+        const verification = await verifyAuthenticationResponse({
+            response: authResponse,
+            expectedChallenge: `${user.currentChallenge}`,
+            expectedOrigin: origin,
+            expectedRPID: rpID,
+            authenticator: authInfo,
+            credential: authInfo
+        });
+
+        if (verification.verified) {
+            const { authenticationInfo } = verification;
+
+            await User.updateOne(
+                { email, "authenticators.credentialID": dbAuthenticator.credentialID },
+                {
+                    $set: { "authenticators.$.counter": authenticationInfo.newCounter },
+                    $unset: { currentChallenge: "" }
+                }
+            );
+
+            const token = jwt.sign(
+                { id: user._id, email: user.email },
+                process.env.JWT_SECRET,
+                { expiresIn: '1h' }
+            );
+
+            res.cookie("token", token, cookieOptions);
+
+            return res.status(200).json({
+                success: true,
+                user: { userName: user.userName, email: user.email, profile_url: user.profile_url },
+                message: `Welcome back, ${user.userName}`
+            });
+        }
+
+        res.status(400).json({ success: false, message: "Verification failed" });
+
+    } catch (error) {
+        console.error("Verification Error:", error);
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
 
 const userController = {
     getMe,
@@ -787,7 +947,11 @@ const userController = {
     getSubmissionbyId,
     getLeetCodeDatabyUsername,
     getRecentActivity,
-    getGeminiHelp
+    getGeminiHelp,
+    registerPasskey,
+    verifyPasskeyRegistration,
+    loginPasskey,
+    verifyLoginPasskey
 };
 
 export default userController;

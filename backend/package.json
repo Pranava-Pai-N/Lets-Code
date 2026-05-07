@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@google/genai": "^1.34.0",
+    "@simplewebauthn/server": "^13.3.0",
     "axios": "^1.13.2",
     "bcrypt": "^6.0.0",
     "cloudinary": "^2.8.0",
