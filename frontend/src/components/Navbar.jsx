@@ -1,9 +1,19 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { CodeBracketIcon, XMarkIcon, ArrowRightOnRectangleIcon, BellIcon, UserIcon, FireIcon, MoonIcon, SunIcon } from "@heroicons/react/24/outline";
+import {
+  CodeBracketIcon,
+  XMarkIcon,
+  ArrowRightOnRectangleIcon,
+  BellIcon,
+  UserIcon,
+  FireIcon,
+  MoonIcon,
+  SunIcon,
+  ComputerDesktopIcon
+} from "@heroicons/react/24/outline";
 import { useAuth } from "../context/AuthContext.jsx";
-import Button from "../components/Button.jsx"
-import { useTheme } from "../context/themecontext.jsx"
+import Button from "../components/Button.jsx";
+import { useTheme } from "../context/themecontext.jsx";
 import { toast } from "react-toastify";
 import { io } from "socket.io-client";
 import axios from "axios";
@@ -11,30 +21,32 @@ import axios from "axios";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isNotifyOpen, setIsNotifyOpen] = useState(false);
+  const [isThemeOpen, setIsThemeOpen] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [Top_k, _setTop_k] = useState(5);
 
-
   const notifyRef = useRef(null);
+  const themeRef = useRef(null);
   const location = useLocation();
   const { user, isAuthenticated, logout } = useAuth();
-  const { theme, toggleTheme } = useTheme();
 
+  const { theme, setTheme } = useTheme();
 
   const links = [];
 
   if (!isAuthenticated) {
     links.push(
       { name: "Login", path: "/login" },
-      { name: "Signup", path: "/register" },
-    )
+      { name: "Signup", path: "/register" }
+    );
   }
 
   if (isAuthenticated) {
     links.push(
       { name: "Problems", path: "/problems" },
-      { name: "Dashboard", path: "/dashboard" },)
+      { name: "Dashboard", path: "/dashboard" }
+    );
   }
 
   const activeClass = "border-b-2 border-indigo-500 text-indigo-600 dark:text-indigo-400 font-semibold";
@@ -50,17 +62,19 @@ const Navbar = () => {
       setUnreadCount((prev) => prev + 1);
       toast.info(data.message);
       setIsNotifyOpen(true);
-    })
+    });
 
     const fetchNotifications = async () => {
-      const result = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/notifications/${Top_k}`,  {
-        withCredentials: true
-      })
-
-      const allNotifications = result.data.allNotifications || [];
-
-      setNotifications(allNotifications);
-    }
+      try {
+        const result = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/notifications/${Top_k}`, {
+          withCredentials: true
+        });
+        const allNotifications = result.data.allNotifications || [];
+        setNotifications(allNotifications);
+      } catch (error) {
+        console.error("Failed to fetch notifications", error);
+      }
+    };
 
     if (isAuthenticated) {
       fetchNotifications();
@@ -70,6 +84,9 @@ const Navbar = () => {
       if (notifyRef.current && !notifyRef.current.contains(event.target)) {
         setIsNotifyOpen(false);
       }
+      if (themeRef.current && !themeRef.current.contains(event.target)) {
+        setIsThemeOpen(false);
+      }
     };
     document.addEventListener("mousedown", handleClickOutside);
 
@@ -77,13 +94,22 @@ const Navbar = () => {
       socket.disconnect();
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [isAuthenticated, Top_k])
-
+  }, [isAuthenticated, Top_k]);
 
   const handleToggleNotify = () => {
     setIsNotifyOpen(!isNotifyOpen);
   };
 
+  const renderThemeIcon = () => {
+    switch (theme) {
+      case "dark":
+        return <MoonIcon className="w-5 h-5 text-indigo-500" />;
+      case "system":
+        return <ComputerDesktopIcon className="w-5 h-5 text-gray-500 dark:text-gray-400" />;
+      default:
+        return <SunIcon className="w-5 h-5 text-yellow-400" />;
+    }
+  };
 
   return (
     <nav className="bg-white dark:bg-gray-900 shadow-xl sticky top-0 z-50 border-b border-gray-100 dark:border-gray-800">
@@ -110,129 +136,130 @@ const Navbar = () => {
           </div>
 
           <div className="hidden md:flex items-center space-x-4">
+
+            <div className="relative" ref={themeRef}>
+              <Button
+                variant="tertiary"
+                className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition flex items-center justify-center"
+                onClick={() => setIsThemeOpen(!isThemeOpen)}
+              >
+                {renderThemeIcon()}
+              </Button>
+
+              {isThemeOpen && (
+                <div className="absolute right-0 mt-2 w-36 rounded-xl bg-white dark:bg-gray-800 shadow-2xl ring-1 ring-black ring-opacity-5 z-[60] overflow-hidden border border-gray-100 dark:border-gray-700 p-1">
+                  <button
+                    onClick={() => { setTheme("light"); setIsThemeOpen(false); }}
+                    className={`flex items-center gap-2 w-full px-3 py-2 text-sm rounded-lg transition ${theme === "light" ? "bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 font-medium" : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700/50"}`}
+                  >
+                    <SunIcon className="w-4 h-4 text-yellow-400" />
+                    Light
+                  </button>
+                  <button
+                    onClick={() => { setTheme("dark"); setIsThemeOpen(false); }}
+                    className={`flex items-center gap-2 w-full px-3 py-2 text-sm rounded-lg transition ${theme === "dark" ? "bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 font-medium" : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700/50"}`}
+                  >
+                    <MoonIcon className="w-4 h-4 text-indigo-500" />
+                    Dark
+                  </button>
+                  <button
+                    onClick={() => { setTheme("system"); setIsThemeOpen(false); }}
+                    className={`flex items-center gap-2 w-full px-3 py-2 text-sm rounded-lg transition ${theme === "system" ? "bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 font-medium" : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700/50"}`}
+                  >
+                    <ComputerDesktopIcon className="w-4 h-4 text-gray-400" />
+                    System
+                  </button>
+                </div>
+              )}
+            </div>
+
             {isAuthenticated ? (
               <>
-                <>
-                  <Button
-                    variant="tertiary"
-                    className="px-3 py-1 text-sm flex items-center gap-2"
-                    onClick={toggleTheme}
+                <div className="relative" ref={notifyRef}>
+                  <button
+                    onClick={handleToggleNotify}
+                    className="relative p-2 rounded-full text-gray-400 hover:text-indigo-500 dark:hover:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
                   >
-                    {theme === "light" ? (
-                      <>
-                        <MoonIcon className="w-5 h-5 text-gray-600" />
-                      </>
-                    ) : (
-                      <>
-                        <SunIcon className="w-5 h-5 text-yellow-400" />
-                      </>
+                    <BellIcon className="w-6 h-6" />
+                    {unreadCount > 0 && (
+                      <span className="absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white ring-2 ring-white dark:ring-gray-900">
+                        {unreadCount}
+                      </span>
                     )}
-                  </Button>
-                  <div className="relative" ref={notifyRef}>
-                    <button
-                      onClick={handleToggleNotify}
-                      className="relative p-2 rounded-full text-gray-400 hover:text-indigo-500 dark:hover:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
-                    >
-                      <BellIcon className="w-6 h-6" />
-                      {unreadCount > 0 && (
-                        <span className="absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white ring-2 ring-white dark:ring-gray-900">
-                          {unreadCount}
-                        </span>
-                      )}
-                    </button>
-
-                    {isNotifyOpen && (
-                      <div className="absolute right-0 mt-2 w-80 rounded-xl bg-white dark:bg-gray-800 shadow-2xl ring-1 ring-black ring-opacity-5 z-[60] overflow-hidden border border-gray-100 dark:border-gray-700">
-                        <div className="p-4 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center">
-                          <h3 className="font-bold text-gray-900 dark:text-white">Notifications</h3>
-                          <span className="text-xs text-indigo-500 font-medium">Total : {notifications.length}</span>
-                          <button onClick={() => {
-                            unreadCount != 0 ? setUnreadCount(0) : null;
-                            unreadCount != 0 ? setIsNotifyOpen(false) : setIsNotifyOpen(true)
-                          }} className="text-xs text-indigo-500 font-medium">Mark as Read</button>
-                        </div>
-                        <div className="max-h-96 overflow-y-auto">
-                          {notifications.length === 0 ? (
-                            <div className="p-8 text-center text-gray-400 text-sm">No new messages</div>
-                          ) : (
-                            notifications.map((n, i) => (
-                              <Link
-                                key={i}
-                                to={n.link}
-                                onClick={() => setIsNotifyOpen(false)}
-                                className="block p-4 border-b border-gray-50 dark:border-gray-700/50 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition"
-                              >
-                                <p className="text-sm font-semibold text-gray-800 dark:text-gray-200">{n.message}</p>
-                                <p className="text-[10px] text-gray-400 mt-1">
-                                  {new Date(n.added_on).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                </p>
-                              </Link>
-                            ))
-                          )}
-                        </div>
-                      </div>
-                    )
-                    }
-                  </div>
-
-                  <div className={`flex items-center px-2 py-1 rounded-full transition-all duration-300 shadow-sm border 
-    ${user?.currentStreak > 0
-                      ? 'bg-orange-100/50 dark:bg-orange-900/40 border-orange-200 dark:border-orange-700'
-                      : 'bg-gray-100 dark:bg-gray-800 border-gray-200 dark:border-gray-700'
-                    }`}>
-
-                    <FireIcon
-                      key={`${user?.currentStreak}`}
-                      className={`w-5 h-5 transition-all duration-500 ${user?.currentStreak > 0
-                        ? 'text-orange-500 animate-pulse drop-shadow-[0_0_5px_rgba(249,115,22,0.8)]'
-                        : 'text-gray-400'
-                        }`}
-                    />
-
-                    <span
-                      key={`${user?.currentStreak}`}
-                      className={`ml-1 text-sm font-bold transition-colors duration-300 ${user?.currentStreak > 0
-                        ? 'text-orange-600 dark:text-orange-400'
-                        : 'text-gray-500 dark:text-gray-500'
-                        }`}>
-                      {user?.currentStreak || 0}
-                    </span>
-                  </div>
-                  <Link to="/profile" className="flex items-center space-x-2 p-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition">
-                    <img
-                      key={`${user.profile_url}`}
-                      src={`${user.profile_url}`}
-                      alt="Profile Image"
-                      className="w-8 h-8 rounded-full border border-indigo-500"
-                    />
-                    <span className="text-sm font-medium text-gray-800 dark:text-gray-100 hidden lg:inline">{user?.userName || "Guest"}</span>
-                  </Link>
-                  <button onClick={logout} className="p-2 text-gray-400 hover:text-red-500 transition">
-                    <ArrowRightOnRectangleIcon className="w-6 h-6" />
                   </button>
-                </>
+
+                  {isNotifyOpen && (
+                    <div className="absolute right-0 mt-2 w-80 rounded-xl bg-white dark:bg-gray-800 shadow-2xl ring-1 ring-black ring-opacity-5 z-[60] overflow-hidden border border-gray-100 dark:border-gray-700">
+                      <div className="p-4 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center">
+                        <h3 className="font-bold text-gray-900 dark:text-white">Notifications</h3>
+                        <span className="text-xs text-indigo-500 font-medium">Total : {notifications.length}</span>
+                        <button onClick={() => {
+                          unreadCount !== 0 ? setUnreadCount(0) : null;
+                          unreadCount !== 0 ? setIsNotifyOpen(false) : setIsNotifyOpen(true);
+                        }} className="text-xs text-indigo-500 font-medium">Mark as Read</button>
+                      </div>
+                      <div className="max-h-96 overflow-y-auto">
+                        {notifications.length === 0 ? (
+                          <div className="p-8 text-center text-gray-400 text-sm">No new messages</div>
+                        ) : (
+                          notifications.map((n, i) => (
+                            <Link
+                              key={i}
+                              to={n.link}
+                              onClick={() => setIsNotifyOpen(false)}
+                              className="block p-4 border-b border-gray-50 dark:border-gray-700/50 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition"
+                            >
+                              <p className="text-sm font-semibold text-gray-800 dark:text-gray-200">{n.message}</p>
+                              <p className="text-[10px] text-gray-400 mt-1">
+                                {new Date(n.added_on).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                              </p>
+                            </Link>
+                          ))
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                <div className={`flex items-center px-2 py-1 rounded-full transition-all duration-300 shadow-sm border 
+                  ${user?.currentStreak > 0
+                    ? 'bg-orange-100/50 dark:bg-orange-900/40 border-orange-200 dark:border-orange-700'
+                    : 'bg-gray-100 dark:bg-gray-800 border-gray-200 dark:border-gray-700'
+                  }`}>
+                  <FireIcon
+                    key={`${user?.currentStreak}`}
+                    className={`w-5 h-5 transition-all duration-500 ${user?.currentStreak > 0
+                      ? 'text-orange-500 animate-pulse drop-shadow-[0_0_5px_rgba(249,115,22,0.8)]'
+                      : 'text-gray-400'
+                      }`}
+                  />
+                  <span
+                    key={`${user?.currentStreak}`}
+                    className={`ml-1 text-sm font-bold transition-colors duration-300 ${user?.currentStreak > 0
+                      ? 'text-orange-600 dark:text-orange-400'
+                      : 'text-gray-500 dark:text-gray-500'
+                      }`}>
+                    {user?.currentStreak || 0}
+                  </span>
+                </div>
+
+                <Link to="/profile" className="flex items-center space-x-2 p-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition">
+                  <img
+                    src={`${user.profile_url}`}
+                    alt="Profile"
+                    className="w-8 h-8 rounded-full border border-indigo-500"
+                  />
+                  <span className="text-sm font-medium text-gray-800 dark:text-gray-100 hidden lg:inline">{user?.userName || "Guest"}</span>
+                </Link>
+
+                <button onClick={logout} className="p-2 text-gray-400 hover:text-red-500 transition">
+                  <ArrowRightOnRectangleIcon className="w-6 h-6" />
+                </button>
               </>
             ) : (
-              <>
-                <Button
-                  variant="tertiary"
-                  className="px-3 py-1 text-sm flex items-center gap-2"
-                  onClick={toggleTheme}
-                >
-                  {theme === "light" ? (
-                    <>
-                      <MoonIcon className="w-5 h-5 text-gray-600" />
-                    </>
-                  ) : (
-                    <>
-                      <SunIcon className="w-5 h-5 text-yellow-400" />
-                    </>
-                  )}
-                </Button>
-                <Link to="/login" className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition shadow-md">
-                  Log In
-                </Link>
-              </>
+              <Link to="/login" className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition shadow-md">
+                Log In
+              </Link>
             )}
           </div>
 
@@ -247,7 +274,6 @@ const Navbar = () => {
         </div>
       </div>
 
-
       {isOpen && (
         <div className="md:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 pb-2">
           {links.map((link) => (
@@ -260,6 +286,18 @@ const Navbar = () => {
               {link.name}
             </Link>
           ))}
+
+          <div className="flex border-t border-b border-gray-100 dark:border-gray-800 px-4 py-2 justify-around">
+            <button onClick={() => setTheme("light")} className={`p-2 rounded-lg flex items-center gap-2 text-sm ${theme === 'light' ? 'bg-indigo-50 dark:bg-indigo-950 text-indigo-600' : 'text-gray-500'}`}>
+              <SunIcon className="w-5 h-5" /> Light
+            </button>
+            <button onClick={() => setTheme("dark")} className={`p-2 rounded-lg flex items-center gap-2 text-sm ${theme === 'dark' ? 'bg-indigo-50 dark:bg-indigo-950 text-indigo-600' : 'text-gray-500'}`}>
+              <MoonIcon className="w-5 h-5" /> Dark
+            </button>
+            <button onClick={() => setTheme("system")} className={`p-2 rounded-lg flex items-center gap-2 text-sm ${theme === 'system' ? 'bg-indigo-50 dark:bg-indigo-950 text-indigo-600' : 'text-gray-500'}`}>
+              <ComputerDesktopIcon className="w-5 h-5" /> System
+            </button>
+          </div>
           {isAuthenticated ? (
             <>
               <Link
