@@ -1,18 +1,13 @@
 import dns from "node:dns"
 
-dns.setServers(['8.8.8.8','4.4.4.4'])
+dns.setServers(['8.8.8.8', '4.4.4.4'])
 import express from "express";
 import cors from 'cors';
 import http from "http";
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import connectDb from "./utils/dbConnect.js";
-import userRoutes from "./routes/user.routes.js";
-import questionRoutes from "./routes/questions.routes.js";
-import pathRoutes from "./routes/paths.routes.js";
-import discussionRoutes from "./routes/discussion.routes.js";
-import commentRoutes from "./routes/comments.routes.js";
-import notificationRoutes from "./routes/notifications.routes.js";
+import mainRoute from "./routes/index.routes.js"
 import passport from "passport";
 import './utils/passport.js'
 import { Server } from "socket.io";
@@ -22,27 +17,27 @@ dotenv.config()
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server,{
-    cors :{
-        origin : [ process.env.FRONTEND_URL],
-        methods : ["POST","GET","PUT","PATCH","DELETE"],
-        credentials : true,
-        allowedHeaders : ["*"]
+const io = new Server(server, {
+    cors: {
+        origin: [process.env.FRONTEND_URL],
+        methods: ["POST", "GET", "PUT", "PATCH", "DELETE"],
+        credentials: true,
+        allowedHeaders: ["*"]
     }
 })
 const collectDefaultMetrics = client.collectDefaultMetrics;
-collectDefaultMetrics({ register : client.register })
+collectDefaultMetrics({ register: client.register })
 
-app.set("io",io);
+app.set("io", io);
 
 const PORT = process.env.PORT || 3000
 
 
 const corsOptions = {
-    origin : [`${process.env.FRONTEND_URL}`,`${process.env.BACKEND_URL}`],
-    credentials : true,
+    origin: [`${process.env.FRONTEND_URL}`, `${process.env.BACKEND_URL}`],
+    credentials: true,
     allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"],
-    methods : ["GET","POST","PUT","PATCH","DELETE","OPTIONS"]
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
 }
 
 
@@ -50,32 +45,21 @@ app.use(cors(corsOptions))
 
 
 app.use(express.json())
-app.use(express.urlencoded({ extended : true }))
+app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser());
 
 
 // Socket configuration
-io.on('connection' ,(socket) => {
+io.on('connection', (socket) => {
     socket.join("notifications");
 })
 
-io.on('close' ,() =>{
+io.on('close', () => {
     console.log("Socket closed ...");
 })
 
-
-
-app.use("/api/v1/users",userRoutes);
-
-app.use("/api/v1/questions",questionRoutes);
-
-app.use("/api/v1/paths",pathRoutes);
-
-app.use("/api/v1/discussions",discussionRoutes);
-
-app.use("/api/v1/comments",commentRoutes);
-
-app.use("/api/v1/notifications",notificationRoutes)
+// Main Versioned Route
+app.use("/api/v1", mainRoute);
 
 connectDb()
 
@@ -83,25 +67,25 @@ connectDb()
 app.use(passport.initialize())
 
 
-app.get("/",(req,res) => {
+app.get("/", (req, res) => {
     res.status(200).json({
-        success : true,
-        message : "Backend is running properly ..."
+        success: true,
+        message: "Backend is running properly ..."
     })
 })
 
-app.get("/metrics", async(req,res) =>{
-    res.setHeader("Content-Type",client.register.contentType);
+app.get("/metrics", async (req, res) => {
+    res.setHeader("Content-Type", client.register.contentType);
     const metrics = await client.register.getMetricsAsJSON();
     res.send(metrics)
 })
 
 
-server.listen(PORT,() => {
+server.listen(PORT, () => {
     console.log(`Server is running at PORT ${PORT}`);
 })
 
 
-process.on('SIGINT', () =>{
+process.on('SIGINT', () => {
     console.log(`Closing all tasks gracefully and closing the server at PORT : ${PORT}`)
 });
