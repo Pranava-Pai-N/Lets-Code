@@ -30,7 +30,7 @@ const sendEmail = async (toEmail, subject, emailBody) => {
 
     } catch (error) {
         console.error("Failed to send email:", error);
-        throw new ExpressError(400, "Error sending Email ...")
+        throw new ExpressError(400, `Error sending Email: ${error} ...`)
     }
 }
 
