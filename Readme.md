@@ -208,6 +208,43 @@ npm run dev
 ```
 
 
+## Docker Setup
+This repository includes a `docker-compose.yml` in the root-directory that builds both frontend and backend services.
+
+### Prerequisites
+- Docker installed locally and running
+- Docker Compose
+
+### 1. Copy env files
+```bash
+cp backend/.env.example backend/.env
+cp frontend/.env.example frontend/.env
+```
+
+##### `Note` : Replace all the required keys with the respective values in the env files
+
+### 2. Build and start services
+From the `project root`:
+1. Normal Mode
+```bash
+docker compose up --build
+```
+
+2. Detached Mode - Background
+```bash
+docker compose up -d --build
+```
+
+### 3. Access the app
+* Frontend: `http://localhost:5173`
+* Backend: `http://localhost:3000`
+
+### 4. Stop services
+```bash
+docker compose down
+```
+
+
 ## Contribution Options
 Any contributions you make are greatly appreciated.
 
@@ -242,9 +279,13 @@ Open a PR with a valid feature name and comments
 
 
 ## Contact
-Project Link: 
+#### Project Link: 
 ```
 https://lets-code.pranava-pai.live
 ```
+#### Github Repo:
+```
+https://github.com/Pranava-Pai-N/Lets-Code
+```
 
-Developed with ❤️ by Pranava Pai N
+Developed with &#10084; by [Pranava Pai N](https://github.com/pranava-pai-n)
