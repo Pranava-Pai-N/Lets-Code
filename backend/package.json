@@ -8,6 +8,7 @@
   "main": "server.js",
   "scripts": {
     "dev": "nodemon server.js",
+    "dev:setup": "node env-generator.js",
     "start": "node server.js"
   },
   "dependencies": {

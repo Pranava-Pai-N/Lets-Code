@@ -191,7 +191,7 @@ cd backend
 
 npm install
 
-cp .env.example .env
+npm run dev:setup  # This command scans sample env file and generates hex values for .env file
 
 npm run dev
 ```
