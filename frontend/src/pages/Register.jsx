@@ -62,7 +62,7 @@ const NeonInput = ({ id, name, type = "text", label, placeholder, value, onChang
 `}
                 />
 
-                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-[2px] bg-indigo-500 transition-all duration-500 ease-in-out group-focus-within:w-[40%] opacity-0 group-focus-within:opacity-100 rounded-full" />
+                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-indigo-500 transition-all duration-500 ease-in-out group-focus-within:w-[40%] opacity-0 group-focus-within:opacity-100 rounded-full" />
             </div>
         </div>
     );
@@ -140,7 +140,7 @@ const Register = () => {
                 <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-teal-50/50 rounded-full blur-[120px] pointer-events-none"></div>
 
                 <div className="w-full max-w-md bg-white rounded-[2.5rem] p-10 shadow-[0_40px_80px_-15px_rgba(0,0,0,0.08)] border border-gray-100 relative z-10 overflow-hidden">
-                    <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-indigo-500 via-purple-500 to-teal-400"></div>
+                    <div className="absolute top-0 left-0 w-full h-1.5 bg-linear-to-r from-indigo-500 via-purple-500 to-teal-400"></div>
 
                     <div className="text-center">
                         <div className="relative inline-block mb-10">
@@ -150,7 +150,7 @@ const Register = () => {
                             </div>
                         </div>
 
-                        <h2 className="text-3xl font-[900] text-gray-900 tracking-tight leading-tight">
+                        <h2 className="text-3xl font-black text-gray-900 tracking-tight leading-tight">
                             Verify your identity
                         </h2>
 

@@ -3,7 +3,7 @@ import Editor from "@monaco-editor/react";
 import axios from "axios";
 import { LANGUAGE_BOILERPLATES } from "../constants/boilerplates.js";
 
-const CodeEditor = ({ languages = [], code, setCode, setLanguageId, height = "400px" }) => {
+const CodeEditor = ({ _languages = [], _code, setCode, setLanguageId, _height = "400px" }) => {
   const [allLanguages, setAllLanguages] = useState([]);
   const [selectedLangObj, setSelectedLangObj] = useState(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -88,7 +88,7 @@ const CodeEditor = ({ languages = [], code, setCode, setLanguageId, height = "40
           </button>
           
           {dropdownOpen && (
-            <div className="absolute right-0 mt-2 w-72 max-h-96 overflow-y-auto bg-white dark:bg-gray-800 z-[100] rounded shadow-2xl border border-gray-200 dark:border-gray-700">
+            <div className="absolute right-0 mt-2 w-72 max-h-96 overflow-y-auto bg-white dark:bg-gray-800 z-100 rounded shadow-2xl border border-gray-200 dark:border-gray-700">
               {allLanguages.map((lang) => (
                 <div 
                   key={lang.id}
