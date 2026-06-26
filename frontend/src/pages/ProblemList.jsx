@@ -78,14 +78,14 @@ const ProblemList = () => {
       <div className="max-w-7xl mx-auto bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
         <div className="grid grid-cols-12 gap-4 px-6 py-4 border-b border-gray-100 text-[10px] font-bold uppercase tracking-[0.15em] text-gray-400 bg-gray-50/50">
           <div className="col-span-1">Status</div>
-          <div className="col-span-6 md:col-span-7">Title</div>
+          <div className="col-span-6 md:col-span-7">Problem Title</div>
           <div className="col-span-3 md:col-span-2 text-center">Difficulty</div>
           <div className="col-span-2 text-right">Acceptance</div>
         </div>
 
         <div className="divide-y divide-gray-100">
           {filteredProblems.length === 0 ? (
-            <div className="p-10 text-center text-gray-400 text-sm font-medium">No challenges found matching those filters.</div>
+            <div className="p-10 text-center text-gray-400 text-sm font-medium">No challenges found matching {searchTerm}.</div>
           ) : (
             filteredProblems.map((problem, index) => {
               const style = getDifficultyColor(problem.difficultyLevel);

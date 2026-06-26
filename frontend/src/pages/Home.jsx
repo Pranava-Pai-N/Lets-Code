@@ -16,7 +16,7 @@ const Home = () => {
         <header className="pt-24 pb-20 text-center lg:text-left flex flex-col lg:flex-row items-center justify-between gap-12">
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 mb-6 transition-transform hover:scale-105">
-              <span className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></span>
+              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
               <span className="text-xs font-bold text-indigo-600 uppercase tracking-widest">Platform Live {new Date().getFullYear()}</span>
             </div>
 
