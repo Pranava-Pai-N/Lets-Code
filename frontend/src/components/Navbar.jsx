@@ -147,7 +147,7 @@ const Navbar = () => {
               </Button>
 
               {isThemeOpen && (
-                <div className="absolute right-0 mt-2 w-36 rounded-xl bg-white dark:bg-gray-800 shadow-2xl ring-1 ring-black ring-opacity-5 z-[60] overflow-hidden border border-gray-100 dark:border-gray-700 p-1">
+                <div className="absolute right-0 mt-2 w-36 rounded-xl bg-white dark:bg-gray-800 shadow-2xl ring-1 ring-black ring-opacity-5 z-60 overflow-hidden border border-gray-100 dark:border-gray-700 p-1">
                   <button
                     onClick={() => { setTheme("light"); setIsThemeOpen(false); }}
                     className={`flex items-center gap-2 w-full px-3 py-2 text-sm rounded-lg transition ${theme === "light" ? "bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 font-medium" : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700/50"}`}
@@ -189,7 +189,7 @@ const Navbar = () => {
                   </button>
 
                   {isNotifyOpen && (
-                    <div className="absolute right-0 mt-2 w-80 rounded-xl bg-white dark:bg-gray-800 shadow-2xl ring-1 ring-black ring-opacity-5 z-[60] overflow-hidden border border-gray-100 dark:border-gray-700">
+                    <div className="absolute right-0 mt-2 w-80 rounded-xl bg-white dark:bg-gray-800 shadow-2xl ring-1 ring-black ring-opacity-5 z-60 overflow-hidden border border-gray-100 dark:border-gray-700">
                       <div className="p-4 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center">
                         <h3 className="font-bold text-gray-900 dark:text-white">Notifications</h3>
                         <span className="text-xs text-indigo-500 font-medium">Total : {notifications.length}</span>

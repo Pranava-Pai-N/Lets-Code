@@ -58,7 +58,7 @@ const CountdownTimer = () => {
   return (
     <div className="bg-white dark:bg-gray-800 p-3 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 w-full max-w-xs sm:max-w-none flex items-center justify-between space-x-4">
       
-      <div className="flex items-center space-x-2 flex-shrink-0">
+      <div className="flex items-center space-x-2 shrink-0">
         <ClockIcon className={`w-6 h-6 ${isComplete ? "text-red-500" : "text-indigo-500 dark:text-indigo-400"}`} />
         <div className="text-left">
             <p className="text-xs font-medium text-gray-500 dark:text-gray-400 leading-none">
@@ -88,7 +88,7 @@ const CountdownTimer = () => {
         </div>
       </div>
 
-      <div className="flex items-center space-x-2 flex-shrink-0">
+      <div className="flex items-center space-x-2 shrink-0">
         {isRunning ? (
             <Button variant="tertiary" onClick={handleStartPause} className="px-3 py-1 text-sm">
                 Pause

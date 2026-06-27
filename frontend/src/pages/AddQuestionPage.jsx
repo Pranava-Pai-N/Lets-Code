@@ -414,9 +414,9 @@ const AddQuestionPage = () => {
                 <div className="w-full h-full bg-cover bg-center" style={{ backgroundImage: "url('/pattern-dots.svg')" }}></div>
             </div>
 
-            <Card className="max-w-8xl mx-auto bg-white/80 dark:bg-gray-900/90 backdrop-blur-lg shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)] p-10 space-y-10 rounded-3xl relative z-10 border border-gray-200/50 dark:border-gray-800/50">
+            <Card className="max-w-8xl mx-auto bg-white/80 dark:bg-gray-900/90 backdrop-blur-lg shadow-[0_20px_50px_rgba(8,112,184,0.7)] p-10 space-y-10 rounded-3xl relative z-10 border border-gray-200/50 dark:border-gray-800/50">
 
-                <h1 className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-600 dark:from-indigo-300 dark:to-purple-400 border-b-4 border-purple-500/50 pb-4 flex items-center">
+                <h1 className="text-5xl font-extrabold text-transparent bg-clip-text bg-linear-to-r from-indigo-500 to-purple-600 dark:from-indigo-300 dark:to-purple-400 border-b-4 border-purple-500/50 pb-4 flex items-center">
                     <Zap className="w-8 h-8 mr-3" />
                     Add a New Coding Problem
                 </h1>
@@ -444,7 +444,7 @@ const AddQuestionPage = () => {
                             >
                                 {tab.label}
                                 {activeTab === tab.id && (
-                                    <span className="absolute bottom-0 left-0 w-full h-1.5 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-t-lg"></span>
+                                    <span className="absolute bottom-0 left-0 w-full h-1.5 bg-linear-to-r from-indigo-500 to-purple-600 rounded-t-lg"></span>
                                 )}
                             </button>
                         ))}
@@ -459,7 +459,7 @@ const AddQuestionPage = () => {
                         <Button
                             type="submit"
                             disabled={loading}
-                            className="w-full max-w-lg mx-auto flex justify-center items-center bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700 text-white font-black text-xl py-4 px-8 rounded-full shadow-[0_10px_30px_rgba(56,189,248,0.7)] hover:shadow-[0_15px_40px_rgba(56,189,248,0.9)] transition duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="w-full max-w-lg mx-auto flex justify-center items-center bg-linear-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700 text-white font-black text-xl py-4 px-8 rounded-full shadow-[0_10px_30px_rgba(56,189,248,0.7)] hover:shadow-[0_15px_40px_rgba(56,189,248,0.9)] transition duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             {loading ? (
                                 <>

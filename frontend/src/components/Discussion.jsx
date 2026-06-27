@@ -255,7 +255,7 @@ const Discussion = ({ problemId }) => {
                     ))}
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-5 h-5 rounded-full bg-gradient-to-tr from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 flex items-center justify-center text-[8px] font-bold">
+                    <div className="w-5 h-5 rounded-full bg-linear-to-tr from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 flex items-center justify-center text-[8px] font-bold">
                       {item.userName?.substring(0, 2).toUpperCase() || "?"}
                     </div>
                     <span className="text-[11px] font-medium text-gray-500 dark:text-gray-400">
