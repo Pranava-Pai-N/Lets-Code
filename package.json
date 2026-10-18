@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "install-all": "concurrently -n lets-code-backend,lets-code-frontend -c blue,red \"npm install --prefix backend\" \"npm install --prefix frontend\"",
-    "dev": "concurrently -n lets-code-backend,lets-code-frontend -c blue,red \"npm run dev --prefix backend\" \"npm run dev --prefix frontend\""
+    "dev": "concurrently -n lets-code-backend,lets-code-frontend -c blue,red \"npm run dev --prefix backend\" \"npm run dev --prefix frontend\"",
+    "dev:setup": "cd frontend && node env-generator.js && cd ../backend && node env-generator.js"
   },
   "repository": {
     "type": "git",
