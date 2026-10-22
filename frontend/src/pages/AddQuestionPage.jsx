@@ -197,7 +197,7 @@ const AddQuestionPage = () => {
                         />
                     </div>
 
-                    <div className="grid grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                         <div>
                             <label htmlFor="difficultyLevel" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Difficulty</label>
                             <select
@@ -246,7 +246,7 @@ const AddQuestionPage = () => {
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label htmlFor="expectedTimeComplexity" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Time Complexity <Clock className="w-4 h-4 inline ml-1 text-blue-500" /></label>
                             <select
@@ -368,7 +368,7 @@ const AddQuestionPage = () => {
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label className="block text-md font-bold text-gray-500 dark:text-gray-400 mb-2">Input Data <span className="text-red-500">*</span></label>
                                 <textarea
@@ -408,15 +408,15 @@ const AddQuestionPage = () => {
 
 
     return (
-        <div className="min-h-screen bg-gray-100 dark:bg-gray-950 p-8 relative">
+        <div className="min-h-screen bg-gray-100 dark:bg-gray-950 p-4 md:p-8 relative">
 
             <div className="absolute top-0 left-0 w-full h-full opacity-10 dark:opacity-20 pointer-events-none">
                 <div className="w-full h-full bg-cover bg-center" style={{ backgroundImage: "url('/pattern-dots.svg')" }}></div>
             </div>
 
-            <Card className="max-w-8xl mx-auto bg-white/80 dark:bg-gray-900/90 backdrop-blur-lg shadow-[0_20px_50px_rgba(8,112,184,0.7)] p-10 space-y-10 rounded-3xl relative z-10 border border-gray-200/50 dark:border-gray-800/50">
+            <Card className="max-w-8xl mx-auto bg-white/80 dark:bg-gray-900/90 backdrop-blur-lg shadow-[0_20px_50px_rgba(8,112,184,0.7)] p-4 md:p-10 space-y-10 rounded-3xl relative z-10 border border-gray-200/50 dark:border-gray-800/50">
 
-                <h1 className="text-5xl font-extrabold text-transparent bg-clip-text bg-linear-to-r from-indigo-500 to-purple-600 dark:from-indigo-300 dark:to-purple-400 border-b-4 border-purple-500/50 pb-4 flex items-center">
+                <h1 className="text-2xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-linear-to-r from-indigo-500 to-purple-600 dark:from-indigo-300 dark:to-purple-400 border-b-4 border-purple-500/50 pb-4 flex items-center">
                     <Zap className="w-8 h-8 mr-3" />
                     Add a New Coding Problem
                 </h1>
@@ -436,7 +436,7 @@ const AddQuestionPage = () => {
                                 key={tab.id}
                                 type="button"
                                 onClick={() => setActiveTab(tab.id)}
-                                className={`px-8 py-4 text-xl font-black transition duration-300 relative group 
+                                className={`px-4 md:px-8 py-3 md:py-4 text-base md:text-xl font-black transition duration-300 relative group 
                                     ${activeTab === tab.id
                                         ? "text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-gray-800/50 shadow-inner rounded-t-xl"
                                         : "text-gray-600 dark:text-gray-300 hover:text-indigo-500 dark:hover:text-indigo-300 bg-transparent hover:bg-gray-50/50 dark:hover:bg-gray-800/30 rounded-t-xl"

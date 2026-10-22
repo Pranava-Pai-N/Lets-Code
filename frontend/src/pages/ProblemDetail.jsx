@@ -11,6 +11,7 @@ import { toast } from "react-toastify"
 import ReactConfetti from "react-confetti";
 import Discussion from "../components/Discussion.jsx"
 import { useAuth } from "../context/AuthContext.jsx";
+import { useMobile } from "../hooks/useMobile.js";
 
 
 const getDifficultyBadge = (level) => {
@@ -34,6 +35,7 @@ const getDifficultyBadge = (level) => {
 const ProblemDetail = () => {
     const { id } = useParams();
     const { user, isAuthenticated } = useAuth();
+    const isMobile = useMobile(1024);
     const [problem, setProblem] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
@@ -388,7 +390,7 @@ const ProblemDetail = () => {
     return (
         <div ref={rootRef} className="flex flex-col h-screen overflow-hidden bg-gray-100 dark:bg-gray-900">
 
-            <header className="flex justify-between items-center px-6 py-3 bg-white dark:bg-gray-800 shadow-lg border-b border-gray-200 dark:border-gray-700 z-10">
+            <header className="flex flex-wrap justify-between items-center gap-2 px-3 md:px-6 py-3 bg-white dark:bg-gray-800 shadow-lg border-b border-gray-200 dark:border-gray-700 z-10">
                 <div className="flex items-center space-x-4">
                     <Link to="/problems">
                         <Button
@@ -397,13 +399,13 @@ const ProblemDetail = () => {
                             <ArrowLeftIcon className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
                         </Button>
                     </Link>
-                    <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white truncate max-w-xs md:max-w-xl">
+                    <h1 className="text-lg md:text-2xl font-extrabold text-gray-900 dark:text-white truncate max-w-[150px] sm:max-w-xs md:max-w-xl">
                         {problem.title}
                     </h1>
                     {getDifficultyBadge(problem.difficultyLevel)}
                 </div>
 
-                <div className="flex items-center space-x-3">
+                <div className="flex flex-wrap items-center gap-2">
                     <CountUpTimer maxTime={maxTime} />
 
                     <Button
@@ -467,13 +469,13 @@ const ProblemDetail = () => {
                 </div>
             </header>
 
-            <div className="flex flex-1 h-full overflow-hidden">
+            <div className={`flex ${isMobile ? "flex-col" : "flex-row"} flex-1 h-full overflow-hidden`}>
                 <div
                     className="bg-white dark:bg-gray-800 flex flex-col overflow-hidden transition-all duration-100 ease-linear flex-shrink-0"
-                    style={{ width: `${leftWidth}%` }}
+                    style={{ width: isMobile ? "100%" : `${leftWidth}%`, height: isMobile ? "45%" : "100%" }}
                 >
 
-                    <div className="flex px-6 pt-3 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 flex-shrink-0">
+                    <div className="flex px-3 md:px-6 pt-3 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 flex-shrink-0">
                         <button
                             onClick={() => setLeftActiveTab("description")}
                             className={`px-4 py-2 text-sm font-bold transition-all border-b-2 ${leftActiveTab === "description"
@@ -494,7 +496,7 @@ const ProblemDetail = () => {
                         </button>
                     </div>
 
-                    <div className="flex-1 overflow-y-auto p-6 custom-scrollbar">
+                    <div className="flex-1 overflow-y-auto p-4 md:p-6 custom-scrollbar">
                         {leftActiveTab === "description" ? (
                             <>
                                 <section className="mb-8">
@@ -539,6 +541,7 @@ const ProblemDetail = () => {
                     </div>
                 </div>
 
+                {!isMobile && (
                 <div
                     ref={hDividerRef}
                     onMouseDown={handleHorizontalSplitMouseDown}
@@ -546,6 +549,7 @@ const ProblemDetail = () => {
                 >
                     <div className="w-1 h-10 bg-indigo-500 dark:bg-indigo-400 rounded-full group-hover:h-16 transition-all duration-150"></div>
                 </div>
+                )}
 
                 <div className="flex-1 bg-gray-50 dark:bg-gray-950 flex flex-col h-full overflow-hidden">
                     <div className="flex-shrink-0 overflow-hidden" style={{ height: `${editorHeight}%` }}>
@@ -726,7 +730,7 @@ const ProblemDetail = () => {
                 <Card className="fixed bottom-4 left-4 z-40 p-1 rounded-lg shadow-2xl border-2 border-indigo-600 dark:border-indigo-400 bg-black/80 backdrop-blur-sm">
                     <video
                         ref={videoRef}
-                        className="rounded-lg w-48 h-33 object-cover"
+                        className="rounded-lg w-32 h-24 md:w-48 md:h-33 object-cover"
                         playsInline
                         autoPlay
                         muted

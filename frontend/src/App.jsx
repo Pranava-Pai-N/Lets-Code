@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { ThemeProvider } from "./context/themecontext.jsx";
 import { CompilerProvider } from "./context/compilerContext.jsx";
@@ -26,16 +26,19 @@ import Privacy from "./pages/Privacy.jsx";
 import Terms from "./pages/Terms.jsx";
 
 function App() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarVisible, setSidebarVisible] = useState(true);
+
   return (
     <AuthProvider>
       <ThemeProvider>
         <CompilerProvider>
           <Router>
-            <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900">
-              <Sidebar />
-              <div className="flex-1 flex flex-col">
-                <Navbar />
-                <main className="flex-1 overflow-auto p-6">
+            <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900 overflow-x-hidden">
+              <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} visible={sidebarVisible} onHide={() => setSidebarVisible(false)} onShow={() => setSidebarVisible(true)} />
+              <div className={`flex-1 flex flex-col min-w-0 ${sidebarVisible ? "md:ml-72" : "md:ml-0"}`}>
+                <Navbar onMenuClick={() => setSidebarOpen(true)} sidebarVisible={sidebarVisible} onToggleSidebar={() => setSidebarVisible((v) => !v)} />
+                <main className="flex-1 w-full px-4 sm:px-6 lg:px-8 py-6">
                   <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/login" element={<Login />} />

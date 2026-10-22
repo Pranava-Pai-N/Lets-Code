@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   HomeIcon,
@@ -9,21 +9,20 @@ import {
   ArrowLeftOnRectangleIcon,
   PlusCircleIcon,
   QueueListIcon,
+  XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { useAuth } from "../context/AuthContext.jsx";
 
-
-const Sidebar = () => {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+const SidebarContent = ({ isCollapsed = false, onHide, onNavigate, showCollapse = true }) => {
   const location = useLocation();
   const navigate = useNavigate();
-
   const { user, isAuthenticated, logout, loading } = useAuth();
 
   const handleLogout = async () => {
     try {
       await logout();
       navigate("/login");
+      onNavigate?.();
     } catch (error) {
       console.error("Logout failed", error);
     }
@@ -39,90 +38,155 @@ const Sidebar = () => {
   }
 
   if (isAuthenticated && user?.role === "user") {
-    menuItems.push({ name: "My Submissions", path: "/submissions", icon: <QueueListIcon className="w-5 h-5" /> })
+    menuItems.push({ name: "My Submissions", path: "/submissions", icon: <QueueListIcon className="w-5 h-5" /> });
   }
 
   if (isAuthenticated && user?.role !== "user") {
-    menuItems.push({ name: "Post a Question", path: "/post-question", icon: <PlusCircleIcon className="w-5 h-5" /> })
+    menuItems.push({ name: "Post a Question", path: "/post-question", icon: <PlusCircleIcon className="w-5 h-5" /> });
   }
 
-
-
   return (
-    <div className={`p-4 h-screen flex-shrink-0 transition-all duration-300 relative z-50 ${isCollapsed ? "w-24" : "w-80"}`}>
-      <div className="bg-white dark:bg-gray-800 h-full flex flex-col rounded-[2.5rem] shadow-2xl border border-gray-100 dark:border-gray-700 overflow-hidden">
-
-        <div className="flex items-center p-6 border-b border-gray-50 dark:border-gray-700/50 h-24">
-          <div className={`flex items-center space-x-3 transition-all duration-300 ${isCollapsed ? "justify-center w-full" : ""}`}>
-            <div className="bg-indigo-600 p-2 rounded-xl shadow-lg shadow-indigo-200">
-              <CodeBracketIcon className="w-6 h-6 text-white flex-shrink-0" />
-            </div>
-            {!isCollapsed && <h1 className="text-xl font-black text-gray-900 dark:text-white tracking-tighter">LET'S <span className="text-indigo-600">CODE</span></h1>}
+    <div className="flex flex-col h-full">
+      <div className={`flex items-center ${isCollapsed ? "justify-center" : "justify-between"} px-2 py-4`}>
+        <div className="flex items-center gap-3">
+          <div className="bg-gradient-to-br from-indigo-600 to-purple-600 p-2.5 rounded-xl shadow-md shadow-indigo-500/30">
+            <CodeBracketIcon className="w-5 h-5 text-white flex-shrink-0" />
           </div>
+          {!isCollapsed && (
+            <h1 className="text-lg font-black text-gray-900 dark:text-white tracking-tight">
+              Let's <span className="text-indigo-600">Code</span>
+            </h1>
+          )}
         </div>
+        {showCollapse && (
+          <button
+            type="button"
+            onClick={onHide}
+            className="hidden md:inline-flex p-2 rounded-lg text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 transition"
+            aria-label="Close sidebar"
+          >
+            <XMarkIcon className="w-4 h-4" />
+          </button>
+        )}
+      </div>
 
-        <nav className="flex-1 mt-6 space-y-1 px-3">
-          {menuItems.map((item) => {
-            const isActive = location.pathname === item.path;
-            return (
-              <Link
-                key={item.name}
-                to={item.path}
-                className={`
-                    relative flex items-center h-12 rounded-2xl transition-all duration-300 cursor-pointer z-50
-                    ${isCollapsed ? "justify-center" : "px-4 space-x-4"}
-                    ${isActive
-                    ? "bg-indigo-50 text-indigo-600 font-bold"
-                    : "text-gray-500 hover:bg-gray-50 hover:text-gray-900 dark:hover:bg-gray-700/50"}
-                 `}
-              >
-                <div className="flex-shrink-0">{item.icon}</div>
-                {!isCollapsed && <span className="text-sm tracking-tight">{item.name}</span>}
-                {isActive && !isCollapsed && <div className="ml-auto w-1.5 h-1.5 rounded-full bg-indigo-600" />}
-              </Link>
-            );
-          })}
-        </nav>
+      <nav className="flex-1 mt-2 space-y-1 px-2 overflow-y-auto custom-scrollbar relative z-10 pointer-events-auto">
+        {menuItems.map((item) => {
+          const isActive = location.pathname === item.path;
+          return (
+            <Link
+              key={item.name}
+              to={item.path}
+              onClick={onNavigate}
+              className={`
+                relative flex items-center h-11 rounded-xl transition-all duration-200
+                ${isCollapsed ? "justify-center px-2" : "px-3 gap-3"}
+                ${isActive
+                  ? "bg-indigo-50 text-indigo-600 font-semibold dark:bg-indigo-900/20 dark:text-indigo-400 border-l-4 border-indigo-600"
+                  : "text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700/50"}
+              `}
+            >
+              <span className="flex-shrink-0">{item.icon}</span>
+              {!isCollapsed && <span className="text-sm">{item.name}</span>}
+              {isActive && !isCollapsed && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-indigo-600" />}
+            </Link>
+          );
+        })}
+      </nav>
 
-        <div className="p-4 border-t border-gray-50 dark:border-gray-700/50 space-y-4">
-          {isAuthenticated && user && (
-            <div className={`flex items-center transition-all duration-200 p-2 rounded-2xl bg-gray-50 dark:bg-gray-700/30 ${isCollapsed ? "flex-col space-y-4" : "justify-between"}`}>
-              <div className={`flex items-center ${isCollapsed ? "flex-col" : "space-x-3"}`}>
-                <Link to="/profile" className="relative shrink-0 cursor-pointer z-50">
-                  <img
-                    src={`${user.profile_url}`}
-                    alt="Profile"
-                    className="w-10 h-10 rounded-xl border-2 border-white dark:border-gray-800 shadow-sm"
-                  />
-                  <span className="absolute -bottom-1 -right-1 w-3 h-3 border-2 border-white dark:border-gray-800 rounded-full bg-green-500"></span>
-                </Link>
-
-                {!isCollapsed && (
-                  <div className="flex-1 min-w-0">
-                    <p className="text-[11px] font-black text-gray-900 dark:text-white uppercase tracking-wider">{user.userName}</p>
-                    <p className="text-[10px] text-gray-400">Online</p>
-                  </div>
-                )}
+      <div className="p-3 space-y-3">
+        {isAuthenticated && user && (
+          <div className={`flex items-center gap-3 p-3 rounded-xl bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700/40 dark:to-gray-800/60 border border-gray-100 dark:border-gray-700 ${isCollapsed ? "flex-col" : "justify-between"}`}>
+            <Link to="/profile" onClick={onNavigate} className="flex items-center gap-3 min-w-0">
+              <div className="relative flex-shrink-0">
+                <img
+                  src={user.profile_url}
+                  alt="Profile"
+                  className="w-9 h-9 rounded-lg border-2 border-white dark:border-gray-800 shadow-sm object-cover"
+                />
+                <span className="absolute -bottom-1 -right-1 w-2.5 h-2.5 border-2 border-white dark:border-gray-800 rounded-full bg-green-500" />
               </div>
-
+              {!isCollapsed && (
+                <div className="min-w-0">
+                  <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">{user.userName}</p>
+                  <p className="text-xs text-gray-400">Online</p>
+                </div>
+              )}
+            </Link>
+            {!isCollapsed && (
               <button
                 onClick={handleLogout}
-                className="p-2 rounded-xl text-gray-400 hover:text-red-600 hover:bg-red-50 transition-all cursor-pointer z-50"
+                className="p-2 rounded-lg text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 transition"
+                aria-label="Logout"
               >
                 <ArrowLeftOnRectangleIcon className="w-5 h-5" />
               </button>
-            </div>
-          )}
+            )}
+          </div>
+        )}
 
+        {showCollapse && isCollapsed && (
           <button
-            onClick={() => setIsCollapsed(!isCollapsed)}
-            className="w-full flex items-center justify-center h-10 rounded-xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 text-gray-400 hover:text-indigo-600 transition-all cursor-pointer z-50 shadow-sm"
+            onClick={handleLogout}
+            className="w-full flex items-center justify-center h-10 rounded-xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 text-gray-400 hover:text-red-600 transition"
+            aria-label="Logout"
           >
-            {isCollapsed ? <ChevronRightIcon className="w-4 h-4" /> : <ChevronLeftIcon className="w-4 h-4" />}
+            <ArrowLeftOnRectangleIcon className="w-5 h-5" />
           </button>
-        </div>
+        )}
       </div>
     </div>
+  );
+};
+
+const Sidebar = ({ isOpen = false, onClose, visible = true, onHide, onShow }) => {
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
+  return (
+    <>
+      {/* Mobile drawer */}
+      <div className={`md:hidden fixed inset-0 z-50 ${isOpen ? "pointer-events-auto" : "pointer-events-none"}`}>
+        <div
+          className={`absolute inset-0 bg-black/50 transition-opacity duration-300 ${isOpen ? "opacity-100" : "opacity-0"}`}
+          onClick={(e) => { e.stopPropagation(); onClose?.(); }}
+        />
+        <aside
+          className={`absolute top-0 left-0 h-full w-72 max-w-[85vw] bg-white dark:bg-gray-800 shadow-2xl transform transition-transform duration-300 pointer-events-auto z-50 ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
+        >
+          <div className="flex items-center justify-between p-4 border-b border-gray-100 dark:border-gray-700">
+            <span className="text-sm font-semibold text-gray-500">Menu</span>
+            <button type="button" onClick={(e) => { e.stopPropagation(); onClose?.(); }} className="p-2 rounded-lg text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
+              <XMarkIcon className="w-5 h-5" />
+            </button>
+          </div>
+          <div className="h-[calc(100%-64px)] overflow-y-auto">
+            <SidebarContent isCollapsed={false} onNavigate={onClose} showCollapse={false} />
+          </div>
+        </aside>
+      </div>
+
+      {/* Desktop sidebar */}
+      {visible && (
+      <aside className="hidden md:block fixed top-0 left-0 p-4 h-screen w-72 z-30">
+        <div className="bg-white dark:bg-gray-800 h-full flex flex-col rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 overflow-hidden">
+          <SidebarContent
+            isCollapsed={false}
+            onHide={onHide}
+            showCollapse={true}
+          />
+        </div>
+      </aside>
+      )}
+    </>
   );
 };
 

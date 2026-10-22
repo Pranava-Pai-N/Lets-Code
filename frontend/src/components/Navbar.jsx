@@ -2,14 +2,13 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
   CodeBracketIcon,
-  XMarkIcon,
   ArrowRightOnRectangleIcon,
   BellIcon,
-  UserIcon,
   FireIcon,
   MoonIcon,
   SunIcon,
-  ComputerDesktopIcon
+  ComputerDesktopIcon,
+  Bars3Icon
 } from "@heroicons/react/24/outline";
 import { useAuth } from "../context/AuthContext.jsx";
 import Button from "../components/Button.jsx";
@@ -18,8 +17,7 @@ import { toast } from "react-toastify";
 import { io } from "socket.io-client";
 import axios from "axios";
 
-const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+const Navbar = ({ onMenuClick, sidebarCollapsed, onToggleSidebar }) => {
   const [isNotifyOpen, setIsNotifyOpen] = useState(false);
   const [isThemeOpen, setIsThemeOpen] = useState(false);
   const [notifications, setNotifications] = useState([]);
@@ -47,6 +45,21 @@ const Navbar = () => {
       { name: "Problems", path: "/problems" },
       { name: "Dashboard", path: "/dashboard" }
     );
+  }
+
+  const mobileLinks = [
+    { name: "Home", path: "/" },
+    ...links,
+  ];
+
+  if (isAuthenticated) {
+    if (user?.role === "user") {
+      mobileLinks.push({ name: "My Submissions", path: "/submissions" });
+    }
+    if (user?.role && user.role !== "user") {
+      mobileLinks.push({ name: "Post a Question", path: "/post-question" });
+    }
+    mobileLinks.push({ name: "Profile", path: "/profile" });
   }
 
   const activeClass = "border-b-2 border-indigo-500 text-indigo-600 dark:text-indigo-400 font-semibold";
@@ -117,6 +130,20 @@ const Navbar = () => {
         <div className="flex justify-between h-16 items-center">
 
           <div className="flex items-center space-x-2">
+            <button
+              onClick={onMenuClick}
+              className="md:hidden p-2 rounded-lg text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+              aria-label="Open menu"
+            >
+              <Bars3Icon className="w-6 h-6" />
+            </button>
+            <button
+              onClick={onToggleSidebar}
+              className="hidden md:inline-flex p-2 rounded-lg text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+              aria-label="Toggle sidebar"
+            >
+              <Bars3Icon className="w-6 h-6" />
+            </button>
             <CodeBracketIcon className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
             <Link to="/" className="text-xl font-extrabold text-gray-900 dark:text-white hover:text-indigo-500 transition">
               Let's Code
@@ -135,7 +162,7 @@ const Navbar = () => {
             ))}
           </div>
 
-          <div className="hidden md:flex items-center space-x-4">
+          <div className="flex items-center space-x-2 md:space-x-4">
 
             <div className="relative" ref={themeRef}>
               <Button
@@ -189,7 +216,7 @@ const Navbar = () => {
                   </button>
 
                   {isNotifyOpen && (
-                    <div className="absolute right-0 mt-2 w-80 rounded-xl bg-white dark:bg-gray-800 shadow-2xl ring-1 ring-black ring-opacity-5 z-60 overflow-hidden border border-gray-100 dark:border-gray-700">
+                    <div className="absolute right-0 mt-2 w-[calc(100vw-2rem)] sm:w-80 rounded-xl bg-white dark:bg-gray-800 shadow-2xl ring-1 ring-black ring-opacity-5 z-60 overflow-hidden border border-gray-100 dark:border-gray-700">
                       <div className="p-4 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center">
                         <h3 className="font-bold text-gray-900 dark:text-white">Notifications</h3>
                         <span className="text-xs text-indigo-500 font-medium">Total : {notifications.length}</span>
@@ -263,70 +290,11 @@ const Navbar = () => {
             )}
           </div>
 
-          <div className="md:hidden flex items-center">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="p-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none transition"
-            >
-              {isOpen ? <XMarkIcon className="w-6 h-6" /> : <BellIcon className="w-6 h-6" />}
-            </button>
-          </div>
+
         </div>
       </div>
 
-      {isOpen && (
-        <div className="md:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 pb-2">
-          {links.map((link) => (
-            <Link
-              key={link.name}
-              to={link.path}
-              className="block px-4 py-3 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
-              onClick={() => setIsOpen(false)}
-            >
-              {link.name}
-            </Link>
-          ))}
 
-          <div className="flex border-t border-b border-gray-100 dark:border-gray-800 px-4 py-2 justify-around">
-            <button onClick={() => setTheme("light")} className={`p-2 rounded-lg flex items-center gap-2 text-sm ${theme === 'light' ? 'bg-indigo-50 dark:bg-indigo-950 text-indigo-600' : 'text-gray-500'}`}>
-              <SunIcon className="w-5 h-5" /> Light
-            </button>
-            <button onClick={() => setTheme("dark")} className={`p-2 rounded-lg flex items-center gap-2 text-sm ${theme === 'dark' ? 'bg-indigo-50 dark:bg-indigo-950 text-indigo-600' : 'text-gray-500'}`}>
-              <MoonIcon className="w-5 h-5" /> Dark
-            </button>
-            <button onClick={() => setTheme("system")} className={`p-2 rounded-lg flex items-center gap-2 text-sm ${theme === 'system' ? 'bg-indigo-50 dark:bg-indigo-950 text-indigo-600' : 'text-gray-500'}`}>
-              <ComputerDesktopIcon className="w-5 h-5" /> System
-            </button>
-          </div>
-          {isAuthenticated ? (
-            <>
-              <Link
-                to="/profile"
-                className="flex items-center space-x-2 px-4 py-3 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
-                onClick={() => setIsOpen(false)}
-              >
-                <UserIcon className="w-5 h-5" />
-                <span>{user?.userName} (Profile)</span>
-              </Link>
-              <button
-                className="flex items-center space-x-2 w-full text-left px-4 py-3 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 transition"
-                onClick={() => { setIsOpen(false); logout(); }}
-              >
-                <ArrowRightOnRectangleIcon className="w-5 h-5" />
-                <span>Log Out</span>
-              </button>
-            </>
-          ) : (
-            <Link
-              to="/login"
-              className="block w-full text-center px-4 py-2 mx-auto mt-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition"
-              onClick={() => setIsOpen(false)}
-            >
-              Log In
-            </Link>
-          )}
-        </div>
-      )}
     </nav>
   );
 };

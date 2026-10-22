@@ -41,7 +41,7 @@ const ProblemList = () => {
     <div className="min-h-screen bg-gray-50 dark:bg-slate-950 text-gray-800 dark:text-gray-100 p-4 md:p-10 transition-colors duration-300">
       <div className="max-w-7xl mx-auto mb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div className="space-y-1">
-          <h1 className="text-3xl font-black text-gray-900 dark:text-white uppercase">
+          <h1 className="text-2xl md:text-3xl font-black text-gray-900 dark:text-white uppercase">
             <span className="text-red-600">Problem</span> <span className="text-indigo-600">List</span>
           </h1>
           <p className="text-[11px] font-mono uppercase tracking-widest text-gray-500">
@@ -75,11 +75,12 @@ const ProblemList = () => {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+      {/* Desktop table */}
+      <div className="hidden md:block max-w-7xl mx-auto bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
         <div className="grid grid-cols-12 gap-4 px-6 py-4 border-b border-gray-100 text-[10px] font-bold uppercase tracking-[0.15em] text-gray-400 bg-gray-50/50">
           <div className="col-span-1">Status</div>
-          <div className="col-span-6 md:col-span-7">Problem Title</div>
-          <div className="col-span-3 md:col-span-2 text-center">Difficulty</div>
+          <div className="col-span-7">Problem Title</div>
+          <div className="col-span-2 text-center">Difficulty</div>
           <div className="col-span-2 text-right">Acceptance</div>
         </div>
 
@@ -87,7 +88,7 @@ const ProblemList = () => {
           {filteredProblems.length === 0 ? (
             <div className="p-10 text-center text-gray-400 text-sm font-medium">No challenges found matching {searchTerm}.</div>
           ) : (
-            filteredProblems.map((problem, index) => {
+            filteredProblems.map((problem) => {
               const style = getDifficultyColor(problem.difficultyLevel);
               const isSolved = user?.solvedQuestionIds?.includes(problem._id);
               const isPotdActive = problem.isDailyQuestion;
@@ -108,7 +109,7 @@ const ProblemList = () => {
                     )}
                   </div>
 
-                  <div className="col-span-6 md:col-span-7 flex flex-col gap-1">
+                  <div className="col-span-7 flex flex-col gap-1">
                     <div className="flex items-center gap-3">
                       <span className="text-gray-900 font-bold group-hover:text-indigo-600 transition-colors truncate">
                         {problem.title}
@@ -128,7 +129,7 @@ const ProblemList = () => {
                     </div>
                   </div>
 
-                  <div className="col-span-3 md:col-span-2 text-center">
+                  <div className="col-span-2 text-center">
                     <span className={`text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full border ${style.border} ${style.bg} ${style.text} shadow-sm`}>
                       {problem.difficultyLevel}
                     </span>
@@ -138,7 +139,7 @@ const ProblemList = () => {
                     <span className="text-xs font-mono font-bold text-gray-600">
                       {problem.acceptedRate}%
                     </span>
-                    <div className="w-16 h-1.5 bg-gray-100 rounded-full overflow-hidden hidden md:block border border-gray-200/50">
+                    <div className="w-16 h-1.5 bg-gray-100 rounded-full overflow-hidden border border-gray-200/50">
                       <div
                         className="h-full bg-indigo-500 rounded-full transition-all"
                         style={{ width: `${problem.acceptedRate}%` }}
@@ -150,6 +151,70 @@ const ProblemList = () => {
             })
           )}
         </div>
+      </div>
+
+      {/* Mobile cards */}
+      <div className="md:hidden space-y-3 max-w-7xl mx-auto">
+        {filteredProblems.length === 0 ? (
+          <div className="p-6 text-center text-gray-400 text-sm font-medium bg-white rounded-2xl border border-gray-200">No challenges found matching {searchTerm}.</div>
+        ) : (
+          filteredProblems.map((problem) => {
+            const style = getDifficultyColor(problem.difficultyLevel);
+            const isSolved = user?.solvedQuestionIds?.includes(problem._id);
+            const isPotdActive = problem.isDailyQuestion;
+
+            return (
+              <Link
+                key={problem._id}
+                to={`/problems/${problem._id}`}
+                className="group block bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm p-4 transition-all hover:border-indigo-300 dark:hover:border-indigo-500 hover:shadow-md active:scale-[0.99]"
+              >
+                <div className="flex items-start gap-3">
+                  <div className="mt-1 flex-shrink-0">
+                    {isSolved ? (
+                      <CheckCircleIcon className="w-6 h-6 text-emerald-500 drop-shadow-sm" />
+                    ) : (
+                      <div className="w-5 h-5 rounded-full border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-900 group-hover:border-indigo-300" />
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="font-bold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                        {problem.title}
+                      </span>
+                      {isPotdActive && (
+                        <span className="bg-amber-100 text-amber-700 text-[9px] font-black px-2 py-0.5 rounded-md border border-amber-200 tracking-tight">
+                          POTD
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex flex-wrap gap-1.5 mt-2">
+                      {problem.topicsList?.slice(0, 3).map((topic, idx) => (
+                        <span key={idx} className="text-[10px] font-medium text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700/60 px-2 py-0.5 rounded-md">
+                          {topic}
+                        </span>
+                      ))}
+                    </div>
+                    <div className="flex items-center justify-between mt-3 gap-3">
+                      <span className={`text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full border ${style.border} ${style.bg} ${style.text}`}>
+                        {problem.difficultyLevel}
+                      </span>
+                      <div className="flex-1 max-w-[120px]">
+                        <div className="flex justify-between text-[10px] text-gray-500 dark:text-gray-400 mb-1">
+                          <span>Accepted</span>
+                          <span className="font-mono font-bold">{problem.acceptedRate}%</span>
+                        </div>
+                        <div className="h-1.5 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
+                          <div className="h-full bg-indigo-500 rounded-full" style={{ width: `${problem.acceptedRate}%` }} />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            );
+          })
+        )}
       </div>
     </div>
   );

@@ -150,10 +150,10 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="p-6 md:p-10 bg-gray-50 dark:bg-gray-950 min-h-screen">
+    <div className="p-4 md:p-10 bg-gray-50 dark:bg-gray-950 min-h-screen">
 
       <header className="mb-8 pb-4">
-        <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white mb-1">
+        <h1 className="text-2xl md:text-4xl font-extrabold text-gray-900 dark:text-white mb-1">
           Welcome back, <span className="text-indigo-600 dark:text-indigo-400">{userName}</span>!
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400">

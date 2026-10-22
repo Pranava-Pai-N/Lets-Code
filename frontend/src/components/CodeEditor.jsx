@@ -88,7 +88,7 @@ const CodeEditor = ({ _languages = [], _code, setCode, setLanguageId, _height = 
           </button>
           
           {dropdownOpen && (
-            <div className="absolute right-0 mt-2 w-72 max-h-96 overflow-y-auto bg-white dark:bg-gray-800 z-100 rounded shadow-2xl border border-gray-200 dark:border-gray-700">
+            <div className="absolute right-0 mt-2 w-64 sm:w-72 max-h-96 overflow-y-auto bg-white dark:bg-gray-800 z-100 rounded shadow-2xl border border-gray-200 dark:border-gray-700">
               {allLanguages.map((lang) => (
                 <div 
                   key={lang.id}

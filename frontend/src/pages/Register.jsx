@@ -135,11 +135,11 @@ const Register = () => {
 
     if (isEmailSent) {
         return (
-            <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center p-6">
+            <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center p-4">
                 <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-100/40 rounded-full blur-[120px] pointer-events-none"></div>
                 <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-teal-50/50 rounded-full blur-[120px] pointer-events-none"></div>
 
-                <div className="w-full max-w-md bg-white rounded-[2.5rem] p-10 shadow-[0_40px_80px_-15px_rgba(0,0,0,0.08)] border border-gray-100 relative z-10 overflow-hidden">
+                <div className="w-full max-w-md bg-white rounded-[2.5rem] p-6 sm:p-10 shadow-[0_40px_80px_-15px_rgba(0,0,0,0.08)] border border-gray-100 relative z-10 overflow-hidden">
                     <div className="absolute top-0 left-0 w-full h-1.5 bg-linear-to-r from-indigo-500 via-purple-500 to-teal-400"></div>
 
                     <div className="text-center">
@@ -234,20 +234,19 @@ const Register = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-slate-950  dark:text-gray-100 flex flex-col items-center justify-center p-6 sm:p-12 relative overflow-hidden font-sans transition-colors duration-300">
+        <div className="min-h-screen bg-gray-50 dark:bg-slate-950  dark:text-gray-100 flex flex-col items-center justify-center p-4 sm:p-6 md:p-12 relative overflow-hidden font-sans transition-colors duration-300">
             <div className="mb-10 text-center relative z-10">
                 <h1 className="text-3xl font-black text-gray-900 tracking-tight"><span className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">Create Your Account</span></h1>
                 <p className="text-gray-500 text-sm mt-2 font-medium">Join the next generation of coders.</p>
             </div>
 
-            <div className="w-full max-w-xl bg-white dark:bg-slate-950 border border-gray-200 dark:text-gray-100 rounded-[2.5rem] p-8 md:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative z-10">
+            <div className="w-full max-w-xl bg-white dark:bg-slate-950 border border-gray-200 dark:text-gray-100 rounded-[2.5rem] p-5 sm:p-8 md:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative z-10">
 
                 <div className="flex flex-col sm:flex-row gap-3 mb-10">
                     <Button
                         variant="light"
                         onClick={handleGoogleLogin}
-                        className="flex items-center justify-center py-2.5 px-10 gap-2 border border-gray-300 dark:border-gray-700 text-sm font-bold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl transition-all shadow-sm"
-                    >
+                        className="flex items-center justify-center w-full sm:w-auto py-2.5 px-6 gap-2 border border-gray-300 dark:border-gray-700 text-sm font-bold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl transition-all shadow-sm"                    >
                         <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" className="w-4 h-4" alt="Google Login" />
                         Google
                     </Button>
@@ -255,8 +254,7 @@ const Register = () => {
                     <Button
                         variant="light"
                         onClick={handleGitHubLogin}
-                        className="flex items-center justify-center py-2.5 px-10 border border-gray-300 dark:border-gray-700 text-sm font-bold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl transition-all shadow-sm"
-                    >
+                        className="flex items-center justify-center w-full sm:w-auto py-2.5 px-6 border border-gray-300 dark:border-gray-700 text-sm font-bold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl transition-all shadow-sm"                    >
                         <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub" className="h-5 w-5 mr-2 dark:invert" />
                         GitHub
                     </Button>
@@ -264,8 +262,7 @@ const Register = () => {
                     <Button
                         variant="light"
                         onClick={handlePasskeyRegister}
-                        className="flex items-center justify-center py-2.5 gap-2 border border-gray-300 dark:border-gray-700 text-sm font-bold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl transition-all shadow-sm"
-                    >
+                        className="flex items-center justify-center w-full sm:w-auto py-2.5 px-6 gap-2 border border-gray-300 dark:border-gray-700 text-sm font-bold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl transition-all shadow-sm"                    >
                         <ShieldCheckIcon className="w-4 h-4 text-indigo-400" />
                         Register a Passkey
                     </Button>
@@ -306,18 +303,20 @@ const Register = () => {
                         </div>
                     </div>
 
-                    <Turnstile
-                        siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
-                        onSuccess={(token) => {
-                            setTurnstileToken(token);
-                            setisHavingTurnstile(true);
-                        }}
-                        onError={() => setTurnstileToken(null)}
-                        options={{
-                            theme: localStorage.getItem("theme") === "system" ? "auto" : localStorage.getItem("theme"),
-                            size: "flexible"
-                        }}
-                    />
+                    <div className="w-full overflow-hidden rounded-xl">
+                        <Turnstile
+                            siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
+                            onSuccess={(token) => {
+                                setTurnstileToken(token);
+                                setisHavingTurnstile(true);
+                            }}
+                            onError={() => setTurnstileToken(null)}
+                            options={{
+                                theme: localStorage.getItem("theme") === "system" ? "auto" : localStorage.getItem("theme"),
+                                size: "flexible"
+                            }}
+                        />
+                    </div>
 
                     <button
                         type="submit"

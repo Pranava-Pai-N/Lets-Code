@@ -13,14 +13,14 @@ const Home = () => {
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
 
-        <header className="pt-24 pb-20 text-center lg:text-left flex flex-col lg:flex-row items-center justify-between gap-12">
+        <header className="pt-16 md:pt-24 pb-12 md:pb-20 text-center lg:text-left flex flex-col lg:flex-row items-center justify-between gap-8 md:gap-12">
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 mb-6 transition-transform hover:scale-105">
               <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
               <span className="text-xs font-bold text-indigo-600 uppercase tracking-widest">Platform Live {new Date().getFullYear()}</span>
             </div>
 
-            <h1 className="text-6xl md:text-7xl font-[950] tracking-tight leading-[1.05] text-slate-900 mb-8">
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-[950] tracking-tight leading-[1.05] text-slate-900 mb-8">
               <span className="text-red-600">Code at Ease.</span><br />
               <span className="text-indigo-600 italic">With Zero Limits.</span>
             </h1>

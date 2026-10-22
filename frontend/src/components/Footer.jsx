@@ -14,7 +14,7 @@ export default function Footer() {
                     &copy; {new Date().getFullYear()} Let's Code
                 </p>
 
-                <div className="flex items-center gap-8 text-xs font-semibold text-slate-600 tracking-wide">
+                <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-xs font-semibold text-slate-600 tracking-wide">
                     <Link to="/privacy" className="hover:text-indigo-600 transition-colors duration-200">
                         Privacy
                     </Link>

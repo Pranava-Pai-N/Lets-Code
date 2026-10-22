@@ -48,7 +48,7 @@ const SubmissionDetails = () => {
     const isAccepted = submission.status === 'Accepted';
 
     return (
-        <div className="p-4 md:p-8 lg:p-12 bg-gray-50 dark:bg-gray-950 min-h-screen font-sans">
+        <div className="p-4 md:p-8 bg-gray-50 dark:bg-gray-950 min-h-screen font-sans">
 
             <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
                 <button
@@ -60,7 +60,7 @@ const SubmissionDetails = () => {
                 </button>
 
                 <div className="flex items-center gap-3">
-                    <span className="text-xs font-mono text-gray-400 bg-gray-200/50 dark:bg-gray-800 px-3 py-1 rounded-full">
+                    <span className="text-xs font-mono text-gray-400 bg-gray-200/50 dark:bg-gray-800 px-3 py-1 rounded-full truncate max-w-[200px]">
                         ID: {submission._id}
                     </span>
                 </div>
@@ -70,14 +70,14 @@ const SubmissionDetails = () => {
 
                 <div className="lg:col-span-8 space-y-8">
 
-                    <div className={`relative overflow-hidden rounded-3xl p-8 shadow-2xl transition-all border border-white/20 ${isAccepted
+                    <div className={`relative overflow-hidden rounded-3xl p-4 md:p-8 shadow-2xl transition-all border border-white/20 ${isAccepted
                             ? 'bg-gradient-to-br from-green-500 to-emerald-700 text-white'
                             : 'bg-gradient-to-br from-red-500 to-rose-700 text-white'
                         }`}>
                         <div className="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
                             <div>
                                 <h2 className="text-sm uppercase tracking-widest font-black opacity-80 mb-2">Submission Result</h2>
-                                <h1 className="text-5xl font-black tracking-tight mb-4">{submission.status}</h1>
+                                <h1 className="text-3xl md:text-5xl font-black tracking-tight mb-4">{submission.status}</h1>
                                 <p className="text-xl font-medium opacity-90">{submission.question_title}</p>
                             </div>
                             <div className="grid grid-cols-2 gap-4 bg-black/10 backdrop-blur-md p-4 rounded-2xl border border-white/10">
@@ -113,7 +113,7 @@ const SubmissionDetails = () => {
                             </button>
                         </div>
                         <div className="relative group">
-                            <pre className="p-8 text-sm leading-relaxed overflow-x-auto custom-scrollbar text-indigo-100 font-mono">
+                            <pre className="p-4 md:p-8 text-sm leading-relaxed overflow-x-auto custom-scrollbar text-indigo-100 font-mono">
                                 <code className="block">
                                     {submission.sourceCode.split('\n').map((line, i) => (
                                         <div key={i} className="flex">
@@ -138,7 +138,7 @@ const SubmissionDetails = () => {
                         </span>
                     </div>
 
-                    <div className="space-y-4 max-h-[800px] overflow-y-auto pr-2 custom-scrollbar">
+                    <div className="space-y-4">
                         {submission.testResults.map((test, index) => (
                             <div key={test._id} className="group relative">
                                 <Card className="p-5 border-transparent bg-white dark:bg-gray-900 shadow-sm hover:shadow-md hover:border-indigo-500/30 transition-all border border-gray-100 dark:border-gray-800">

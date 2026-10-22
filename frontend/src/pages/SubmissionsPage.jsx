@@ -49,7 +49,7 @@ const SubmissionsPage = () => {
         <div className="p-6 md:p-10 bg-gray-50 dark:bg-gray-950 min-h-screen">
             <header className="mb-8 flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
                 <div>
-                    <h1 className="text-3xl font-black text-gray-900 dark:text-white">
+                    <h1 className="text-2xl md:text-3xl font-black text-gray-900 dark:text-white">
                         My <span className="text-indigo-600">Submissions</span>
                     </h1>
                     <p className="text-gray-500 dark:text-gray-400">History of all your code attempts</p>
@@ -79,64 +79,110 @@ const SubmissionsPage = () => {
                 <p className="text-gray-500 dark:text-gray-400 mb-4">All your {submissions.length} {submissions.length === 1 ? "Submission" : "Submissions"}</p>
             )}
 
-            <Card className="overflow-hidden border-gray-200 dark:border-gray-800">
-                <div className="overflow-x-auto">
-                    <table className="w-full text-left border-collapse">
-                        <thead>
-                            <tr className="bg-gray-50 dark:bg-gray-900/50 border-b border-gray-200 dark:border-gray-800">
-                                <th className="p-4 text-xs font-bold uppercase tracking-wider text-gray-500">Status</th>
-                                <th className="p-4 text-xs font-bold uppercase tracking-wider text-gray-500">Problem</th>
-                                <th className="p-4 text-xs font-bold uppercase tracking-wider text-gray-500">Runtime</th>
-                                <th className="p-4 text-xs font-bold uppercase tracking-wider text-gray-500">Memory</th>
-                                <th className="p-4 text-xs font-bold uppercase tracking-wider text-gray-500">Date</th>
-                                <th className="p-4 text-xs font-bold uppercase tracking-wider text-gray-500 text-right">View</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
-                            {loading ? (
-                                [1, 2, 3].map((i) => (
-                                    <tr key={i} className="animate-pulse">
-                                        <td colSpan="6" className="p-8 bg-gray-50/50 dark:bg-gray-900/20" />
-                                    </tr>
-                                ))
-                            ) : submissions.map((sub) => (
-                                <tr key={sub._id} onClick={() => navigate(`/submissions/${sub._id}`)} className="hover:bg-gray-50 dark:hover:bg-gray-900/30 transition-colors cursor-pointer">
-                                    <td className="p-4">
-                                        <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold ${getStatusStyle(sub.status)}`}>
-                                            {sub.status === 'Accepted' ? <CheckCircleIcon className="w-4 h-4" /> : <XCircleIcon className="w-4 h-4" />}
-                                            {sub.status}
-                                        </div>
-                                    </td>
-                                    <td className="p-4">
-                                        <p className="font-bold text-gray-900 dark:text-white">{sub.question_title}</p>
-                                        <p className="text-[10px] text-gray-400 font-mono">ID: {sub.problem.slice(-6)}</p>
-                                    </td>
-                                    <td className="p-4 text-sm font-mono text-gray-600 dark:text-gray-400">
-                                        {sub.totalRuntime}s
-                                    </td>
-                                    <td className="p-4 text-sm font-mono text-gray-600 dark:text-gray-400">
-                                        {(sub.totalMemory / 1024).toFixed(1)} MB
-                                    </td>
-                                    <td className="p-4 text-xs text-gray-500">
-                                        {new Date(sub.createdAt).toLocaleDateString()}
-                                    </td>
-                                    <td className="p-4 text-right">
-                                        <button
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                setSelectedCode(sub);
-                                            }}
-                                            className="p-2 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 text-indigo-600 rounded-lg transition-all"
-                                        >
-                                            <EyeIcon className="w-5 h-5" />
-                                        </button>
-                                    </td>
+            {/* Desktop table */}
+            <div className="hidden md:block">
+                <Card className="overflow-hidden border-gray-200 dark:border-gray-800">
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-left border-collapse">
+                            <thead>
+                                <tr className="bg-gray-50 dark:bg-gray-900/50 border-b border-gray-200 dark:border-gray-800">
+                                    <th className="p-4 text-xs font-bold uppercase tracking-wider text-gray-500">Status</th>
+                                    <th className="p-4 text-xs font-bold uppercase tracking-wider text-gray-500">Problem</th>
+                                    <th className="p-4 text-xs font-bold uppercase tracking-wider text-gray-500">Runtime</th>
+                                    <th className="p-4 text-xs font-bold uppercase tracking-wider text-gray-500">Memory</th>
+                                    <th className="p-4 text-xs font-bold uppercase tracking-wider text-gray-500">Date</th>
+                                    <th className="p-4 text-xs font-bold uppercase tracking-wider text-gray-500 text-right">View</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-            </Card>
+                            </thead>
+                            <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
+                                {loading ? (
+                                    [1, 2, 3].map((i) => (
+                                        <tr key={i} className="animate-pulse">
+                                            <td colSpan="6" className="p-8 bg-gray-50/50 dark:bg-gray-900/20" />
+                                        </tr>
+                                    ))
+                                ) : submissions.map((sub) => (
+                                    <tr key={sub._id} onClick={() => navigate(`/submissions/${sub._id}`)} className="hover:bg-gray-50 dark:hover:bg-gray-900/30 transition-colors cursor-pointer">
+                                        <td className="p-4">
+                                            <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold ${getStatusStyle(sub.status)}`}>
+                                                {sub.status === 'Accepted' ? <CheckCircleIcon className="w-4 h-4" /> : <XCircleIcon className="w-4 h-4" />}
+                                                {sub.status}
+                                            </div>
+                                        </td>
+                                        <td className="p-4">
+                                            <p className="font-bold text-gray-900 dark:text-white">{sub.question_title}</p>
+                                            <p className="text-[10px] text-gray-400 font-mono">ID: {sub.problem.slice(-6)}</p>
+                                        </td>
+                                        <td className="p-4 text-sm font-mono text-gray-600 dark:text-gray-400">
+                                            {sub.totalRuntime}s
+                                        </td>
+                                        <td className="p-4 text-sm font-mono text-gray-600 dark:text-gray-400">
+                                            {(sub.totalMemory / 1024).toFixed(1)} MB
+                                        </td>
+                                        <td className="p-4 text-xs text-gray-500">
+                                            {new Date(sub.createdAt).toLocaleDateString()}
+                                        </td>
+                                        <td className="p-4 text-right">
+                                            <button
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setSelectedCode(sub);
+                                                }}
+                                                className="p-2 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 text-indigo-600 rounded-lg transition-all"
+                                            >
+                                                <EyeIcon className="w-5 h-5" />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </Card>
+            </div>
+
+            {/* Mobile cards */}
+            <div className="md:hidden space-y-3">
+                {loading ? (
+                    [1, 2, 3].map((i) => (
+                        <Card key={i} className="p-4 animate-pulse h-24" />
+                    ))
+                ) : submissions.length === 0 ? (
+                    <div className="p-6 text-center text-gray-400 text-sm font-medium bg-white rounded-2xl border border-gray-200">No submissions yet.</div>
+                ) : (
+                    submissions.map((sub) => (
+                        <Card key={sub._id} className="p-4 border-gray-200 dark:border-gray-800">
+                            <div onClick={() => navigate(`/submissions/${sub._id}`)} className="cursor-pointer">
+                                <div className="flex items-start justify-between gap-3">
+                                    <div className="min-w-0">
+                                        <p className="font-bold text-gray-900 dark:text-white truncate">{sub.question_title}</p>
+                                        <p className="text-[10px] text-gray-400 font-mono">ID: {sub.problem.slice(-6)}</p>
+                                    </div>
+                                    <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold ${getStatusStyle(sub.status)}`}>
+                                        {sub.status === 'Accepted' ? <CheckCircleIcon className="w-4 h-4" /> : <XCircleIcon className="w-4 h-4" />}
+                                        {sub.status}
+                                    </div>
+                                </div>
+                                <div className="flex items-center justify-between mt-3 text-xs text-gray-500">
+                                    <span className="font-mono">{sub.totalRuntime}s · {(sub.totalMemory / 1024).toFixed(1)} MB</span>
+                                    <span>{new Date(sub.createdAt).toLocaleDateString()}</span>
+                                </div>
+                                <div className="mt-3 flex justify-end">
+                                    <button
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setSelectedCode(sub);
+                                        }}
+                                        className="p-2 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 text-indigo-600 rounded-lg transition-all"
+                                    >
+                                        <EyeIcon className="w-5 h-5" />
+                                    </button>
+                                </div>
+                            </div>
+                        </Card>
+                    ))
+                )}
+            </div>
 
             {selectedCode && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">

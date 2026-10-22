@@ -131,9 +131,9 @@ const Login = () => {
   }
 
   return (
-    <div className={`flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-950 transition-colors duration-300 ${isMobile ? 'p-4' : 'p-6'}`}>
+    <div className={`flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-950 transition-colors duration-300 ${isMobile ? 'p-3' : 'p-6'}`}>
 
-      <div className={`bg-white dark:bg-gray-900 rounded-3xl shadow-2xl w-full max-w-lg border border-gray-200 dark:border-gray-800 transition-all ${isMobile ? 'p-6' : 'p-12'}`}>
+      <div className={`bg-white dark:bg-gray-900 rounded-3xl shadow-2xl w-full max-w-lg border border-gray-200 dark:border-gray-800 transition-all ${isMobile ? 'p-5' : 'p-12'}`}>
 
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center p-3 bg-indigo-100 dark:bg-indigo-900/30 rounded-2xl mb-4">
@@ -251,18 +251,20 @@ const Login = () => {
             </div>
           </div>
 
-          <Turnstile
-            siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
-            onSuccess={(token) => {
-              setTurnstileToken(token);
-              setisHavingTurnstile(true);
-            }}
-            onError={() => setTurnstileToken(null)}
-            options={{
-              theme: localStorage.getItem("theme") === "system" ? "auto" : localStorage.getItem("theme"),
-              size: "flexible"
-            }}
-          />
+          <div className="w-full overflow-hidden rounded-xl">
+            <Turnstile
+              siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
+              onSuccess={(token) => {
+                setTurnstileToken(token);
+                setisHavingTurnstile(true);
+              }}
+              onError={() => setTurnstileToken(null)}
+              options={{
+                theme: localStorage.getItem("theme") === "system" ? "auto" : localStorage.getItem("theme"),
+                size: "flexible"
+              }}
+            />
+          </div>
 
           <Button
             type="submit"

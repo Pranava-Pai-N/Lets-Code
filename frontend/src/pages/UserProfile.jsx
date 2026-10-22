@@ -206,7 +206,7 @@ const UserProfile = () => {
     const stats = getCodingStats(user);
 
     return (
-        <div className="min-h-screen bg-gray-100 dark:bg-gray-950 p-6 md:p-10">
+        <div className="min-h-screen bg-gray-100 dark:bg-gray-950 p-4 md:p-10">
             <div className="w-full max-w-6xl mx-auto">
                 <Card className="p-8 bg-white dark:bg-gray-800 rounded-3xl shadow-2xl mb-8">
                     <div className="flex flex-col md:flex-row items-center md:items-start space-y-6 md:space-y-0 md:space-x-10">
@@ -226,7 +226,7 @@ const UserProfile = () => {
                                 <img
                                     src={user?.profile_url}
                                     alt="User Avatar"
-                                    className={`w-40 h-40 rounded-full border-4 border-indigo-500 shadow-md mx-auto object-cover transition duration-300 ${saveLoading ? 'opacity-50 grayscale' : 'group-hover:brightness-75'}`}
+                                    className={`w-28 h-28 md:w-40 md:h-40 rounded-full border-4 border-indigo-500 shadow-md mx-auto object-cover transition duration-300 ${saveLoading ? 'opacity-50 grayscale' : 'group-hover:brightness-75'}`}
                                 />
 
                                 <div className="absolute inset-0 flex items-center justify-center">
@@ -247,7 +247,7 @@ const UserProfile = () => {
                                     className="mt-4 p-2 w-full text-center bg-gray-50 dark:bg-gray-700 border border-indigo-500 rounded-lg dark:text-white"
                                 />
                             ) : (
-                                <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white mt-4">{user.userName}</h1>
+                                <h1 className="text-2xl md:text-4xl font-extrabold text-gray-900 dark:text-white mt-4">{user.userName}</h1>
                             )}
                         </div>
 

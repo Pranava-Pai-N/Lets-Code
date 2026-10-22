@@ -2,12 +2,65 @@
 @config "../tailwind.config.js";
 
 #root {
-  max-width: none; 
-  width: 100vw; 
+  max-width: none;
+  width: 100%;
   min-height: 100vh;
-  margin: 0; 
-  padding: 0; 
-  text-align: left; 
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  overflow-x: hidden;
+}
+
+html, body {
+  overflow-x: hidden;
+}
+
+html, body, #root {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+* {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
+}
+
+img, video, canvas, svg {
+  max-width: 100%;
+  height: auto;
+}
+
+pre, code {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+@media (max-width: 640px) {
+  .p-6, .p-8, .p-10, .p-12, .p-14, .p-16 {
+    padding: 1rem !important;
+  }
+  .px-6, .px-8, .px-10, .px-12 {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+  .py-8, .py-10, .py-12, .py-16 {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+  }
+  .text-4xl, .text-5xl, .text-6xl, .text-7xl {
+    font-size: 1.75rem !important;
+    line-height: 2.1rem !important;
+  }
+  .text-3xl {
+    font-size: 1.5rem !important;
+    line-height: 1.9rem !important;
+  }
+  .gap-6, .gap-8, .gap-10, .gap-12, .gap-16 {
+    gap: 0.75rem !important;
+  }
+  .rounded-\[2\.5rem\], .rounded-\[2rem\] {
+    border-radius: 1rem !important;
+  }
 }
 
 
