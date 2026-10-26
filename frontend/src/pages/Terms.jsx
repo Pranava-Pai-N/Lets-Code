@@ -1,111 +1,113 @@
-import { useState } from 'react';
-import { 
-  ShieldCheckIcon, 
-  DocumentTextIcon, 
-  ScaleIcon, 
-  UserGroupIcon, 
-  ExclamationTriangleIcon 
+import { useState } from "react";
+import {
+  ShieldCheckIcon,
+  DocumentTextIcon,
+  ScaleIcon,
+  UserGroupIcon,
+  ExclamationTriangleIcon,
+  ArrowRightIcon,
 } from "@heroicons/react/24/outline";
 
 const Terms = () => {
-  const [activeSection, setActiveSection] = useState('acceptance');
+  const [activeSection, setActiveSection] = useState("acceptance");
 
   const sections = [
     {
-      id: 'acceptance',
-      title: "Acceptance",
-      icon: <DocumentTextIcon className="w-5 h-5" />,
-      content: "By accessing 'Let's Code', you confirm that you are at least 10 years of age and agree to comply with these terms. Our platform is a collaborative tool for developers, and usage implies consent to our automated testing and ranking systems."
+      id: "acceptance",
+      title: "Acceptance of Terms",
+      icon: <DocumentTextIcon className="h-5 w-5" />,
+      content:
+        "By accessing 'Let's Code', you confirm that you are at least 10 years of age and agree to comply with these terms. Our platform is a collaborative tool for developers, and usage implies consent to our automated testing and ranking systems.",
     },
     {
-      id: 'conduct',
+      id: "conduct",
       title: "User Conduct",
-      icon: <UserGroupIcon className="w-5 h-5" />,
-      content: "You agree not to use the code execution environment for mining cryptocurrency, launching DDoS attacks, or attempting to access our internal database strings. Play fair, code hard."
+      icon: <UserGroupIcon className="h-5 w-5" />,
+      content:
+        "You agree not to use the code execution environment for mining cryptocurrency, launching DDoS attacks, or attempting to access our internal database strings. Play fair, code hard.",
     },
     {
-      id: 'license',
-      title: "License",
-      icon: <ScaleIcon className="w-5 h-5" />,
-      content: "We grant you a personal, non-exclusive license to use our compiler and problem sets for educational purposes. You may not republish our problem statements on other platforms without written credit."
+      id: "license",
+      title: "License & Content",
+      icon: <ScaleIcon className="h-5 w-5" />,
+      content:
+        "We grant you a personal, non-exclusive license to use our compiler and problem sets for educational purposes. You may not republish our problem statements on other platforms without written credit.",
     },
     {
-      id: 'termination',
+      id: "termination",
       title: "Termination",
-      icon: <ExclamationTriangleIcon className="w-5 h-5" />,
-      content: "We reserve the right to suspend accounts that exhibit bot-like behavior or repeatedly submit plagiarized code from external sources."
-    }
+      icon: <ExclamationTriangleIcon className="h-5 w-5" />,
+      content:
+        "We reserve the right to suspend accounts that exhibit bot-like behavior or repeatedly submit plagiarized code from external sources.",
+    },
   ];
 
-  return (
-    <div className="min-h-screen bg-gray-50 dark:bg-[#020617] py-12 px-6">
-      <div className="max-w-6xl mx-auto">
-        
-        <div className="mb-12">
-          <h1 className="text-4xl font-black text-gray-900 dark:text-white tracking-tight">
-            <span className='text-red-600'>Terms</span> of <span className="text-indigo-600">Service</span>
-          </h1>
-          <p className="mt-2 text-gray-500 dark:text-gray-400">
-            Everything you need to know about using the Let's Code platform.
-          </p>
-        </div>
+  const scrollTo = (id) => {
+    setActiveSection(id);
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
-        <div className="flex flex-col md:flex-row gap-8">
-          
-          <aside className="md:w-64 flex-shrink-0">
-            <div className="sticky top-24 space-y-1">
+  return (
+    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100">
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_rgba(99,102,241,0.12),_transparent_60%)]" />
+      <div className="mx-auto max-w-6xl px-6 py-16">
+        <header className="mb-12">
+          <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-indigo-400">Legal</p>
+          <h1 className="mt-2 text-4xl font-black tracking-tight">
+            Terms of <span className="text-indigo-400">Service</span>
+          </h1>
+          <p className="mt-3 max-w-2xl text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+            Everything you need to know about using the Let's Code platform. Last updated {new Date().toLocaleDateString()}.
+          </p>
+        </header>
+
+        <div className="grid gap-8 lg:grid-cols-[240px_1fr]">
+          <aside className="hidden lg:block">
+            <nav className="sticky top-24 space-y-1">
               {sections.map((s) => (
                 <button
                   key={s.id}
-                  onClick={() => {
-                    setActiveSection(s.id);
-                    document.getElementById(s.id).scrollIntoView({ behavior: 'smooth' });
-                  }}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
-                    activeSection === s.id 
-                    ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-200 dark:shadow-none' 
-                    : 'text-gray-500 hover:bg-white dark:hover:bg-gray-800'
+                  onClick={() => scrollTo(s.id)}
+                  className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition ${
+                    activeSection === s.id
+                      ? "bg-indigo-600 text-white shadow-lg shadow-indigo-600/20"
+                      : "text-zinc-600 dark:text-zinc-400 hover:bg-white dark:bg-zinc-900 hover:text-zinc-900 dark:text-zinc-100"
                   }`}
                 >
                   {s.icon}
                   {s.title}
                 </button>
               ))}
-            </div>
+            </nav>
           </aside>
 
-          <div className="flex-1 space-y-8">
+          <main className="space-y-6">
             {sections.map((section) => (
-              <div 
-                key={section.id} 
+              <section
+                key={section.id}
                 id={section.id}
-                className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-3xl p-8 transition-all hover:shadow-md"
+                className="group rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 p-6 transition hover:border-indigo-500/40"
               >
-                <div className="flex items-center gap-3 mb-6">
-                  <span className="p-2 bg-indigo-50 dark:bg-indigo-900/30 rounded-lg text-indigo-600 dark:text-indigo-400">
-                    {section.icon}
-                  </span>
-                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                    {section.title}
-                  </h2>
+                <div className="mb-4 flex items-center gap-3">
+                  <span className="rounded-lg bg-indigo-500/10 p-2 text-indigo-300">{section.icon}</span>
+                  <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">{section.title}</h2>
                 </div>
-                <div className="prose prose-indigo dark:prose-invert max-w-none">
-                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-lg font-light">
-                    {section.content}
-                  </p>
-                </div>
-              </div>
+                <p className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">{section.content}</p>
+              </section>
             ))}
 
-            <div className="bg-indigo-600 rounded-3xl p-8 text-center text-white">
-              <ShieldCheckIcon className="w-12 h-12 mx-auto mb-4 opacity-80" />
-              <h3 className="text-xl font-bold mb-2">We value your privacy</h3>
-              <p className="text-indigo-100 mb-6">Have questions about these terms or your data?</p>
-              <button onClick={() => window.location.href='mailto:pranavpai0309@gmail.com'} className="bg-white text-indigo-600 px-8 py-3 rounded-full font-bold hover:bg-indigo-50 transition-colors">
-                Contact Support
-              </button>
+            <div className="rounded-2xl border border-indigo-500/30 bg-gradient-to-br from-indigo-600/20 to-violet-600/10 p-8 text-center">
+              <ShieldCheckIcon className="mx-auto mb-4 h-12 w-12 text-indigo-300" />
+              <h3 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">We value your privacy</h3>
+              <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">Have questions about these terms or your data?</p>
+              <a
+                href="mailto:pranavpai0309@gmail.com"
+                className="mt-6 inline-flex items-center gap-2 rounded-full bg-indigo-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-indigo-500"
+              >
+                Contact Support <ArrowRightIcon className="h-4 w-4" />
+              </a>
             </div>
-          </div>
+          </main>
         </div>
       </div>
     </div>

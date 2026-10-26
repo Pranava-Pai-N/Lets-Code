@@ -1,99 +1,105 @@
 import { Link } from "react-router-dom";
-import { ArrowRightIcon, ListBulletIcon, CommandLineIcon, TrophyIcon, ArrowUpIcon } from "@heroicons/react/24/outline";
-import Button from "../components/Button";
-
-const handleScroll = () => {
-  window.scrollTo({ top: 0, behavior: 'smooth' })
-}
+import { ArrowRightIcon, CommandLineIcon, TrophyIcon } from "@heroicons/react/24/outline";
 
 const Home = () => {
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-gray-100 selection:bg-indigo-100 selection:text-indigo-700 transition-colors duration-300">
-      <div className="absolute inset-0 z-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] bg-size-[40px_40px] mask-[radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)]"></div>
+    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 overflow-hidden">
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_rgba(99,102,241,0.18),_transparent_55%)]" />
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:48px_48px]" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
-
-        <header className="pt-16 md:pt-24 pb-12 md:pb-20 text-center lg:text-left flex flex-col lg:flex-row items-center justify-between gap-8 md:gap-12">
-          <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 mb-6 transition-transform hover:scale-105">
-              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-              <span className="text-xs font-bold text-indigo-600 uppercase tracking-widest">Platform Live {new Date().getFullYear()}</span>
-            </div>
-
-            <h1 className="text-4xl sm:text-5xl md:text-7xl font-[950] tracking-tight leading-[1.05] text-slate-900 mb-8">
-              <span className="text-red-600">Code at Ease.</span><br />
-              <span className="text-indigo-600 italic">With Zero Limits.</span>
+      <div className="relative mx-auto max-w-7xl px-6 py-20 lg:px-8">
+        <section className="grid items-center gap-12 lg:grid-cols-2">
+          <div>
+            <span className="inline-flex items-center gap-2 rounded-full border border-indigo-500/30 bg-indigo-500/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-indigo-300">
+              Platform Live {new Date().getFullYear()}
+            </span>
+            <h1 className="mt-6 text-4xl font-black tracking-tight sm:text-6xl">
+              Code at ease.
+              <br />
+              <span className="bg-gradient-to-r from-indigo-400 via-violet-400 to-fuchsia-400 bg-clip-text text-transparent">
+                With zero limits.
+              </span>
             </h1>
-
-            <p className="text-lg md:text-xl text-slate-500 font-medium leading-relaxed mb-10 max-w-xl">
-              Let's Code is your dedicated space to master DSA. High-performance environment for problem-solving and elite interview prep.
+            <p className="mt-6 max-w-xl text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
+              Let's Code is your dedicated workspace to master DSA. A high-performance environment for problem solving,
+              interview prep, and measurable progress.
             </p>
-
-            <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
-              <Link to="/problems">
-                <button className="group relative px-8 py-4 bg-indigo-600 text-white font-bold rounded-2xl shadow-lg shadow-indigo-200 hover:bg-indigo-700 hover:shadow-indigo-300 transition-all active:scale-95">
-                  <span className="flex items-center gap-2 text-sm uppercase tracking-widest">
-                    Start Coding <ArrowRightIcon className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </span>
-                </button>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link
+                to="/problems"
+                className="group inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-600/25 transition hover:bg-indigo-500 active:scale-[0.98]"
+              >
+                Start Coding
+                <ArrowRightIcon className="h-4 w-4 transition group-hover:translate-x-1" />
               </Link>
-              <Link to="/dashboard">
-                <button className="px-8 py-4 bg-white text-slate-600 border border-slate-200 font-bold rounded-2xl hover:bg-slate-50 transition-all active:scale-95">
-                  <span className="text-sm uppercase tracking-widest">View Progress</span>
-                </button>
+              <Link
+                to="/dashboard"
+                className="inline-flex items-center gap-2 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 px-6 py-3 text-sm font-semibold text-zinc-200 transition hover:border-zinc-300 dark:border-zinc-700 hover:bg-white dark:bg-zinc-900"
+              >
+                View Progress
               </Link>
             </div>
           </div>
 
-          <div className="hidden lg:block w-full max-w-md bg-slate-900 rounded-[2.5rem] p-2 shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500 border-8 border-slate-800">
-            <div className="bg-slate-900 rounded-4xl p-6 font-mono text-sm text-indigo-300">
-              <p><span className="text-pink-400">class</span> <span className="text-yellow-300">Solution</span> {"{"}</p>
-              <p className="pl-4 text-slate-500">// Your journey starts here</p>
-              <p className="pl-4"><span className="text-pink-400">public:</span></p>
-              <p className="pl-8 text-indigo-200 underline decoration-indigo-500">solveDailyProblem()</p>
-              <p>{"}"}</p>
+          <div className="relative">
+            <div className="absolute -inset-4 rounded-3xl bg-gradient-to-br from-indigo-500/20 to-fuchsia-500/10 blur-2xl" />
+            <div className="relative rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/80 p-6 font-mono text-sm shadow-2xl backdrop-blur">
+              <div className="mb-3 flex items-center gap-2">
+                <span className="h-3 w-3 rounded-full bg-rose-500/80" />
+                <span className="h-3 w-3 rounded-full bg-amber-500/80" />
+                <span className="h-3 w-3 rounded-full bg-emerald-500/80" />
+                <span className="ml-2 text-xs text-zinc-500">solution.cpp</span>
+              </div>
+              <pre className="overflow-hidden whitespace-pre-wrap text-indigo-300">
+{`class Solution {
+public:
+  vector<int> twoSum(vector<int>& nums, int target) {
+    // your journey starts here
+    return {};
+  }
+};`}
+              </pre>
             </div>
           </div>
-        </header>
+        </section>
 
-        <section className="py-20">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
-            <div>
-              <h2 className="text-[10px] font-black text-indigo-500 uppercase tracking-[0.3em] mb-2">The Advantage</h2>
-              <p className="text-4xl font-bold text-slate-900"><span className="text-blue-600">Engineered for Excellence.</span></p>
-            </div>
+        <section className="mt-24">
+          <div className="mb-8">
+            <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-indigo-400">The advantage</p>
+            <h2 className="mt-2 text-3xl font-bold text-zinc-900 dark:text-zinc-100">Engineered for excellence.</h2>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="group p-8 bg-white border border-slate-200 rounded-4xl hover:border-indigo-500 transition-all duration-300 shadow-sm hover:shadow-xl hover:shadow-indigo-500/5">
-              <div className="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center mb-6 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
-                <ListBulletIcon className="w-6 h-6" />
-              </div>
-              <h3 className="font-bold text-xl text-slate-900 mb-3">Targeted Problem Sets</h3>
-              <p className="text-slate-500 text-sm leading-relaxed">
-                Curated problems across all major topics like DP, Graphs, and Trees. Filter by company, specific paths or skill level.
-              </p>
-            </div>
-
-            <div className="group p-8 bg-white border border-slate-200 rounded-4xl hover:border-indigo-500 transition-all duration-300 shadow-sm hover:shadow-xl hover:shadow-indigo-500/5">
-              <div className="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center mb-6 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
-                <CommandLineIcon className="w-6 h-6" />
-              </div>
-              <h3 className="font-bold text-xl text-slate-900 mb-3">Blazing Fast IDE</h3>
-              <p className="text-slate-500 text-sm leading-relaxed">
-                Cloud-based compiler supporting 20+ languages with instant feedback and powerful debugging tools.
-              </p>
-            </div>
-
-            <div className="group p-8 bg-white border border-slate-200 rounded-4xl hover:border-indigo-500 transition-all duration-300 shadow-sm hover:shadow-xl hover:shadow-indigo-500/5">
-              <div className="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center mb-6 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
-                <TrophyIcon className="w-6 h-6" />
-              </div>
-              <h3 className="font-bold text-xl text-slate-900 mb-3">Gamified Learning</h3>
-              <p className="text-slate-500 text-sm leading-relaxed">
-                Earn badges, climb leaderboards, and visualize progress with insightful data to stay motivated.
-              </p>
-            </div>
+          <div className="grid gap-5 md:grid-cols-3">
+            {[
+              {
+                icon: CommandLineIcon,
+                title: "Targeted Problem Sets",
+                desc: "Curated problems across DP, graphs, trees and more. Filter by topic, difficulty or company.",
+              },
+              {
+                icon: CommandLineIcon,
+                title: "Blazing Fast IDE",
+                desc: "Cloud compiler supporting 20+ languages with instant feedback and powerful debugging.",
+              },
+              {
+                icon: TrophyIcon,
+                title: "Gamified Learning",
+                desc: "Earn badges, climb leaderboards and visualize progress to stay motivated.",
+              },
+            ].map((f) => {
+              const Icon = f.icon;
+              return (
+                <div
+                  key={f.title}
+                  className="group rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 p-6 transition hover:border-indigo-500/50 hover:bg-white dark:bg-zinc-900"
+                >
+                  <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-500/10 text-indigo-300 transition group-hover:bg-indigo-500/20">
+                    <Icon className="h-5 w-5" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">{f.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">{f.desc}</p>
+                </div>
+              );
+            })}
           </div>
         </section>
       </div>

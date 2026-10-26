@@ -7,14 +7,14 @@ const handleScroll = () => {
 
 export default function Footer() {
     return (
-        <footer className="mt-20 border-t border-slate-200/60 bg-slate-50/50 py-12 dark:border-slate-800 dark:bg-transparent">
+        <footer className="mt-20 border-t border-zinc-200/60 bg-zinc-50/50 py-12 dark:border-zinc-800 dark:bg-transparent">
             <div className="mx-auto max-w-7xl px-4 flex flex-col sm:flex-row justify-between items-center gap-6">
 
-                <p className="text-xs font-medium text-slate-500 tracking-wider">
+                <p className="text-xs font-medium text-zinc-500 tracking-wider">
                     &copy; {new Date().getFullYear()} Let's Code
                 </p>
 
-                <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-xs font-semibold text-slate-600 tracking-wide">
+                <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-xs font-semibold text-zinc-600 tracking-wide">
                     <Link to="/privacy" className="hover:text-indigo-600 transition-colors duration-200">
                         Privacy
                     </Link>
@@ -27,7 +27,7 @@ export default function Footer() {
 
                     <button
                         onClick={handleScroll}
-                        className="p-2 rounded-full bg-white border border-slate-200 text-slate-500 hover:text-indigo-600 hover:border-indigo-200 hover:shadow-sm transition-all duration-200 active:scale-95"
+                        className="p-2 rounded-full bg-zinc-900 border border-zinc-200 text-zinc-500 hover:text-indigo-600 hover:border-indigo-200 hover:shadow-sm transition-all duration-200 active:scale-95"
                         aria-label="Scroll to top"
                     >
                         <ArrowUpIcon className="w-4 h-4 animate-pulse" />

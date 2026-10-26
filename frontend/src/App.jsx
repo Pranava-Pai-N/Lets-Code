@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { Bars3Icon } from "@heroicons/react/24/outline";
 import { ThemeProvider } from "./context/themecontext.jsx";
 import { CompilerProvider } from "./context/compilerContext.jsx";
 import Navbar from "./components/Navbar.jsx";
@@ -34,8 +35,17 @@ function App() {
       <ThemeProvider>
         <CompilerProvider>
           <Router>
-            <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900 overflow-x-hidden">
+            <div className="flex min-h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 overflow-x-hidden">
               <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} visible={sidebarVisible} onHide={() => setSidebarVisible(false)} onShow={() => setSidebarVisible(true)} />
+              {!sidebarVisible && (
+                <button
+                  onClick={() => setSidebarVisible(true)}
+                  className="fixed left-4 top-4 z-[60] rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-2 text-zinc-700 dark:text-zinc-200 shadow-lg transition hover:bg-zinc-100 dark:hover:bg-zinc-800"
+                  aria-label="Show sidebar"
+                >
+                  <Bars3Icon className="h-5 w-5" />
+                </button>
+              )}
               <div className={`flex-1 flex flex-col min-w-0 ${sidebarVisible ? "md:ml-72" : "md:ml-0"}`}>
                 <Navbar onMenuClick={() => setSidebarOpen(true)} sidebarVisible={sidebarVisible} onToggleSidebar={() => setSidebarVisible((v) => !v)} />
                 <main className="flex-1 w-full px-4 sm:px-6 lg:px-8 py-6">

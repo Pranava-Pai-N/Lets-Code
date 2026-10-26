@@ -53,7 +53,7 @@ const SidebarContent = ({ isCollapsed = false, onHide, onNavigate, showCollapse 
             <CodeBracketIcon className="w-5 h-5 text-white flex-shrink-0" />
           </div>
           {!isCollapsed && (
-            <h1 className="text-lg font-black text-gray-900 dark:text-white tracking-tight">
+            <h1 className="text-lg font-black text-zinc-900 dark:text-white tracking-tight">
               Let's <span className="text-indigo-600">Code</span>
             </h1>
           )}
@@ -62,7 +62,7 @@ const SidebarContent = ({ isCollapsed = false, onHide, onNavigate, showCollapse 
           <button
             type="button"
             onClick={onHide}
-            className="hidden md:inline-flex p-2 rounded-lg text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 transition"
+            className="hidden md:inline-flex p-2 rounded-lg text-zinc-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 transition"
             aria-label="Close sidebar"
           >
             <XMarkIcon className="w-4 h-4" />
@@ -83,7 +83,7 @@ const SidebarContent = ({ isCollapsed = false, onHide, onNavigate, showCollapse 
                 ${isCollapsed ? "justify-center px-2" : "px-3 gap-3"}
                 ${isActive
                   ? "bg-indigo-50 text-indigo-600 font-semibold dark:bg-indigo-900/20 dark:text-indigo-400 border-l-4 border-indigo-600"
-                  : "text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700/50"}
+                  : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-700/50"}
               `}
             >
               <span className="flex-shrink-0">{item.icon}</span>
@@ -96,27 +96,27 @@ const SidebarContent = ({ isCollapsed = false, onHide, onNavigate, showCollapse 
 
       <div className="p-3 space-y-3">
         {isAuthenticated && user && (
-          <div className={`flex items-center gap-3 p-3 rounded-xl bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700/40 dark:to-gray-800/60 border border-gray-100 dark:border-gray-700 ${isCollapsed ? "flex-col" : "justify-between"}`}>
+          <div className={`flex items-center gap-3 p-3 rounded-xl bg-gradient-to-br from-zinc-50 to-zinc-100 dark:from-zinc-700/40 dark:to-zinc-800/60 border border-zinc-100 dark:border-zinc-700 ${isCollapsed ? "flex-col" : "justify-between"}`}>
             <Link to="/profile" onClick={onNavigate} className="flex items-center gap-3 min-w-0">
               <div className="relative flex-shrink-0">
                 <img
                   src={user.profile_url}
                   alt="Profile"
-                  className="w-9 h-9 rounded-lg border-2 border-white dark:border-gray-800 shadow-sm object-cover"
+                  className="w-9 h-9 rounded-lg border-2 border-white dark:border-zinc-800 shadow-sm object-cover"
                 />
-                <span className="absolute -bottom-1 -right-1 w-2.5 h-2.5 border-2 border-white dark:border-gray-800 rounded-full bg-green-500" />
+                <span className="absolute -bottom-1 -right-1 w-2.5 h-2.5 border-2 border-white dark:border-zinc-800 rounded-full bg-green-500" />
               </div>
               {!isCollapsed && (
                 <div className="min-w-0">
-                  <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">{user.userName}</p>
-                  <p className="text-xs text-gray-400">Online</p>
+                  <p className="text-sm font-semibold text-zinc-900 dark:text-white truncate">{user.userName}</p>
+                  <p className="text-xs text-zinc-400">Online</p>
                 </div>
               )}
             </Link>
             {!isCollapsed && (
               <button
                 onClick={handleLogout}
-                className="p-2 rounded-lg text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 transition"
+                className="p-2 rounded-lg text-zinc-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 transition"
                 aria-label="Logout"
               >
                 <ArrowLeftOnRectangleIcon className="w-5 h-5" />
@@ -128,7 +128,7 @@ const SidebarContent = ({ isCollapsed = false, onHide, onNavigate, showCollapse 
         {showCollapse && isCollapsed && (
           <button
             onClick={handleLogout}
-            className="w-full flex items-center justify-center h-10 rounded-xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 text-gray-400 hover:text-red-600 transition"
+            className="w-full flex items-center justify-center h-10 rounded-xl bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 border border-zinc-100 dark:border-zinc-700 text-zinc-400 hover:text-red-600 transition"
             aria-label="Logout"
           >
             <ArrowLeftOnRectangleIcon className="w-5 h-5" />
@@ -160,11 +160,11 @@ const Sidebar = ({ isOpen = false, onClose, visible = true, onHide, onShow }) =>
           onClick={(e) => { e.stopPropagation(); onClose?.(); }}
         />
         <aside
-          className={`absolute top-0 left-0 h-full w-72 max-w-[85vw] bg-white dark:bg-gray-800 shadow-2xl transform transition-transform duration-300 pointer-events-auto z-50 ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
+          className={`absolute top-0 left-0 h-full w-72 max-w-[85vw] bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 shadow-2xl transform transition-transform duration-300 pointer-events-auto z-50 ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
         >
-          <div className="flex items-center justify-between p-4 border-b border-gray-100 dark:border-gray-700">
-            <span className="text-sm font-semibold text-gray-500">Menu</span>
-            <button type="button" onClick={(e) => { e.stopPropagation(); onClose?.(); }} className="p-2 rounded-lg text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
+          <div className="flex items-center justify-between p-4 border-b border-zinc-100 dark:border-zinc-700">
+            <span className="text-sm font-semibold text-zinc-500">Menu</span>
+            <button type="button" onClick={(e) => { e.stopPropagation(); onClose?.(); }} className="p-2 rounded-lg text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200">
               <XMarkIcon className="w-5 h-5" />
             </button>
           </div>
@@ -177,7 +177,7 @@ const Sidebar = ({ isOpen = false, onClose, visible = true, onHide, onShow }) =>
       {/* Desktop sidebar */}
       {visible && (
       <aside className="hidden md:block fixed top-0 left-0 p-4 h-screen w-72 z-30">
-        <div className="bg-white dark:bg-gray-800 h-full flex flex-col rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 overflow-hidden">
+        <div className="bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 h-full flex flex-col rounded-2xl shadow-lg border border-zinc-100 dark:border-zinc-700 overflow-hidden">
           <SidebarContent
             isCollapsed={false}
             onHide={onHide}

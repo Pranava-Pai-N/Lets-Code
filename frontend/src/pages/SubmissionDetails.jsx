@@ -40,27 +40,26 @@ const SubmissionDetails = () => {
         setTimeout(() => setCopied(false), 2000);
     };
 
-    if (loading)
-        <Loader />
+    if (loading) return <Loader />;
 
     if (!submission) return <div className="p-10 text-center">Submission not found</div>;
 
     const isAccepted = submission.status === 'Accepted';
 
     return (
-        <div className="p-4 md:p-8 bg-gray-50 dark:bg-gray-950 min-h-screen font-sans">
+        <div className="p-4 md:p-8 bg-zinc-50 dark:bg-zinc-50 dark:bg-zinc-950 min-h-screen font-sans">
 
             <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
                 <button
                     onClick={() => navigate(-1)}
-                    className="flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-indigo-600 transition-all group"
+                    className="flex items-center gap-2 text-sm font-medium text-zinc-500 hover:text-indigo-600 transition-all group"
                 >
                     <ChevronLeftIcon className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
                     Back to History
                 </button>
 
                 <div className="flex items-center gap-3">
-                    <span className="text-xs font-mono text-gray-400 bg-gray-200/50 dark:bg-gray-800 px-3 py-1 rounded-full truncate max-w-[200px]">
+                    <span className="text-xs font-mono text-zinc-600 dark:text-zinc-400 bg-zinc-200/50 dark:bg-zinc-100 dark:bg-zinc-800 px-3 py-1 rounded-full truncate max-w-[200px]">
                         ID: {submission._id}
                     </span>
                 </div>
@@ -91,22 +90,22 @@ const SubmissionDetails = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="absolute -right-10 -bottom-10 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
+                        <div className="absolute -right-10 -bottom-10 w-64 h-64 bg-white dark:bg-zinc-900/10 rounded-full blur-3xl"></div>
                     </div>
 
-                    <div className="rounded-3xl overflow-hidden bg-[#1e1e2e] shadow-2xl border border-gray-800">
-                        <div className="bg-[#181825] px-6 py-4 flex justify-between items-center border-b border-gray-800">
+                    <div className="rounded-3xl overflow-hidden bg-[#1e1e2e] shadow-2xl border border-zinc-200 dark:border-zinc-800">
+                        <div className="bg-[#181825] px-6 py-4 flex justify-between items-center border-b border-zinc-200 dark:border-zinc-800">
                             <div className="flex items-center gap-3">
                                 <div className="flex gap-1.5">
                                     <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
                                     <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
                                     <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
                                 </div>
-                                <span className="ml-4 text-xs font-mono text-gray-400">Solution.txt</span>
+                                <span className="ml-4 text-xs font-mono text-zinc-600 dark:text-zinc-400">Solution.txt</span>
                             </div>
                             <button
                                 onClick={copyToClipboard}
-                                className="flex items-center gap-2 text-xs font-bold text-gray-400 hover:text-white transition-colors bg-gray-800 hover:bg-gray-700 px-3 py-1.5 rounded-lg"
+                                className="flex items-center gap-2 text-xs font-bold text-zinc-600 dark:text-zinc-400 hover:text-white transition-colors bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-700 px-3 py-1.5 rounded-lg"
                             >
                                 {copied ? <CheckIcon className="w-4 h-4 text-green-400" /> : <DocumentDuplicateIcon className="w-4 h-4" />}
                                 {copied ? 'Copied!' : 'Copy'}
@@ -117,7 +116,7 @@ const SubmissionDetails = () => {
                                 <code className="block">
                                     {submission.sourceCode.split('\n').map((line, i) => (
                                         <div key={i} className="flex">
-                                            <span className="w-10 shrink-0 text-gray-600 select-none text-right pr-4 italic">{i + 1}</span>
+                                            <span className="w-10 shrink-0 text-zinc-600 select-none text-right pr-4 italic">{i + 1}</span>
                                             <span>{line}</span>
                                         </div>
                                     ))}
@@ -129,7 +128,7 @@ const SubmissionDetails = () => {
 
                 <div className="lg:col-span-4 space-y-6">
                     <div className="flex items-center justify-between px-2">
-                        <h3 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                        <h3 className="text-lg font-bold text-zinc-900 dark:text-white flex items-center gap-2">
                             <CommandLineIcon className="w-5 h-5 text-indigo-500" />
                             Testcases
                         </h3>
@@ -141,7 +140,7 @@ const SubmissionDetails = () => {
                     <div className="space-y-4">
                         {submission.testResults.map((test, index) => (
                             <div key={test._id} className="group relative">
-                                <Card className="p-5 border-transparent bg-white dark:bg-gray-900 shadow-sm hover:shadow-md hover:border-indigo-500/30 transition-all border border-gray-100 dark:border-gray-800">
+                                <Card className="p-5 border-transparent bg-white dark:bg-zinc-900 dark:bg-white dark:bg-zinc-900 shadow-sm hover:shadow-md hover:border-indigo-500/30 transition-all border border-zinc-100 dark:border-zinc-200 dark:border-zinc-800">
                                     <div className="flex justify-between items-start mb-4">
                                         <div>
                                             <p className="text-[10px] font-black text-indigo-500 mb-1 tracking-widest uppercase">Test {index + 1}</p>
@@ -149,16 +148,16 @@ const SubmissionDetails = () => {
                                                 {test.status}
                                             </p>
                                         </div>
-                                        <div className="text-[10px] font-mono text-gray-400 text-right leading-tight">
+                                        <div className="text-[10px] font-mono text-zinc-600 dark:text-zinc-400 text-right leading-tight">
                                             <p>{test.time}s</p>
                                             <p>{(test.memory / 1024).toFixed(1)}MB</p>
                                         </div>
                                     </div>
 
                                     <div className="space-y-3">
-                                        <div className="bg-gray-50 dark:bg-black/40 p-3 rounded-xl border border-gray-100 dark:border-gray-800">
-                                            <p className="text-[9px] uppercase font-black text-gray-400 mb-2">Output</p>
-                                            <p className="font-mono text-xs text-gray-600 dark:text-gray-300 break-all leading-tight">
+                                        <div className="bg-zinc-50 dark:bg-black/40 p-3 rounded-xl border border-zinc-100 dark:border-zinc-200 dark:border-zinc-800">
+                                            <p className="text-[9px] uppercase font-black text-zinc-600 dark:text-zinc-400 mb-2">Output</p>
+                                            <p className="font-mono text-xs text-zinc-600 dark:text-zinc-300 break-all leading-tight">
                                                 {test.stdout || <span className="italic opacity-50">Empty stdout</span>}
                                             </p>
                                         </div>

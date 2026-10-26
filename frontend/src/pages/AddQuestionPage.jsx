@@ -28,8 +28,8 @@ const DynamicListInput = ({ title, items, setItems, placeholder, Icon }) => {
     };
 
     return (
-        <div className="space-y-3 p-5 bg-gray-50 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl border border-indigo-200/50 dark:border-indigo-900/50 shadow-inner shadow-indigo-500/10">
-            <label className="flex items-center text-lg font-extrabold text-gray-900 dark:text-white">
+        <div className="space-y-3 p-5 bg-zinc-50 dark:bg-zinc-100 dark:bg-zinc-800/70 backdrop-blur-sm rounded-xl border border-indigo-200/50 dark:border-indigo-900/50 shadow-inner shadow-indigo-500/10">
+            <label className="flex items-center text-lg font-extrabold text-zinc-900 dark:text-white">
                 <Icon className="w-5 h-5 mr-2 text-indigo-500 dark:text-indigo-400" />
                 {title}
             </label>
@@ -40,7 +40,7 @@ const DynamicListInput = ({ title, items, setItems, placeholder, Icon }) => {
                     onChange={(e) => setNewItem(e.target.value)}
                     onKeyPress={(e) => e.key === 'Enter' && addItem()}
                     placeholder={placeholder}
-                    className="flex-1 px-5 py-3 border-2 border-indigo-400/50 rounded-xl focus:ring-indigo-600 focus:border-indigo-600 dark:bg-gray-900 dark:border-indigo-800 dark:text-gray-100 transition duration-300 transform hover:scale-[1.01] focus:scale-[1.01]"
+                    className="flex-1 px-5 py-3 border-2 border-indigo-400/50 rounded-xl focus:ring-indigo-600 focus:border-indigo-600 dark:bg-white dark:bg-zinc-900 dark:border-indigo-800 dark:text-zinc-900 dark:text-zinc-100 transition duration-300 transform hover:scale-[1.01] focus:scale-[1.01]"
                 />
                 <Button
                     type="button"
@@ -170,21 +170,21 @@ const AddQuestionPage = () => {
             case 'easy': return 'text-green-500 border-green-500';
             case 'medium': return 'text-yellow-500 border-yellow-500';
             case 'hard': return 'text-red-500 border-red-500';
-            default: return 'text-gray-500 border-gray-500';
+            default: return 'text-zinc-500 border-zinc-500';
         }
     };
 
     const renderDetailsTab = () => (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
 
-            <div className="space-y-8 p-6 bg-gray-900/5 backdrop-blur-sm rounded-3xl border border-gray-200/50 dark:border-gray-800/50 shadow-2xl shadow-gray-500/5 dark:shadow-indigo-500/5">
-                <h3 className="flex items-center text-2xl font-black text-gray-900 dark:text-white border-b border-indigo-500/50 pb-3">
+            <div className="space-y-8 p-6 bg-white dark:bg-zinc-900/5 backdrop-blur-sm rounded-3xl border border-zinc-200/50 dark:border-zinc-200 dark:border-zinc-800/50 shadow-2xl shadow-zinc-500/5 dark:shadow-indigo-500/5">
+                <h3 className="flex items-center text-2xl font-black text-zinc-900 dark:text-white border-b border-indigo-500/50 pb-3">
                     Core Question Data
                 </h3>
 
                 <div className="space-y-6">
                     <div>
-                        <label htmlFor="title" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Problem Title <Zap className="w-4 h-4 inline ml-1 text-yellow-500" /></label>
+                        <label htmlFor="title" className="block text-sm font-semibold text-zinc-700 dark:text-zinc-300 mb-2">Problem Title <Zap className="w-4 h-4 inline ml-1 text-yellow-500" /></label>
                         <input
                             type="text"
                             id="title"
@@ -193,26 +193,26 @@ const AddQuestionPage = () => {
                             onChange={handleChange}
                             required
                             placeholder="e.g., The Great Two Sum Challenge"
-                            className="w-full px-5 py-3 border-2 border-gray-300 dark:border-gray-700 rounded-xl focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-800 dark:text-gray-100 shadow-md transition duration-300 focus:shadow-indigo-500/30"
+                            className="w-full px-5 py-3 border-2 border-zinc-300 dark:border-zinc-300 dark:border-zinc-700 rounded-xl focus:ring-indigo-500 focus:border-indigo-500 dark:bg-zinc-100 dark:bg-zinc-800 dark:text-zinc-900 dark:text-zinc-100 shadow-md transition duration-300 focus:shadow-indigo-500/30"
                         />
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                         <div>
-                            <label htmlFor="difficultyLevel" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Difficulty</label>
+                            <label htmlFor="difficultyLevel" className="block text-sm font-semibold text-zinc-700 dark:text-zinc-300 mb-2">Difficulty</label>
                             <select
                                 id="difficultyLevel"
                                 name="difficultyLevel"
                                 value={formData.difficultyLevel}
                                 onChange={handleChange}
                                 required
-                                className={`w-l px-5 py-3 border-2 rounded-xl focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-800 dark:text-gray-100 font-bold transition duration-200 ${difficultyColor(formData.difficultyLevel)} ${formData.difficultyLevel === 'easy' ? 'border-green-500/50' : formData.difficultyLevel === 'medium' ? 'border-yellow-500/50' : 'border-red-500/50'}`}
+                                className={`w-l px-5 py-3 border-2 rounded-xl focus:ring-indigo-500 focus:border-indigo-500 dark:bg-zinc-100 dark:bg-zinc-800 dark:text-zinc-900 dark:text-zinc-100 font-bold transition duration-200 ${difficultyColor(formData.difficultyLevel)} ${formData.difficultyLevel === 'easy' ? 'border-green-500/50' : formData.difficultyLevel === 'medium' ? 'border-yellow-500/50' : 'border-red-500/50'}`}
                             >
-                                {difficultyOptions.map(level => <option key={level} value={level} className="bg-white dark:bg-gray-900">{level.toUpperCase()}</option>)}
+                                {difficultyOptions.map(level => <option key={level} value={level} className="bg-white dark:bg-zinc-900 dark:bg-white dark:bg-zinc-900">{level.toUpperCase()}</option>)}
                             </select>
                         </div>
                         <div>
-                            <label htmlFor="ratingLevel" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                            <label htmlFor="ratingLevel" className="block text-sm font-semibold text-zinc-700 dark:text-zinc-300 mb-2">
                                 Rating (1-5)
                             </label>
                             <select
@@ -221,17 +221,17 @@ const AddQuestionPage = () => {
                                 value={formData.ratingLevel}
                                 onChange={handleChange}
                                 required
-                                className="w-full px-5 py-3 border-2 border-gray-300 dark:border-gray-700 rounded-xl focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-800 dark:text-gray-100 font-bold"
+                                className="w-full px-5 py-3 border-2 border-zinc-300 dark:border-zinc-300 dark:border-zinc-700 rounded-xl focus:ring-indigo-500 focus:border-indigo-500 dark:bg-zinc-100 dark:bg-zinc-800 dark:text-zinc-900 dark:text-zinc-100 font-bold"
                             >
                                 {ratingOptions.map(rating => (
-                                    <option key={rating} value={rating} className="bg-white dark:bg-gray-900">
+                                    <option key={rating} value={rating} className="bg-white dark:bg-zinc-900 dark:bg-white dark:bg-zinc-900">
                                         {rating} {Array(rating).fill('').join('')}
                                     </option>
                                 ))}
                             </select>
                         </div>
                         <div>
-                            <label htmlFor="acceptedRate" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Success Rate (%)</label>
+                            <label htmlFor="acceptedRate" className="block text-sm font-semibold text-zinc-700 dark:text-zinc-300 mb-2">Success Rate (%)</label>
                             <input
                                 type="number"
                                 id="acceptedRate"
@@ -241,36 +241,36 @@ const AddQuestionPage = () => {
                                 min="0"
                                 max="100"
                                 required
-                                className="w-full px-5 py-3 border-2 border-gray-300 dark:border-gray-700 rounded-xl focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-800 dark:text-gray-100"
+                                className="w-full px-5 py-3 border-2 border-zinc-300 dark:border-zinc-300 dark:border-zinc-700 rounded-xl focus:ring-indigo-500 focus:border-indigo-500 dark:bg-zinc-100 dark:bg-zinc-800 dark:text-zinc-900 dark:text-zinc-100"
                             />
                         </div>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label htmlFor="expectedTimeComplexity" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Time Complexity <Clock className="w-4 h-4 inline ml-1 text-blue-500" /></label>
+                            <label htmlFor="expectedTimeComplexity" className="block text-sm font-semibold text-zinc-700 dark:text-zinc-300 mb-2">Time Complexity <Clock className="w-4 h-4 inline ml-1 text-blue-500" /></label>
                             <select
                                 id="expectedTimeComplexity"
                                 name="expectedTimeComplexity"
                                 value={formData.expectedTimeComplexity}
                                 onChange={handleChange}
                                 required
-                                className="w-full px-5 py-3 border-2 border-gray-300 dark:border-gray-700 rounded-xl focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-800 dark:text-gray-100 font-mono font-bold"
+                                className="w-full px-5 py-3 border-2 border-zinc-300 dark:border-zinc-300 dark:border-zinc-700 rounded-xl focus:ring-indigo-500 focus:border-indigo-500 dark:bg-zinc-100 dark:bg-zinc-800 dark:text-zinc-900 dark:text-zinc-100 font-mono font-bold"
                             >
-                                {complexityOptions.map(comp => <option key={comp} value={comp} className="bg-white dark:bg-gray-900">{comp}</option>)}
+                                {complexityOptions.map(comp => <option key={comp} value={comp} className="bg-white dark:bg-zinc-900 dark:bg-white dark:bg-zinc-900">{comp}</option>)}
                             </select>
                         </div>
                         <div>
-                            <label htmlFor="expectedSpaceComplexity" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Space Complexity <Cpu className="w-4 h-4 inline ml-1 text-purple-500" /></label>
+                            <label htmlFor="expectedSpaceComplexity" className="block text-sm font-semibold text-zinc-700 dark:text-zinc-300 mb-2">Space Complexity <Cpu className="w-4 h-4 inline ml-1 text-purple-500" /></label>
                             <select
                                 id="expectedSpaceComplexity"
                                 name="expectedSpaceComplexity"
                                 value={formData.expectedSpaceComplexity}
                                 onChange={handleChange}
                                 required
-                                className="w-full px-5 py-3 border-2 border-gray-300 dark:border-gray-700 rounded-xl focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-800 dark:text-gray-100 font-mono font-bold"
+                                className="w-full px-5 py-3 border-2 border-zinc-300 dark:border-zinc-300 dark:border-zinc-700 rounded-xl focus:ring-indigo-500 focus:border-indigo-500 dark:bg-zinc-100 dark:bg-zinc-800 dark:text-zinc-900 dark:text-zinc-100 font-mono font-bold"
                             >
-                                {complexityOptions.map(comp => <option key={comp} value={comp} className="bg-white dark:bg-gray-900">{comp}</option>)}
+                                {complexityOptions.map(comp => <option key={comp} value={comp} className="bg-white dark:bg-zinc-900 dark:bg-white dark:bg-zinc-900">{comp}</option>)}
                             </select>
                         </div>
                     </div>
@@ -282,9 +282,9 @@ const AddQuestionPage = () => {
                             name="isDailyQuestion"
                             checked={formData.isDailyQuestion}
                             onChange={handleChange}
-                            className="h-6 w-6 text-indigo-600 border-indigo-300 rounded-lg focus:ring-indigo-500 dark:bg-gray-700 dark:border-indigo-600 transform scale-110"
+                            className="h-6 w-6 text-indigo-600 border-indigo-300 rounded-lg focus:ring-indigo-500 dark:bg-zinc-700 dark:border-indigo-600 transform scale-110"
                         />
-                        <label htmlFor="isDailyQuestion" className="ml-3 block text-lg font-bold text-gray-800 dark:text-gray-200">
+                        <label htmlFor="isDailyQuestion" className="ml-3 block text-lg font-bold text-zinc-800 dark:text-zinc-200">
                             Mark as Daily Challenge
                         </label>
                     </div>
@@ -310,7 +310,7 @@ const AddQuestionPage = () => {
             </div>
 
             <div className="md:col-span-2 space-y-4 pt-4">
-                <label htmlFor="description" className="block text-xl font-black text-gray-900 dark:text-white flex items-center">
+                <label htmlFor="description" className="block text-xl font-black text-zinc-900 dark:text-white flex items-center">
                     Problem Description
                 </label>
                 <MonacoEditor
@@ -335,25 +335,25 @@ const AddQuestionPage = () => {
 
     const renderTestCasesTab = () => (
         <div className="space-y-8">
-            <h3 className="text-2xl font-black text-gray-900 dark:text-white flex items-center border-b border-indigo-500/50 pb-3">
+            <h3 className="text-2xl font-black text-zinc-900 dark:text-white flex items-center border-b border-indigo-500/50 pb-3">
                 <Cpu className="w-6 h-6 mr-2 text-indigo-500" /> System Test Cases Configuration
             </h3>
-            <p className="text-sm text-gray-500 dark:text-gray-400 p-3 bg-gray-50 dark:bg-gray-800/70 rounded-lg border border-gray-300/50 dark:border-gray-700/50">
+            <p className="text-sm text-zinc-500 dark:text-zinc-600 dark:text-zinc-400 p-3 bg-zinc-50 dark:bg-zinc-100 dark:bg-zinc-800/70 rounded-lg border border-zinc-300/50 dark:border-zinc-300 dark:border-zinc-700/50">
                 Define the Input and Expected Output for verification. Remember to mark at least one case as an **Example** for public visibility.
             </p>
 
             <div className="max-h-[65vh] overflow-y-auto pr-3 space-y-6">
                 {formData.testCases.map((tc, index) => (
-                    <Card key={index} className="p-6 border-4 border-indigo-500/30 dark:border-indigo-800/50 shadow-2xl shadow-indigo-500/10 space-y-4 bg-white dark:bg-gray-900/50 backdrop-blur-sm rounded-2xl transition duration-300 hover:border-indigo-500/50">
+                    <Card key={index} className="p-6 border-4 border-indigo-500/30 dark:border-indigo-800/50 shadow-2xl shadow-indigo-500/10 space-y-4 bg-white dark:bg-zinc-900 dark:bg-white dark:bg-zinc-900/50 backdrop-blur-sm rounded-2xl transition duration-300 hover:border-indigo-500/50">
                         <div className="flex justify-between items-center pb-3 border-b border-indigo-500/20 dark:border-indigo-700/50">
                             <span className="font-extrabold text-xl text-indigo-700 dark:text-indigo-300">Test Case <span className="text-2xl font-black">#{index + 1}</span></span>
                             <div className="flex items-center space-x-6">
-                                <label className="flex items-center text-sm font-medium text-gray-700 dark:text-gray-300 cursor-pointer p-2 rounded-lg bg-gray-100 dark:bg-gray-800/50 transition duration-200 hover:bg-indigo-100 dark:hover:bg-indigo-900/30">
+                                <label className="flex items-center text-sm font-medium text-zinc-700 dark:text-zinc-300 cursor-pointer p-2 rounded-lg bg-zinc-100 dark:bg-zinc-100 dark:bg-zinc-800/50 transition duration-200 hover:bg-indigo-100 dark:hover:bg-indigo-900/30">
                                     <input
                                         type="checkbox"
                                         checked={tc.isExample}
                                         onChange={(e) => handleTestCaseChange(index, 'isExample', e.target.checked)}
-                                        className="h-5 w-5 text-green-600 border-gray-300 rounded focus:ring-green-500 dark:bg-gray-700 dark:border-gray-600"
+                                        className="h-5 w-5 text-green-600 border-zinc-300 rounded focus:ring-green-500 dark:bg-zinc-700 dark:border-zinc-600"
                                     />
                                     <span className="ml-2 font-bold">{tc.isExample ? '' : ''} Example</span>
                                 </label>
@@ -370,25 +370,25 @@ const AddQuestionPage = () => {
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <label className="block text-md font-bold text-gray-500 dark:text-gray-400 mb-2">Input Data <span className="text-red-500">*</span></label>
+                                <label className="block text-md font-bold text-zinc-500 dark:text-zinc-600 dark:text-zinc-400 mb-2">Input Data <span className="text-red-500">*</span></label>
                                 <textarea
                                     value={tc.input}
                                     onChange={(e) => handleTestCaseChange(index, 'input', e.target.value)}
                                     placeholder='e.g., nums = [2,7,11,15], target = 9'
                                     required
                                     rows="5"
-                                    className="w-full p-4 border-2 border-gray-300 dark:border-gray-700 rounded-xl text-sm font-mono dark:bg-gray-950 dark:text-gray-100 shadow-inner focus:border-indigo-500 transition duration-200"
+                                    className="w-full p-4 border-2 border-zinc-300 dark:border-zinc-300 dark:border-zinc-700 rounded-xl text-sm font-mono dark:bg-zinc-50 dark:bg-zinc-950 dark:text-zinc-900 dark:text-zinc-100 shadow-inner focus:border-indigo-500 transition duration-200"
                                 />
                             </div>
                             <div>
-                                <label className="block text-md font-bold text-gray-500 dark:text-gray-400 mb-2">Expected Output <span className="text-red-500">*</span></label>
+                                <label className="block text-md font-bold text-zinc-500 dark:text-zinc-600 dark:text-zinc-400 mb-2">Expected Output <span className="text-red-500">*</span></label>
                                 <textarea
                                     value={tc.output}
                                     onChange={(e) => handleTestCaseChange(index, 'output', e.target.value)}
                                     placeholder="e.g., [0, 1]"
                                     required
                                     rows="5"
-                                    className="w-full p-4 border-2 border-gray-300 dark:border-gray-700 rounded-xl text-sm font-mono dark:bg-gray-950 dark:text-gray-100 shadow-inner focus:border-indigo-500 transition duration-200"
+                                    className="w-full p-4 border-2 border-zinc-300 dark:border-zinc-300 dark:border-zinc-700 rounded-xl text-sm font-mono dark:bg-zinc-50 dark:bg-zinc-950 dark:text-zinc-900 dark:text-zinc-100 shadow-inner focus:border-indigo-500 transition duration-200"
                                 />
                             </div>
                         </div>
@@ -408,13 +408,13 @@ const AddQuestionPage = () => {
 
 
     return (
-        <div className="min-h-screen bg-gray-100 dark:bg-gray-950 p-4 md:p-8 relative">
+        <div className="min-h-screen bg-zinc-100 dark:bg-zinc-50 dark:bg-zinc-950 p-4 md:p-8 relative">
 
             <div className="absolute top-0 left-0 w-full h-full opacity-10 dark:opacity-20 pointer-events-none">
                 <div className="w-full h-full bg-cover bg-center" style={{ backgroundImage: "url('/pattern-dots.svg')" }}></div>
             </div>
 
-            <Card className="max-w-8xl mx-auto bg-white/80 dark:bg-gray-900/90 backdrop-blur-lg shadow-[0_20px_50px_rgba(8,112,184,0.7)] p-4 md:p-10 space-y-10 rounded-3xl relative z-10 border border-gray-200/50 dark:border-gray-800/50">
+            <Card className="max-w-8xl mx-auto bg-white dark:bg-zinc-900/80 dark:bg-white dark:bg-zinc-900/90 backdrop-blur-lg shadow-[0_20px_50px_rgba(8,112,184,0.7)] p-4 md:p-10 space-y-10 rounded-3xl relative z-10 border border-zinc-200/50 dark:border-zinc-200 dark:border-zinc-800/50">
 
                 <h1 className="text-2xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-linear-to-r from-indigo-500 to-purple-600 dark:from-indigo-300 dark:to-purple-400 border-b-4 border-purple-500/50 pb-4 flex items-center">
                     <Zap className="w-8 h-8 mr-3" />
@@ -430,7 +430,7 @@ const AddQuestionPage = () => {
 
                 <form onSubmit={handleSubmit} className="space-y-10">
 
-                    <div className="flex border-b-4 border-gray-200 dark:border-gray-700/50">
+                    <div className="flex border-b-4 border-zinc-200 dark:border-zinc-300 dark:border-zinc-700/50">
                         {[{ id: 'details', label: 'Problem Details & Metadata' }, { id: 'tests', label: 'Test Cases' }].map(tab => (
                             <button
                                 key={tab.id}
@@ -438,8 +438,8 @@ const AddQuestionPage = () => {
                                 onClick={() => setActiveTab(tab.id)}
                                 className={`px-4 md:px-8 py-3 md:py-4 text-base md:text-xl font-black transition duration-300 relative group 
                                     ${activeTab === tab.id
-                                        ? "text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-gray-800/50 shadow-inner rounded-t-xl"
-                                        : "text-gray-600 dark:text-gray-300 hover:text-indigo-500 dark:hover:text-indigo-300 bg-transparent hover:bg-gray-50/50 dark:hover:bg-gray-800/30 rounded-t-xl"
+                                        ? "text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-zinc-100 dark:bg-zinc-800/50 shadow-inner rounded-t-xl"
+                                        : "text-zinc-600 dark:text-zinc-300 hover:text-indigo-500 dark:hover:text-indigo-300 bg-transparent hover:bg-zinc-50/50 dark:hover:bg-zinc-100 dark:bg-zinc-800/30 rounded-t-xl"
                                     }`}
                             >
                                 {tab.label}

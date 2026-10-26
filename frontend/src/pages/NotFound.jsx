@@ -23,10 +23,10 @@ const NotFound = () => {
         </div>
 
         <div className="mt-8 space-y-6">
-          <p className="text-gray-400 font-mono text-sm md:text-base tracking-widest uppercase">
+          <p className="text-zinc-600 dark:text-zinc-400 font-mono text-sm md:text-base tracking-widest uppercase">
             [ Error_Code: Page_Not_Found ]
           </p>
-          <p className="max-w-md mx-auto text-gray-500 text-lg leading-relaxed">
+          <p className="max-w-md mx-auto text-zinc-500 text-lg leading-relaxed">
             The url you provided led to an empty resource. The resource has been moved, 
             deleted, or never existed in this dimension. Please wait or retrieve back.
           </p>
@@ -35,7 +35,7 @@ const NotFound = () => {
         <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
           <button
             onClick={() => navigate("/")}
-            className="group flex items-center gap-2 px-8 py-4 bg-white/5 border border-white/10 rounded-2xl text-white font-bold transition-all hover:bg-white/10 active:scale-95"
+            className="group flex items-center gap-2 px-8 py-4 bg-white dark:bg-zinc-900/5 border border-white/10 rounded-2xl text-white font-bold transition-all hover:bg-white dark:bg-zinc-900/10 active:scale-95"
           >
             <ArrowLeftIcon className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
             Home

@@ -131,18 +131,18 @@ const Login = () => {
   }
 
   return (
-    <div className={`flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-950 transition-colors duration-300 ${isMobile ? 'p-3' : 'p-6'}`}>
+    <div className={`flex items-center justify-center min-h-screen bg-zinc-100 dark:bg-zinc-50 dark:bg-zinc-950 transition-colors duration-300 ${isMobile ? 'p-3' : 'p-6'}`}>
 
-      <div className={`bg-white dark:bg-gray-900 rounded-3xl shadow-2xl w-full max-w-lg border border-gray-200 dark:border-gray-800 transition-all ${isMobile ? 'p-5' : 'p-12'}`}>
+      <div className={`bg-white dark:bg-zinc-900 dark:bg-white dark:bg-zinc-900 rounded-3xl shadow-2xl w-full max-w-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-800 transition-all ${isMobile ? 'p-5' : 'p-12'}`}>
 
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center p-3 bg-indigo-100 dark:bg-indigo-900/30 rounded-2xl mb-4">
             <CodeBracketIcon className="h-10 w-10 text-indigo-600 dark:text-indigo-400" />
           </div>
-          <h2 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">
+          <h2 className="text-3xl font-black text-zinc-900 dark:text-white tracking-tight">
             Welcome Back
           </h2>
-          <p className="mt-2 text-gray-600 dark:text-gray-400">
+          <p className="mt-2 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
             Sign in to resume your coding journey
           </p>
         </div>
@@ -157,7 +157,7 @@ const Login = () => {
           <Button
             variant="light"
             onClick={handleGoogleLogin}
-            className="flex items-center justify-center py-2.5 border border-gray-300 dark:border-gray-700 text-sm font-bold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl transition-all shadow-sm"
+            className="flex items-center justify-center py-2.5 border border-zinc-300 dark:border-zinc-300 dark:border-zinc-700 text-sm font-bold text-zinc-700 dark:text-zinc-200 hover:bg-zinc-50 dark:hover:bg-zinc-100 dark:bg-zinc-800 rounded-xl transition-all shadow-sm"
           >
             <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" className="h-5 w-5 mr-2" />
             Google
@@ -165,7 +165,7 @@ const Login = () => {
           <Button
             variant="light"
             onClick={handleGitHubLogin}
-            className="flex items-center justify-center py-2.5 border border-gray-300 dark:border-gray-700 text-sm font-bold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl transition-all shadow-sm"
+            className="flex items-center justify-center py-2.5 border border-zinc-300 dark:border-zinc-300 dark:border-zinc-700 text-sm font-bold text-zinc-700 dark:text-zinc-200 hover:bg-zinc-50 dark:hover:bg-zinc-100 dark:bg-zinc-800 rounded-xl transition-all shadow-sm"
           >
             <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub" className="h-5 w-5 mr-2 dark:invert" />
             GitHub
@@ -174,7 +174,7 @@ const Login = () => {
           <Button
             variant="light"
             onClick={handlePasskeyLogin}
-            className="flex items-center justify-center gap-2 py-2.5 border border-gray-300 dark:border-gray-700 text-sm font-bold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl transition-all shadow-sm"
+            className="flex items-center justify-center gap-2 py-2.5 border border-zinc-300 dark:border-zinc-300 dark:border-zinc-700 text-sm font-bold text-zinc-700 dark:text-zinc-200 hover:bg-zinc-50 dark:hover:bg-zinc-100 dark:bg-zinc-800 rounded-xl transition-all shadow-sm"
           >
             <FingerPrintIcon className="w-4 h-4 text-indigo-400" />
             Login with PassKey
@@ -184,28 +184,28 @@ const Login = () => {
         </div>
 
         <div className="relative flex justify-center text-xs tracking-widest">
-          <span className="px-4 bg-white dark:bg-gray-900 text-gray-500 font-bold">Please Login with Passkey after creating an account</span>
+          <span className="px-4 bg-white dark:bg-zinc-900 dark:bg-white dark:bg-zinc-900 text-zinc-500 font-bold">Please Login with Passkey after creating an account</span>
         </div>
         <br></br>
 
         <div className="relative mb-8">
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-gray-200 dark:border-gray-800"></div>
+            <div className="w-full border-t border-zinc-200 dark:border-zinc-200 dark:border-zinc-800"></div>
           </div>
           <div className="relative flex justify-center text-xs uppercase tracking-widest">
-            <span className="px-4 bg-white dark:bg-gray-900 text-gray-500 font-bold">Or Email</span>
+            <span className="px-4 bg-white dark:bg-zinc-900 dark:bg-white dark:bg-zinc-900 text-zinc-500 font-bold">Or Email</span>
           </div>
         </div>
 
         <form className="space-y-6" onSubmit={handleLogin}>
 
           <div className="space-y-2">
-            <label htmlFor="email" className="block text-sm font-bold text-gray-700 dark:text-gray-300">
+            <label htmlFor="email" className="block text-sm font-bold text-zinc-700 dark:text-zinc-300">
               Email Address
             </label>
             <div className="relative group">
               <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                <AtSymbolIcon className="h-5 w-5 text-gray-400 group-focus-within:text-indigo-500 transition-colors" />
+                <AtSymbolIcon className="h-5 w-5 text-zinc-600 dark:text-zinc-400 group-focus-within:text-indigo-500 transition-colors" />
               </div>
               <input
                 id="email"
@@ -213,7 +213,7 @@ const Login = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="name@company.com"
-                className="w-full pl-11 pr-4 py-3.5 border-2 border-gray-100 dark:border-gray-800 rounded-2xl bg-gray-50/50 dark:bg-gray-800/50 text-gray-900 dark:text-gray-100 focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 outline-none transition-all"
+                className="w-full pl-11 pr-4 py-3.5 border-2 border-zinc-100 dark:border-zinc-200 dark:border-zinc-800 rounded-2xl bg-zinc-50/50 dark:bg-zinc-100 dark:bg-zinc-800/50 text-zinc-900 dark:text-zinc-900 dark:text-zinc-100 focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 outline-none transition-all"
                 required
               />
             </div>
@@ -221,7 +221,7 @@ const Login = () => {
 
           <div className="space-y-2">
             <div className="flex justify-between items-center">
-              <label htmlFor="password" className="text-sm font-bold text-gray-700 dark:text-gray-300">
+              <label htmlFor="password" className="text-sm font-bold text-zinc-700 dark:text-zinc-300">
                 Password
               </label>
               <Link to="/forgot-password" className="text-xs font-bold text-indigo-600 hover:text-indigo-500 dark:text-indigo-400">
@@ -230,7 +230,7 @@ const Login = () => {
             </div>
             <div className="relative group">
               <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                <LockClosedIcon className="h-5 w-5 text-gray-400 group-focus-within:text-indigo-500 transition-colors" />
+                <LockClosedIcon className="h-5 w-5 text-zinc-600 dark:text-zinc-400 group-focus-within:text-indigo-500 transition-colors" />
               </div>
               <input
                 id="password"
@@ -238,13 +238,13 @@ const Login = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full pl-11 pr-12 py-3.5 border-2 border-gray-100 dark:border-gray-800 rounded-2xl bg-gray-50/50 dark:bg-gray-800/50 text-gray-900 dark:text-gray-100 focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 outline-none transition-all"
+                className="w-full pl-11 pr-12 py-3.5 border-2 border-zinc-100 dark:border-zinc-200 dark:border-zinc-800 rounded-2xl bg-zinc-50/50 dark:bg-zinc-100 dark:bg-zinc-800/50 text-zinc-900 dark:text-zinc-900 dark:text-zinc-100 focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 outline-none transition-all"
                 required
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-gray-400 hover:text-indigo-500 transition-colors"
+                className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-zinc-600 dark:text-zinc-400 hover:text-indigo-500 transition-colors"
               >
                 {showPassword ? <EyeSlashIcon className="h-5 w-5" /> : <EyeIcon className="h-5 w-5" />}
               </button>
@@ -287,7 +287,7 @@ const Login = () => {
           </Button>
         </form>
 
-        <p className="mt-8 text-center text-sm font-medium text-gray-600 dark:text-gray-500">
+        <p className="mt-8 text-center text-sm font-medium text-zinc-600 dark:text-zinc-500">
           New here?{" "}
           <Link to="/register" className="text-indigo-600 dark:text-indigo-400 font-bold hover:underline decoration-2 underline-offset-4">
             Create an account

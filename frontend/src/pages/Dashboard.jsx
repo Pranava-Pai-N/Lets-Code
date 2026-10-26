@@ -1,7 +1,15 @@
 import Card from "../components/Card.jsx";
 import Button from "../components/Button.jsx";
 import { Link } from "react-router-dom";
-import { CheckCircleIcon, TrophyIcon, RocketLaunchIcon, CodeBracketSquareIcon, ArrowRightIcon, ChartBarIcon, ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
+import {
+  CheckCircleIcon,
+  TrophyIcon,
+  RocketLaunchIcon,
+  CodeBracketSquareIcon,
+  ArrowRightIcon,
+  ChartBarIcon,
+  ArrowTopRightOnSquareIcon,
+} from "@heroicons/react/24/outline";
 import { useAuth } from "../context/AuthContext.jsx";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState, useCallback } from "react";
@@ -19,10 +27,8 @@ const Dashboard = () => {
   const [_isSyncing, setIsSyncing] = useState(false);
   const [activityData, setActivityData] = useState({ activity: [], submissionCount: 0 });
 
-
   const fetchLeetcodeStats = useCallback(async (username) => {
-    if (!username)
-      return;
+    if (!username) return;
     setIsSyncing(true);
     try {
       const response = await axios.post(
@@ -30,13 +36,10 @@ const Dashboard = () => {
         { leetcodeUsername: username },
         { withCredentials: true }
       );
-
-
       if (response.data.success) {
         setleetcodeUsername(username);
         setLeetcodeStats(response.data.data);
       }
-
     } catch (error) {
       console.error("Error syncing LeetCode:", error);
     } finally {
@@ -47,12 +50,12 @@ const Dashboard = () => {
   const fetchRecentActivity = useCallback(async () => {
     try {
       const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/users/recent-activity`, {
-        withCredentials: true
+        withCredentials: true,
       });
       if (response.data.success) {
         setActivityData({
           activity: response.data.activity,
-          submissionCount: response.data.submissionCount
+          submissionCount: response.data.submissionCount,
         });
       }
     } catch (error) {
@@ -61,17 +64,13 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => {
-    if (user) {
-      fetchRecentActivity();
-    }
-
-    if (user.leetcodeUsername) {
+    if (user) fetchRecentActivity();
+    if (user?.leetcodeUsername) {
       setleetcodeUsername(user.leetcodeUsername);
       setTempUsername(user.leetcodeUsername);
       fetchLeetcodeStats(user.leetcodeUsername);
     }
   }, [user, fetchRecentActivity, fetchLeetcodeStats]);
-
 
   useEffect(() => {
     if (!loading && user && !user.profileCompleted) {
@@ -79,19 +78,14 @@ const Dashboard = () => {
     }
   }, [user, loading, navigate]);
 
-
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+      <div className="flex min-h-screen items-center justify-center bg-zinc-50 dark:bg-zinc-950">
+        <div className="h-12 w-12 animate-spin rounded-full border-t-2 border-b-2 border-indigo-500" />
       </div>
     );
   }
-
-
-  if (!user)
-    return null;
-
+  if (!user) return null;
 
   const handleSave = async () => {
     if (!tempUsername.trim()) {
@@ -105,7 +99,6 @@ const Dashboard = () => {
         { leetcodeUsername: tempUsername },
         { withCredentials: true }
       );
-
       if (response.data.success) {
         setleetcodeUsername(tempUsername);
         setLeetcodeStats(response.data.data);
@@ -119,7 +112,6 @@ const Dashboard = () => {
     }
   };
 
-
   const userName = user?.userName || "Explorer";
 
   const dashboardStats = [
@@ -127,216 +119,221 @@ const Dashboard = () => {
       title: "Problems Solved",
       value: user.solvedQuestionCount || 0,
       icon: CheckCircleIcon,
-      color: "text-green-500",
-      bg: "bg-green-50 dark:bg-green-900/20",
-      description: "Total problems successfully submitted."
+      color: "text-emerald-500",
+      bg: "bg-emerald-500/10",
+      border: "border-emerald-500/20",
+      description: "Total problems successfully submitted.",
     },
     {
       title: "Acceptance Rate",
       value: `${user.acceptance_rate || 0}%`,
       icon: RocketLaunchIcon,
       color: "text-indigo-500",
-      bg: "bg-indigo-50 dark:bg-indigo-900/20",
-      description: "Percentage of total correct submissions."
+      bg: "bg-indigo-500/10",
+      border: "border-indigo-500/20",
+      description: "Percentage of total correct submissions.",
     },
     {
       title: "Maximum Streak",
       value: user.maximumStreak || 0,
       icon: TrophyIcon,
-      color: "text-yellow-500",
-      bg: "bg-yellow-50 dark:bg-yellow-900/20",
-      description: "Maximum Streak achieved by solving POTD"
+      color: "text-amber-500",
+      bg: "bg-amber-500/10",
+      border: "border-amber-500/20",
+      description: "Maximum streak achieved by solving POTD.",
     },
   ];
 
   return (
-    <div className="p-4 md:p-10 bg-gray-50 dark:bg-gray-950 min-h-screen">
-
-      <header className="mb-8 pb-4">
-        <h1 className="text-2xl md:text-4xl font-extrabold text-gray-900 dark:text-white mb-1">
-          Welcome back, <span className="text-indigo-600 dark:text-indigo-400">{userName}</span>!
-        </h1>
-        <p className="text-lg text-gray-600 dark:text-gray-400">
-          Review your performance and jump back into the challenges.
-        </p>
-      </header>
-
-      <hr className="mb-10 border-gray-100 dark:border-gray-800" />
-
-
-      <section className="mb-12">
-        <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-6 flex items-center space-x-2">
-          <ChartBarIcon className="w-6 h-6 text-indigo-500" />
-          <span>Performance Overview</span>
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {dashboardStats.map((stat) => (
-            <Card
-              key={stat.title}
-              className={`p-6 flex flex-col justify-center items-start ${stat.bg} shadow-lg hover:shadow-xl transition-all duration-300 border-l-4 border-current`}
-              style={{ borderColor: stat.color.includes('green') ? '#22c55e' : stat.color.includes('indigo') ? '#6366f1' : '#eab308' }}
-            >
-              <stat.icon className={`w-8 h-8 ${stat.color} mb-3`} />
-              <div className="text-4xl font-extrabold text-gray-900 dark:text-white mb-1">
-                {stat.value}
-              </div>
-              <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-2">
-                {stat.title}
-              </h3>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                {stat.description}
-              </p>
-            </Card>
-          ))}
-        </div>
-      </section>
-
-      <section className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-
-        <Card className="p-8 bg-indigo-600/10 dark:bg-indigo-900/40 border-2 border-indigo-200 dark:border-indigo-700 shadow-xl flex flex-col justify-between h-full lg:col-span-3">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="font-extrabold text-2xl text-indigo-800 dark:text-indigo-200">Start Practice</h3>
-            <CodeBracketSquareIcon className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />
-          </div>
-          <p className="text-gray-700 dark:text-gray-300 mb-6 text-md">
-            Tackle new problems, filter by difficulty, and sharpen your algorithms knowledge. Your next challenge is waiting.
+    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 p-4 md:p-10">
+      <div className="mx-auto max-w-7xl">
+        <header className="mb-10">
+          <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-indigo-500">Dashboard</p>
+          <h1 className="mt-2 text-3xl font-black tracking-tight md:text-4xl">
+            Welcome back, <span className="text-indigo-600 dark:text-indigo-400">{userName}</span>
+          </h1>
+          <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+            Review your performance and jump back into the challenges.
           </p>
-          <Link to="/problems">
-            <Button variant="primary" className="w-full py-3 text-lg">
-              View All Problems →
-            </Button>
-          </Link>
-        </Card>
+        </header>
 
-        <Card className="p-4 bg-yellow-50/50 dark:bg-yellow-900/10 border border-yellow-200/60 dark:border-yellow-700/30 shadow-sm flex flex-col lg:col-span-2 min-h-40 justify-between transition-all hover:border-yellow-400">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="relative">
+        <section className="mb-10">
+          <div className="mb-4 flex items-center gap-2">
+            <ChartBarIcon className="h-5 w-5 text-indigo-500" />
+            <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-100">Performance Overview</h2>
+          </div>
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {dashboardStats.map((stat) => (
+              <Card
+                key={stat.title}
+                className={`rounded-2xl border ${stat.border} ${stat.bg} p-6 shadow-sm transition hover:shadow-md`}
+              >
+                <stat.icon className={`mb-4 h-8 w-8 ${stat.color}`} />
+                <div className="text-4xl font-black text-zinc-900 dark:text-white">{stat.value}</div>
+                <h3 className="mt-2 text-base font-semibold text-zinc-800 dark:text-zinc-200">{stat.title}</h3>
+                <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">{stat.description}</p>
+              </Card>
+            ))}
+          </div>
+        </section>
+
+        <section className="grid gap-6 lg:grid-cols-5">
+          <Card className="rounded-2xl border border-indigo-200 dark:border-indigo-800/60 bg-indigo-50/60 dark:bg-indigo-950/30 p-6 lg:col-span-3">
+            <div className="flex items-center justify-between">
+              <h3 className="text-xl font-bold text-indigo-800 dark:text-indigo-200">Start Practice</h3>
+              <CodeBracketSquareIcon className="h-7 w-7 text-indigo-600 dark:text-indigo-400" />
+            </div>
+            <p className="mt-3 text-sm text-zinc-700 dark:text-zinc-300">
+              Tackle new problems, filter by difficulty, and sharpen your algorithms knowledge. Your next challenge is waiting.
+            </p>
+            <Link to="/problems" className="mt-6 block">
+              <Button className="w-full rounded-xl bg-indigo-600 py-3 text-base font-semibold text-white transition hover:bg-indigo-500">
+                View All Problems →
+              </Button>
+            </Link>
+          </Card>
+
+          <Card className="rounded-2xl border border-amber-200 dark:border-amber-800/40 bg-amber-50/40 dark:bg-amber-950/20 p-6 lg:col-span-2">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
                 {leetcodeStats?.avatar ? (
-                  <img src={leetcodeStats.avatar} alt="Avatar" className="w-9 h-9 rounded-lg border border-yellow-500/50 object-cover" />
+                  <img src={leetcodeStats.avatar} alt="Avatar" className="h-9 w-9 rounded-lg border border-amber-400/60 object-cover" />
                 ) : (
-                  <div className="w-9 h-9 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg flex items-center justify-center">
-                    <ArrowTopRightOnSquareIcon className="w-5 h-5 text-yellow-600" />
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-amber-100 dark:bg-amber-900/30">
+                    <ArrowTopRightOnSquareIcon className="h-5 w-5 text-amber-600 dark:text-amber-400" />
                   </div>
                 )}
-                <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 border-2 border-white dark:border-gray-800 rounded-full"></div>
-              </div>
-              <div>
-                <h3 className="font-bold text-sm text-gray-900 dark:text-gray-100 leading-none">LeetCode</h3>
-                <p className="text-[10px] text-gray-500 font-mono mt-1">
-                  Rank: {leetcodeStats?.ranking ? leetcodeStats.ranking.toLocaleString() : '---'}
-                </p>
+                <div>
+                  <h3 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">LeetCode</h3>
+                  <p className="mt-0.5 font-mono text-[10px] text-zinc-500">
+                    Rank: {leetcodeStats?.ranking ? leetcodeStats.ranking.toLocaleString() : "---"}
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
 
-          {leetcodeStats ? (
-            <div className="flex items-stretch gap-2 my-3">
-              <div className="flex flex-col items-center justify-center bg-white dark:bg-gray-800/80 px-3 rounded-xl border border-yellow-200 dark:border-yellow-700/50 shadow-sm flex-1">
-                <span className="text-xl font-black text-gray-900 dark:text-white leading-tight">{leetcodeStats.totalSolved}</span>
-                <span className="text-[8px] text-gray-400 uppercase font-black tracking-widest">Solved</span>
-              </div>
-              <div className="grid grid-cols-3 gap-1.5 flex-2">
-                <div className="flex flex-col items-center justify-center py-1 rounded-lg bg-green-500/5 border border-green-500/20">
-                  <span className="text-xs font-bold text-green-600 dark:text-green-400">{leetcodeStats.easySolved}</span>
-                  <span className="text-[7px] uppercase font-bold text-green-700/60">Easy</span>
+            {leetcodeStats ? (
+              <div className="mt-4 flex items-stretch gap-2">
+                <div className="flex flex-1 flex-col items-center justify-center rounded-xl border border-amber-200 dark:border-amber-800/40 bg-white dark:bg-zinc-800/60 px-3 py-2">
+                  <span className="text-xl font-black text-zinc-900 dark:text-white">{leetcodeStats.totalSolved}</span>
+                  <span className="text-[8px] font-black uppercase tracking-widest text-zinc-500">Solved</span>
                 </div>
-                <div className="flex flex-col items-center justify-center py-1 rounded-lg bg-yellow-500/5 border border-yellow-500/20">
-                  <span className="text-xs font-bold text-yellow-600 dark:text-yellow-400">{leetcodeStats.mediumSolved}</span>
-                  <span className="text-[7px] uppercase font-bold text-yellow-700/60">Medium</span>
+                <div className="grid flex-[2] grid-cols-3 gap-1.5">
+                  {[
+                    { label: "Easy", value: leetcodeStats.easySolved, color: "text-emerald-600 dark:text-emerald-400", bg: "bg-emerald-500/10" },
+                    { label: "Med", value: leetcodeStats.mediumSolved, color: "text-amber-600 dark:text-amber-400", bg: "bg-amber-500/10" },
+                    { label: "Hard", value: leetcodeStats.hardSolved, color: "text-rose-600 dark:text-rose-400", bg: "bg-rose-500/10" },
+                  ].map((d) => (
+                    <div key={d.label} className={`flex flex-col items-center justify-center rounded-lg border border-transparent py-1 ${d.bg}`}>
+                      <span className={`text-xs font-bold ${d.color}`}>{d.value}</span>
+                      <span className="text-[7px] font-bold uppercase text-zinc-500">{d.label}</span>
+                    </div>
+                  ))}
                 </div>
-                <div className="flex flex-col items-center justify-center py-1 rounded-lg bg-red-500/5 border border-red-500/20">
-                  <span className="text-xs font-bold text-red-600 dark:text-red-400">{leetcodeStats.hardSolved}</span>
-                  <span className="text-[7px] uppercase font-bold text-red-700/60">Hard</span>
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div className="my-4 p-2 bg-white/50 dark:bg-black/20 rounded-lg border border-dashed border-yellow-200 dark:border-yellow-900/40 text-center">
-              <p className="text-[10px] text-gray-500 italic">Account not connected</p>
-            </div>
-          )}
-
-          <div>
-            {isEditing ? (
-              <div className="flex gap-2 animate-in fade-in zoom-in-95 duration-200">
-                <input
-                  autoFocus
-                  value={tempUsername}
-                  onChange={(e) => setTempUsername(e.target.value)}
-                  className="flex-1 px-3 py-1.5 text-[11px] rounded-lg border border-yellow-400 bg-white dark:bg-gray-800 outline-none focus:ring-2 ring-yellow-500/20 transition-all"
-                  placeholder="Username"
-                />
-                <button onClick={handleSave} className="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-1.5 rounded-lg text-[11px] font-bold shadow-sm transition-all active:scale-95">
-                  Save
-                </button>
               </div>
             ) : (
-              <button onClick={() => setIsEditing(true)} className="w-full py-2 bg-yellow-600/10 hover:bg-yellow-600 dark:bg-yellow-600/20 text-yellow-700 dark:text-yellow-500 hover:text-white text-[10px] font-bold rounded-lg transition-all uppercase tracking-tighter border border-yellow-600/20 hover:border-yellow-600">
-                {leetcodeUsername ? "Switch Account" : "Connect LeetCode"}
-              </button>
+              <div className="my-4 rounded-lg border border-dashed border-amber-200 dark:border-amber-900/40 bg-white/40 dark:bg-black/20 p-3 text-center">
+                <p className="text-[10px] italic text-zinc-500">Account not connected</p>
+              </div>
             )}
-          </div>
-        </Card>
 
-        <Card className="p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg lg:col-span-3">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="font-bold text-xl text-gray-900 dark:text-white flex items-center gap-2">
-              <TrophyIcon className="w-5 h-5 text-yellow-500" />
-              Activity
-            </h3>
-
-            <div className="flex items-center gap-3">
-              <button
-                onClick={() => navigate("/submissions")}
-                className="px-3 py-1.5 text-xs font-semibold text-indigo-600 dark:text-indigo-400 bg-indigo-50/50 dark:bg-indigo-950/40 hover:bg-indigo-100 dark:hover:bg-indigo-900/40 active:scale-95 border border-indigo-100 dark:border-indigo-900/50 rounded-lg shadow-sm transition-all duration-200 animate-pulse"
-              >
-                View All
-              </button>
-
-              <span className="text-[10px] bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 px-2 py-1 rounded-md font-bold uppercase tracking-wider h-fit">
-                Total : {activityData.submissionCount || 0}
-              </span>
+            <div className="mt-4">
+              {isEditing ? (
+                <div className="flex gap-2">
+                  <input
+                    autoFocus
+                    value={tempUsername}
+                    onChange={(e) => setTempUsername(e.target.value)}
+                    className="flex-1 rounded-lg border border-amber-400 bg-white dark:bg-zinc-800 px-3 py-1.5 text-[11px] text-zinc-900 dark:text-zinc-100 outline-none focus:ring-2 focus:ring-amber-500/20"
+                    placeholder="Username"
+                  />
+                  <button
+                    onClick={handleSave}
+                    className="rounded-lg bg-amber-600 px-4 py-1.5 text-[11px] font-bold text-white shadow-sm transition active:scale-95 hover:bg-amber-700"
+                  >
+                    Save
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => setIsEditing(true)}
+                  className="w-full rounded-lg border border-amber-600/20 bg-amber-600/10 py-2 text-[10px] font-bold uppercase tracking-tighter text-amber-700 dark:text-amber-500 transition hover:border-amber-600 hover:bg-amber-600 hover:text-white"
+                >
+                  {leetcodeUsername ? "Switch Account" : "Connect LeetCode"}
+                </button>
+              )}
             </div>
-          </div>
+          </Card>
 
-          <div className="overflow-hidden">
+          <Card className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 lg:col-span-3">
+            <div className="mb-4 flex items-center justify-between">
+              <h3 className="flex items-center gap-2 text-lg font-bold text-zinc-900 dark:text-white">
+                <TrophyIcon className="h-5 w-5 text-amber-500" /> Activity
+              </h3>
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => navigate("/submissions")}
+                  className="rounded-lg border border-indigo-200 dark:border-indigo-900/50 bg-indigo-50 dark:bg-indigo-950/40 px-3 py-1.5 text-xs font-semibold text-indigo-600 dark:text-indigo-400 transition hover:bg-indigo-100 dark:hover:bg-indigo-900/60"
+                >
+                  View All
+                </button>
+                <span className="rounded-md bg-indigo-50 dark:bg-indigo-900/20 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
+                  Total: {activityData.submissionCount || 0}
+                </span>
+              </div>
+            </div>
+
             {activityData.activity && activityData.activity.length > 0 ? (
               <ul className="space-y-2">
                 {activityData.activity.slice(0, 4).map((item) => (
-                  <li key={item._id} className="group flex items-center justify-between p-3 rounded-xl bg-gray-50/50 dark:bg-gray-900/30 border border-gray-100 dark:border-gray-700/50 hover:border-indigo-500/30 transition-all">
-                    <div className="flex items-center space-x-3">
-                      <div className={`w-2 h-2 rounded-full ${item.status === 'Accepted' ? 'bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.4)]' : 'bg-red-500'}`} />
+                  <li
+                    key={item._id}
+                    className="group flex items-center justify-between rounded-xl border border-zinc-100 dark:border-zinc-800/60 bg-zinc-50 dark:bg-zinc-900/40 p-3 transition hover:border-indigo-300 dark:hover:border-indigo-700/50"
+                  >
+                    <div className="flex items-center gap-3">
+                      <span
+                        className={`h-2 w-2 rounded-full ${
+                          item.status === "Accepted"
+                            ? "bg-emerald-500 shadow-[0_0_8px_rgba(34,197,94,0.4)]"
+                            : "bg-rose-500"
+                        }`}
+                      />
                       <div>
                         <div className="flex items-center gap-2">
-                          <span className="text-sm font-bold text-gray-800 dark:text-gray-200 truncate max-w-[120px] md:max-w-none">{item.question_title}</span>
-                          <span className="text-[9px] text-gray-400 font-mono">{item.languageId === 113 ? 'py' : 'code'}</span>
+                          <span className="max-w-[160px] truncate text-sm font-bold text-zinc-800 dark:text-zinc-200 md:max-w-none">
+                            {item.question_title}
+                          </span>
+                          <span className="font-mono text-[9px] text-zinc-400">
+                            {item.languageId === 113 ? "py" : "code"}
+                          </span>
                         </div>
-                        <div className="flex items-center gap-2 text-[10px] text-gray-500">
-                          <span>{new Date(item.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>
+                        <div className="mt-0.5 flex items-center gap-2 text-[10px] text-zinc-500">
+                          <span>{new Date(item.createdAt).toLocaleDateString(undefined, { month: "short", day: "numeric" })}</span>
                           <span>•</span>
                           <span>{(item.totalMemory / 1024).toFixed(1)}MB</span>
                         </div>
                       </div>
                     </div>
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-3">
                       <div className="text-right">
-                        <p className={`text-[11px] font-black uppercase ${item.status === 'Accepted' ? 'text-green-500' : 'text-red-500'}`}>{item.status}</p>
-                        <p className="text-[9px] font-mono text-gray-400">{item.totalRuntime}s</p>
+                        <p className={`text-[11px] font-black uppercase ${item.status === "Accepted" ? "text-emerald-500" : "text-rose-500"}`}>
+                          {item.status}
+                        </p>
+                        <p className="font-mono text-[9px] text-zinc-400">{item.totalRuntime}s</p>
                       </div>
-                      <ArrowRightIcon className="w-4 h-4 text-gray-300 group-hover:text-indigo-500 group-hover:translate-x-0.5 transition-all" />
+                      <ArrowRightIcon className="h-4 w-4 text-zinc-300 transition group-hover:translate-x-0.5 group-hover:text-indigo-500" />
                     </div>
                   </li>
                 ))}
               </ul>
             ) : (
-              <div className="py-10 text-center bg-gray-50 dark:bg-gray-900/20 rounded-2xl border-2 border-dashed border-gray-100 dark:border-gray-700">
-                <p className="text-gray-400 text-sm italic">No recent activity.</p>
+              <div className="rounded-2xl border-2 border-dashed border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/20 py-10 text-center">
+                <p className="text-sm italic text-zinc-400">No recent activity.</p>
               </div>
             )}
-          </div>
-        </Card>
-      </section>
+          </Card>
+        </section>
+      </div>
     </div>
   );
 };

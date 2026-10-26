@@ -66,10 +66,10 @@ const ForgotPassword = () => {
 
   return (
     <div className="min-h-[80vh] flex items-center justify-center px-4">
-      <div className="w-full max-w-md bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl overflow-hidden transition-all duration-300">
+      <div className="w-full max-w-md bg-white dark:bg-zinc-900 dark:bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-300 dark:border-zinc-700 rounded-2xl shadow-xl overflow-hidden transition-all duration-300">
         
         <div className="bg-blue-600 dark:bg-blue-700 p-8 text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-white/20 rounded-full mb-4">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-white dark:bg-zinc-900/20 rounded-full mb-4">
             {step === 1 ? (
               <Mail className="text-white w-8 h-8" />
             ) : (
@@ -87,24 +87,24 @@ const ForgotPassword = () => {
         </div>
 
         <div className="flex justify-center items-center space-x-2 mt-6">
-          <div className={`h-2 w-12 rounded-full ${step >= 1 ? 'bg-blue-600' : 'bg-gray-300'}`} />
-          <div className={`h-2 w-12 rounded-full ${step >= 2 ? 'bg-blue-600' : 'bg-gray-300'}`} />
+          <div className={`h-2 w-12 rounded-full ${step >= 1 ? 'bg-blue-600' : 'bg-zinc-300'}`} />
+          <div className={`h-2 w-12 rounded-full ${step >= 2 ? 'bg-blue-600' : 'bg-zinc-300'}`} />
         </div>
 
         <div className="p-8">
           {step === 1 ? (
             <form onSubmit={handleSendOtp} className="space-y-5">
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-gray-700 dark:text-gray-300 ml-1">
+                <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300 ml-1">
                   Email Address
                 </label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-600 dark:text-zinc-400" />
                   <input
                     type="email"
                     name="email"
                     required
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-50 dark:bg-gray-900 dark:text-white transition-all outline-none"
+                    className="w-full pl-10 pr-4 py-3 border border-zinc-300 dark:border-zinc-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-zinc-50 dark:bg-white dark:bg-zinc-900 dark:text-white transition-all outline-none"
                     placeholder="johndoe@gmail.com"
                     value={formData.email}
                     onChange={handleChange}
@@ -122,7 +122,7 @@ const ForgotPassword = () => {
           ) : (
             <form onSubmit={handleResetPassword} className="space-y-5">
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-gray-700 dark:text-gray-300 ml-1">
+                <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300 ml-1">
                   4-Digit OTP
                 </label>
                 <input
@@ -130,7 +130,7 @@ const ForgotPassword = () => {
                   name="otp"
                   required
                   maxLength="4"
-                  className="w-full py-3 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl text-center text-2xl tracking-[0.5em] font-black focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-50 dark:bg-gray-900 dark:text-white transition-all outline-none"
+                  className="w-full py-3 border-2 border-dashed border-zinc-300 dark:border-zinc-600 rounded-xl text-center text-2xl tracking-[0.5em] font-black focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-zinc-50 dark:bg-white dark:bg-zinc-900 dark:text-white transition-all outline-none"
                   placeholder="0000"
                   value={formData.otp}
                   onChange={handleChange}
@@ -138,16 +138,16 @@ const ForgotPassword = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-gray-700 dark:text-gray-300 ml-1">
+                <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300 ml-1">
                   New Password
                 </label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-600 dark:text-zinc-400" />
                   <input
                     type="password"
                     name="newPassword"
                     required
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none bg-gray-50 dark:bg-gray-900 dark:text-white"
+                    className="w-full pl-10 pr-4 py-3 border border-zinc-300 dark:border-zinc-600 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none bg-zinc-50 dark:bg-white dark:bg-zinc-900 dark:text-white"
                     value={formData.newPassword}
                     onChange={handleChange}
                   />
@@ -155,16 +155,16 @@ const ForgotPassword = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-gray-700 dark:text-gray-300 ml-1">
+                <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300 ml-1">
                   Confirm Password
                 </label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-600 dark:text-zinc-400" />
                   <input
                     type="password"
                     name="confirmPassword"
                     required
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none bg-gray-50 dark:bg-gray-900 dark:text-white"
+                    className="w-full pl-10 pr-4 py-3 border border-zinc-300 dark:border-zinc-600 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none bg-zinc-50 dark:bg-white dark:bg-zinc-900 dark:text-white"
                     value={formData.confirmPassword}
                     onChange={handleChange}
                   />
@@ -182,7 +182,7 @@ const ForgotPassword = () => {
               <button 
                 type="button" 
                 onClick={() => setStep(1)} 
-                className="w-full flex items-center justify-center text-sm text-gray-500 hover:text-blue-600 transition"
+                className="w-full flex items-center justify-center text-sm text-zinc-500 hover:text-blue-600 transition"
               >
                 <ArrowLeft className="w-4 h-4 mr-1" /> Back to Email
               </button>

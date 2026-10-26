@@ -41,14 +41,14 @@ const VerifyEmail = () => {
     }, [token]);
 
     return (
-        <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-            <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 text-center transition-all">
+        <div className="min-h-screen bg-zinc-50 flex items-center justify-center p-4">
+            <div className="max-w-md w-full bg-white dark:bg-zinc-900 rounded-2xl shadow-xl p-8 text-center transition-all">
                 
                 {status === 'loading' && (
                     <div className="space-y-4">
                         <Loader2 className="w-16 h-16 text-blue-500 animate-spin mx-auto" />
-                        <h2 className="text-2xl font-bold text-gray-800">Verifying your email</h2>
-                        <p className="text-gray-500">Please wait while we validate your request...</p>
+                        <h2 className="text-2xl font-bold text-zinc-800">Verifying your email</h2>
+                        <p className="text-zinc-500">Please wait while we validate your request...</p>
                     </div>
                 )}
 
@@ -58,8 +58,8 @@ const VerifyEmail = () => {
                             <CheckCircle className="w-12 h-12 text-green-600" />
                         </div>
                         <div className="space-y-2">
-                            <h2 className="text-2xl font-bold text-gray-800">Email Verified!</h2>
-                            <p className="text-gray-500">{message}</p>
+                            <h2 className="text-2xl font-bold text-zinc-800">Email Verified!</h2>
+                            <p className="text-zinc-500">{message}</p>
                         </div>
                         <button 
                             onClick={() => navigate('/login')}
@@ -76,12 +76,12 @@ const VerifyEmail = () => {
                             <XCircle className="w-12 h-12 text-red-600" />
                         </div>
                         <div className="space-y-2">
-                            <h2 className="text-2xl font-bold text-gray-800">Verification Failed</h2>
-                            <p className="text-gray-500">{message}</p>
+                            <h2 className="text-2xl font-bold text-zinc-800">Verification Failed</h2>
+                            <p className="text-zinc-500">{message}</p>
                         </div>
                         <button 
                             onClick={() => navigate('/resend-verification')}
-                            className="w-full bg-gray-800 hover:bg-gray-900 text-white font-semibold py-3 rounded-lg transition-colors"
+                            className="w-full bg-zinc-100 dark:bg-zinc-800 hover:bg-white dark:bg-zinc-900 text-white font-semibold py-3 rounded-lg transition-colors"
                         >
                             Try Again
                         </button>

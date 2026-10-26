@@ -1,238 +1,196 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
-    AcademicCapIcon,
-    BriefcaseIcon,
-    CodeBracketIcon,
-    CalendarIcon,
-    LinkIcon,
-    HeartIcon,
-    GlobeAltIcon,
-    RocketLaunchIcon
-} from '@heroicons/react/24/outline';
-import axios from 'axios';
+  AcademicCapIcon,
+  BriefcaseIcon,
+  CodeBracketIcon,
+  CalendarIcon,
+  LinkIcon,
+  HeartIcon,
+  GlobeAltIcon,
+  RocketLaunchIcon,
+} from "@heroicons/react/24/outline";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuth } from "../context/AuthContext.jsx";
 
-const InputGroup = ({ label, children, icon: Icon }) => (
-    <div className="space-y-2">
-        <label className="text-[10px] font-black text-teal-400 uppercase tracking-[0.3em] flex items-center">
-            {Icon && <Icon className="w-4 h-4 mr-2 text-pink-500" />}
-            {label}
-        </label>
-        {children}
-    </div>
-);
-
+const inputClass =
+  "w-full rounded-xl border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 px-4 py-3 text-sm text-zinc-900 dark:text-zinc-100 outline-none transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10";
 
 const CompleteProfile = () => {
-    const { user, setUser } = useAuth();
-    const navigate = useNavigate();
-    const [loading, setLoading] = useState(false);
+  const { user, setUser } = useAuth();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
-    const [formData, setFormData] = useState({
-        age: '',
-        collegeName: '',
-        languagesProficient: '',
-        targetingCompanies: '',
-        interests: '',
-        github: '',
-        linkedin: '',
-        twitter: '',
-        portfolio: ''
-    });
+  const [formData, setFormData] = useState({
+    age: "",
+    collegeName: "",
+    languagesProficient: "",
+    targetingCompanies: "",
+    interests: "",
+    github: "",
+    linkedin: "",
+    twitter: "",
+    portfolio: "",
+  });
 
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const githubregex = /^https?:\/\/(?:www\.)?github\.com\/([a-zA-Z\d](?:-?[a-zA-Z\d]){0,38})\/?$/;
+    const linkedinregex = /^https?:\/\/(?:[a-z]{2,3}\.)?linkedin\.com\/in\/([a-zA-Z0-9](?:-?[a-zA-Z0-9]){2,99})\/?$/;
+
+    if (!githubregex.test(formData.github)) {
+      toast.error("Please enter a valid Github url.");
+      setLoading(false);
+      return;
+    }
+    if (formData.linkedin !== "" && !linkedinregex.test(formData.linkedin)) {
+      toast.error("Please enter a valid Linkedin url.");
+      setLoading(false);
+      return;
+    }
+    if (Number(formData.age) < 0 || Number(formData.age) > 100) {
+      toast.error("Please enter a valid age.");
+      setLoading(false);
+      return;
+    }
+
+    const payload = {
+      age: Number(formData.age),
+      collegeName: formData.collegeName,
+      languagesProficient: formData.languagesProficient.split(",").map((s) => s.trim()).filter(Boolean),
+      targetingCompanies: formData.targetingCompanies.split(",").map((s) => s.trim()).filter(Boolean),
+      interests: formData.interests.split(",").map((s) => s.trim()).filter(Boolean),
+      socialLinks: {
+        github: formData.github,
+        linkedin: formData.linkedin,
+        twitter: formData.twitter,
+        portfolio: formData.portfolio,
+      },
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setLoading(true);
+    try {
+      const res = await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/users/complete-profile`, payload, {
+        withCredentials: true,
+      });
+      if (res.data.success) {
+        toast.success(res.data.message);
+        setUser(res.data.user);
+        navigate("/dashboard");
+      }
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Transmission Failed");
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
+    if (user && user.profileCompleted) {
+      setTimeout(() => navigate("/profile", { replace: true }), 1500);
+    }
+  }, [user, navigate]);
 
-        const githubregex = /^https?:\/\/(?:www\.)?github\.com\/([a-zA-Z\d](?:-?[a-zA-Z\d]){0,38})\/?$/;
-        const linkedinregex = /^https?:\/\/(?:[a-z]{2,3}\.)?linkedin\.com\/in\/([a-zA-Z0-9](?:-?[a-zA-Z0-9]){2,99})\/?$/;
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-zinc-50 dark:bg-zinc-950 p-6 text-zinc-900 dark:text-zinc-100">
+      <div className="w-full max-w-5xl rounded-3xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-8 shadow-sm md:p-12">
+        <header className="mb-10 text-center lg:text-left">
+          <span className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-indigo-500">
+            Step 2: Profile Setup
+          </span>
+          <h1 className="mt-3 text-3xl font-black tracking-tight md:text-4xl">
+            Complete your <span className="text-indigo-500">profile</span>
+          </h1>
+          <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">Let us know a bit more about your technical background.</p>
+        </header>
 
-        if (!githubregex.test(formData.github)) {
-            toast.error("Please enter a valid Github url.");
-            setLoading(false);
-            return;
-        }
-
-        if (formData.linkedin !== '' && !linkedinregex.test(formData.linkedin)) {
-            toast.error("Please enter a valid Linkedin url.");
-            setLoading(false);
-            return;
-        }
-
-        if (Number(formData.age) < 0 || Number(formData.age) > 100) {
-            toast.error("Please enter a valid age.");
-            setLoading(false);
-            return;
-        }
-
-
-        const payload = {
-            age: Number(formData.age),
-            collegeName: formData.collegeName,
-            languagesProficient: formData.languagesProficient.split(',').map(s => s.trim()).filter(Boolean),
-            targetingCompanies: formData.targetingCompanies.split(',').map(s => s.trim()).filter(Boolean),
-            interests: formData.interests.split(',').map(s => s.trim()).filter(Boolean),
-            socialLinks: {
-                github: formData.github,
-                linkedin: formData.linkedin,
-                twitter: formData.twitter,
-                portfolio: formData.portfolio
-            }
-        };
-
-        try {
-            const res = await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/users/complete-profile`,
-                payload,
-                { withCredentials: true });
-
-
-            if (res.data.success) {
-                toast.success(res.data.message);
-                setUser(res.data.user);
-                navigate("/dashboard");
-            }
-        } catch (err) {
-            toast.error(err.response?.data?.message || "Transmission Failed");
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        if (user && user.profileCompleted) {
-            setTimeout(() => {
-                navigate("/profile", { replace: true });
-            }, 2000)
-        }
-    }, [user, navigate])
-
-    return (
-        <div className="min-h-screen bg-gray-50 dark:bg-slate-950 text-gray-800 dark:text-gray-100 p-6 md:p-12 flex items-center justify-center relative overflow-hidden transition-colors duration-300">
-            <div className="absolute top-0 left-0 w-full h-64 bg-gradient-to-b from-indigo-50 to-transparent pointer-events-none"></div>
-
-            <div className="w-full max-w-5xl bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-[2.5rem] p-8 md:p-14 shadow-xl shadow-indigo-100/50 dark:shadow-none relative z-10">
-            
-
-                <header className="mb-12 text-center lg:text-left">
-                    <div className="flex items-center justify-center lg:justify-start gap-3 mb-3">
-                        <span className="h-1.5 w-1.5 rounded-full bg-indigo-600"></span>
-                        <span className="text-indigo-600 font-bold text-[10px] tracking-[0.2em] uppercase">Step 2: Profile Setup</span>
-                    </div>
-                    <h1 className="text-4xl md:text-5xl font-black text-gray-900 tracking-tight">
-                        <span className="text-blue-600">Complete Your</span> <span className="text-indigo-600">Profile</span>
-                    </h1>
-                    <p className="text-gray-500 text-sm mt-2">Let us know a bit more about your technical background.</p>
-                </header>
-
-                <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                    <div className="space-y-8">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                            <div className="space-y-2">
-                                <label className="text-xs font-bold text-gray-500 uppercase ml-1">Age</label>
-                                <div className="flex items-center gap-3 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-2xl px-4 py-1 focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/5 transition-all">
-                                    <CalendarIcon className="w-5 h-5 text-gray-400" />
-                                    <input
-                                        type="number" name="age" required placeholder="Years"
-                                        className="w-full bg-transparent outline-none text-gray-700 dark:text-gray-200 py-3 outline-none font-semibold text-gray-700"
-                                        onChange={handleChange} value={formData.age}
-                                    />
-                                </div>
-                            </div>
-                            <div className="space-y-2">
-                                <label className="text-xs font-bold text-gray-500 uppercase ml-1">College</label>
-                                <div className="flex items-center gap-3 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-2xl px-4 py-1 focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/5 transition-all">
-                                    <AcademicCapIcon className="w-5 h-5 text-gray-400" />
-                                    <input
-                                        type="text" name="collegeName" required placeholder="College Name"
-                                        className="w-full bg-transparent outline-none text-gray-700 dark:text-gray-200 py-3 outline-none font-semibold text-gray-700"
-                                        onChange={handleChange} value={formData.collegeName}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-
-                        <InputGroup label="Tech Stack (Comma Seperated)" icon={CodeBracketIcon}>
-                        <div className="flex items-center gap-3 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-2xl px-4 py-1 focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/5 transition-all">
-                            <input
-                                name="languagesProficient" required placeholder="e.g. React, Node.js, Python"
-                                className="w-full bg-transparent outline-none text-gray-700 dark:text-gray-200 py-3 outline-none font-semibold text-gray-700"
-                                onChange={handleChange} value={formData.languagesProficient}
-                            />
-                            </div>
-                        </InputGroup>
-
-                        <InputGroup label="Targeting Companies (Comma Seperated)" icon={BriefcaseIcon}>
-                        <div className="flex items-center gap-3 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-2xl px-4 py-1 focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/5 transition-all">
-                            <input
-                                name="targetingCompanies" placeholder="e.g. Google, Facebook, Netflix"
-                                className="w-full bg-transparent outline-none text-gray-700 dark:text-gray-200 py-3 outline-none font-semibold text-gray-700"
-                                onChange={handleChange} value={formData.targetingCompanies}
-                            />
-                            </div>
-                        </InputGroup>
-
-                        <InputGroup label="Core Interests (Comma Seperated)" icon={HeartIcon}>
-                        <div className="flex items-center gap-3 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-2xl px-4 py-1 focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/5 transition-all">
-                            <input
-                                name="interests" required placeholder="e.g. BlockChain, Web3, AI"
-                                className="w-full bg-transparent outline-none text-gray-700 dark:text-gray-200 py-3 outline-none font-semibold text-gray-700"
-                                onChange={handleChange} value={formData.interests}
-                            />
-                        </div>
-                        </InputGroup>
-
-                        <button type="button" onClick={() => navigate("/profile")} className="block text-center w-full text-xs text-gray-400 hover:text-indigo-600 transition-colors font-medium">
-                            Already completed? Go to Profile
-                        </button>
-                    </div>
-
-                    <div className="flex flex-col justify-between space-y-8">
-                        <div className="bg-gray-50 dark:bg-slate-800/50 p-8 rounded-[2rem] border border-gray-100 dark:border-slate-800 space-y-6">
-                            <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] flex items-center">
-                                <GlobeAltIcon className="w-4 h-4 mr-2" /> Digital Presence
-                            </h3>
-                            <div className="grid grid-cols-1 gap-4">
-                                {['github', 'linkedin', 'twitter', 'portfolio'].map((social) => (
-                                    <div key={social} className="flex items-center gap-3 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-2xl px-4 py-1 focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/5 transition-all">
-                                        <LinkIcon className="h-4 w-4 text-indigo-400" />
-                                        <input
-                                            type="url" name={social} placeholder={`${social.charAt(0).toUpperCase() + social.slice(1)} URL`}
-                                            className="w-full bg-transparent outline-none text-gray-700 dark:text-gray-200 py-3 outline-none font-semibold text-gray-700"
-                                            required={social === 'github'}
-                                            onChange={handleChange} value={formData[social]}
-                                        />
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-
-                        <div className="space-y-4">
-                            <p className="text-[11px] text-gray-400 text-center px-4 leading-relaxed italic">
-                                By clicking finish, you agree to our terms of service regarding data synchronization.
-                            </p>
-                            <button
-                                type="submit"
-                                disabled={loading}
-                                className="w-full group relative flex items-center justify-center px-8 py-6 bg-indigo-600 text-white rounded-2xl font-bold uppercase tracking-widest hover:bg-indigo-700 hover:shadow-lg hover:shadow-indigo-200 active:scale-95 transition-all duration-300"
-                            >
-                                <span className="flex items-center text-lg">
-                                    {loading ? "Saving..." : "Finish Setup"}
-                                    {!loading && <RocketLaunchIcon className="w-6 h-6 ml-3 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />}
-                                </span>
-                            </button>
-                        </div>
-                    </div>
-                </form>
+        <form onSubmit={handleSubmit} className="grid gap-10 lg:grid-cols-2">
+          <div className="space-y-6">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label className="mb-1 block text-xs font-bold uppercase text-zinc-500">Age</label>
+                <div className="flex items-center gap-3 rounded-2xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 px-4 py-2.5 focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/10">
+                  <CalendarIcon className="h-5 w-5 text-zinc-500" />
+                  <input type="number" name="age" required placeholder="Years" value={formData.age} onChange={handleChange} className="w-full bg-transparent text-sm font-semibold text-zinc-900 dark:text-zinc-100 outline-none" />
+                </div>
+              </div>
+              <div>
+                <label className="mb-1 block text-xs font-bold uppercase text-zinc-500">College</label>
+                <div className="flex items-center gap-3 rounded-2xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 px-4 py-2.5 focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/10">
+                  <AcademicCapIcon className="h-5 w-5 text-zinc-500" />
+                  <input type="text" name="collegeName" required placeholder="College Name" value={formData.collegeName} onChange={handleChange} className="w-full bg-transparent text-sm font-semibold text-zinc-900 dark:text-zinc-100 outline-none" />
+                </div>
+              </div>
             </div>
-        </div>
-    );
+
+            {[
+              { label: "Tech Stack (comma separated)", name: "languagesProficient", icon: CodeBracketIcon, placeholder: "e.g. React, Node.js, Python", required: true },
+              { label: "Targeting Companies", name: "targetingCompanies", icon: BriefcaseIcon, placeholder: "e.g. Google, Meta, Netflix", required: false },
+              { label: "Core Interests", name: "interests", icon: HeartIcon, placeholder: "e.g. Blockchain, Web3, AI", required: true },
+            ].map((f) => {
+              const Icon = f.icon;
+              return (
+                <div key={f.name}>
+                  <label className="mb-1 flex items-center gap-2 text-xs font-bold uppercase text-zinc-500">
+                    <Icon className="h-4 w-4 text-indigo-500" /> {f.label}
+                  </label>
+                  <div className="flex items-center gap-3 rounded-2xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 px-4 py-2.5 focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/10">
+                    <input name={f.name} required={f.required} placeholder={f.placeholder} value={formData[f.name]} onChange={handleChange} className="w-full bg-transparent text-sm font-semibold text-zinc-900 dark:text-zinc-100 outline-none" />
+                  </div>
+                </div>
+              );
+            })}
+
+            <button type="button" onClick={() => navigate("/profile")} className="block w-full text-center text-xs font-medium text-zinc-500 transition hover:text-indigo-500">
+              Already completed? Go to Profile
+            </button>
+          </div>
+
+          <div className="flex flex-col justify-between gap-6">
+            <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/40 p-6">
+              <h3 className="mb-4 flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500">
+                <GlobeAltIcon className="h-4 w-4" /> Digital Presence
+              </h3>
+              <div className="space-y-3">
+                {["github", "linkedin", "twitter", "portfolio"].map((social) => (
+                  <div key={social} className="flex items-center gap-3 rounded-2xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-4 py-2.5 focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/10">
+                    <LinkIcon className="h-4 w-4 text-indigo-400" />
+                    <input
+                      type="url"
+                      name={social}
+                      placeholder={`${social.charAt(0).toUpperCase() + social.slice(1)} URL`}
+                      required={social === "github"}
+                      value={formData[social]}
+                      onChange={handleChange}
+                      className="w-full bg-transparent text-sm font-semibold text-zinc-900 dark:text-zinc-100 outline-none"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <p className="text-center text-[11px] italic leading-relaxed text-zinc-500">
+                By clicking finish, you agree to our terms of service regarding data synchronization.
+              </p>
+              <button
+                type="submit"
+                disabled={loading}
+                className="group flex w-full items-center justify-center rounded-2xl bg-indigo-600 px-8 py-4 text-base font-bold uppercase tracking-widest text-white transition hover:bg-indigo-500 hover:shadow-lg hover:shadow-indigo-500/20 active:scale-[0.98] disabled:opacity-60"
+              >
+                {loading ? "Saving..." : "Finish Setup"}
+                {!loading && <RocketLaunchIcon className="ml-3 h-5 w-5 transition group-hover:-translate-y-1 group-hover:translate-x-1" />}
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
 };
 
 export default CompleteProfile;

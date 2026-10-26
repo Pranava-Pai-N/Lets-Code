@@ -63,7 +63,7 @@ const Navbar = ({ onMenuClick, sidebarCollapsed, onToggleSidebar }) => {
   }
 
   const activeClass = "border-b-2 border-indigo-500 text-indigo-600 dark:text-indigo-400 font-semibold";
-  const inactiveClass = "text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition";
+  const inactiveClass = "text-zinc-700 dark:text-zinc-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition";
 
   useEffect(() => {
     const socket = io(`${import.meta.env.VITE_SOCKET_URL}`, {
@@ -118,34 +118,28 @@ const Navbar = ({ onMenuClick, sidebarCollapsed, onToggleSidebar }) => {
       case "dark":
         return <MoonIcon className="w-5 h-5 text-indigo-500" />;
       case "system":
-        return <ComputerDesktopIcon className="w-5 h-5 text-gray-500 dark:text-gray-400" />;
+        return <ComputerDesktopIcon className="w-5 h-5 text-zinc-500 dark:text-zinc-400" />;
       default:
         return <SunIcon className="w-5 h-5 text-yellow-400" />;
     }
   };
 
   return (
-    <nav className="bg-white dark:bg-gray-900 shadow-xl sticky top-0 z-50 border-b border-gray-100 dark:border-gray-800">
+    <nav className="bg-white/80 dark:bg-zinc-950/80 backdrop-blur-xl sticky top-0 z-50 border-b border-zinc-200 dark:border-zinc-800/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
 
           <div className="flex items-center space-x-2">
             <button
               onClick={onMenuClick}
-              className="md:hidden p-2 rounded-lg text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+              className="md:hidden p-2 rounded-lg text-zinc-700 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition"
               aria-label="Open menu"
             >
               <Bars3Icon className="w-6 h-6" />
             </button>
-            <button
-              onClick={onToggleSidebar}
-              className="hidden md:inline-flex p-2 rounded-lg text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
-              aria-label="Toggle sidebar"
-            >
-              <Bars3Icon className="w-6 h-6" />
-            </button>
+
             <CodeBracketIcon className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
-            <Link to="/" className="text-xl font-extrabold text-gray-900 dark:text-white hover:text-indigo-500 transition">
+            <Link to="/" className="text-xl font-extrabold text-zinc-900 dark:text-white hover:text-indigo-500 transition">
               Let's Code
             </Link>
           </div>
@@ -167,33 +161,33 @@ const Navbar = ({ onMenuClick, sidebarCollapsed, onToggleSidebar }) => {
             <div className="relative" ref={themeRef}>
               <Button
                 variant="tertiary"
-                className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition flex items-center justify-center"
+                className="p-2 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800 transition flex items-center justify-center"
                 onClick={() => setIsThemeOpen(!isThemeOpen)}
               >
                 {renderThemeIcon()}
               </Button>
 
               {isThemeOpen && (
-                <div className="absolute right-0 mt-2 w-36 rounded-xl bg-white dark:bg-gray-800 shadow-2xl ring-1 ring-black ring-opacity-5 z-60 overflow-hidden border border-gray-100 dark:border-gray-700 p-1">
+                <div className="absolute right-0 mt-2 w-36 rounded-xl bg-white dark:bg-zinc-800 shadow-2xl ring-1 ring-black ring-opacity-5 z-60 overflow-hidden border border-zinc-100 dark:border-zinc-700 p-1">
                   <button
                     onClick={() => { setTheme("light"); setIsThemeOpen(false); }}
-                    className={`flex items-center gap-2 w-full px-3 py-2 text-sm rounded-lg transition ${theme === "light" ? "bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 font-medium" : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700/50"}`}
+                    className={`flex items-center gap-2 w-full px-3 py-2 text-sm rounded-lg transition ${theme === "light" ? "bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 font-medium" : "text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-700/50"}`}
                   >
                     <SunIcon className="w-4 h-4 text-yellow-400" />
                     Light
                   </button>
                   <button
                     onClick={() => { setTheme("dark"); setIsThemeOpen(false); }}
-                    className={`flex items-center gap-2 w-full px-3 py-2 text-sm rounded-lg transition ${theme === "dark" ? "bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 font-medium" : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700/50"}`}
+                    className={`flex items-center gap-2 w-full px-3 py-2 text-sm rounded-lg transition ${theme === "dark" ? "bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 font-medium" : "text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-700/50"}`}
                   >
                     <MoonIcon className="w-4 h-4 text-indigo-500" />
                     Dark
                   </button>
                   <button
                     onClick={() => { setTheme("system"); setIsThemeOpen(false); }}
-                    className={`flex items-center gap-2 w-full px-3 py-2 text-sm rounded-lg transition ${theme === "system" ? "bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 font-medium" : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700/50"}`}
+                    className={`flex items-center gap-2 w-full px-3 py-2 text-sm rounded-lg transition ${theme === "system" ? "bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 font-medium" : "text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-700/50"}`}
                   >
-                    <ComputerDesktopIcon className="w-4 h-4 text-gray-400" />
+                    <ComputerDesktopIcon className="w-4 h-4 text-zinc-400" />
                     System
                   </button>
                 </div>
@@ -205,20 +199,20 @@ const Navbar = ({ onMenuClick, sidebarCollapsed, onToggleSidebar }) => {
                 <div className="relative" ref={notifyRef}>
                   <button
                     onClick={handleToggleNotify}
-                    className="relative p-2 rounded-full text-gray-400 hover:text-indigo-500 dark:hover:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+                    className="relative p-2 rounded-full text-zinc-400 hover:text-indigo-500 dark:hover:text-indigo-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition"
                   >
                     <BellIcon className="w-6 h-6" />
                     {unreadCount > 0 && (
-                      <span className="absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white ring-2 ring-white dark:ring-gray-900">
+                      <span className="absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white ring-2 ring-white dark:ring-zinc-900">
                         {unreadCount}
                       </span>
                     )}
                   </button>
 
                   {isNotifyOpen && (
-                    <div className="absolute right-0 mt-2 w-[calc(100vw-2rem)] sm:w-80 rounded-xl bg-white dark:bg-gray-800 shadow-2xl ring-1 ring-black ring-opacity-5 z-60 overflow-hidden border border-gray-100 dark:border-gray-700">
-                      <div className="p-4 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center">
-                        <h3 className="font-bold text-gray-900 dark:text-white">Notifications</h3>
+                    <div className="absolute right-0 mt-2 w-[calc(100vw-2rem)] sm:w-80 rounded-xl bg-white dark:bg-zinc-800 shadow-2xl ring-1 ring-black ring-opacity-5 z-60 overflow-hidden border border-zinc-100 dark:border-zinc-700">
+                      <div className="p-4 border-b border-zinc-100 dark:border-zinc-700 flex justify-between items-center">
+                        <h3 className="font-bold text-zinc-900 dark:text-white">Notifications</h3>
                         <span className="text-xs text-indigo-500 font-medium">Total : {notifications.length}</span>
                         <button onClick={() => {
                           unreadCount !== 0 ? setUnreadCount(0) : null;
@@ -227,17 +221,17 @@ const Navbar = ({ onMenuClick, sidebarCollapsed, onToggleSidebar }) => {
                       </div>
                       <div className="max-h-96 overflow-y-auto">
                         {notifications.length === 0 ? (
-                          <div className="p-8 text-center text-gray-400 text-sm">No new messages</div>
+                          <div className="p-8 text-center text-zinc-400 text-sm">No new messages</div>
                         ) : (
                           notifications.map((n, i) => (
                             <Link
                               key={i}
                               to={n.link}
                               onClick={() => setIsNotifyOpen(false)}
-                              className="block p-4 border-b border-gray-50 dark:border-gray-700/50 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition"
+                              className="block p-4 border-b border-zinc-50 dark:border-zinc-700/50 hover:bg-zinc-50 dark:hover:bg-zinc-700/50 transition"
                             >
-                              <p className="text-sm font-semibold text-gray-800 dark:text-gray-200">{n.message}</p>
-                              <p className="text-[10px] text-gray-400 mt-1">
+                              <p className="text-sm font-semibold text-zinc-800 dark:text-zinc-200">{n.message}</p>
+                              <p className="text-[10px] text-zinc-400 mt-1">
                                 {new Date(n.added_on).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                               </p>
                             </Link>
@@ -251,35 +245,35 @@ const Navbar = ({ onMenuClick, sidebarCollapsed, onToggleSidebar }) => {
                 <div className={`flex items-center px-2 py-1 rounded-full transition-all duration-300 shadow-sm border 
                   ${user?.currentStreak > 0
                     ? 'bg-orange-100/50 dark:bg-orange-900/40 border-orange-200 dark:border-orange-700'
-                    : 'bg-gray-100 dark:bg-gray-800 border-gray-200 dark:border-gray-700'
+                    : 'bg-zinc-100 dark:bg-zinc-800 border-zinc-200 dark:border-zinc-700'
                   }`}>
                   <FireIcon
                     key={`${user?.currentStreak}`}
                     className={`w-5 h-5 transition-all duration-500 ${user?.currentStreak > 0
                       ? 'text-orange-500 animate-pulse drop-shadow-[0_0_5px_rgba(249,115,22,0.8)]'
-                      : 'text-gray-400'
+                      : 'text-zinc-400'
                       }`}
                   />
                   <span
                     key={`${user?.currentStreak}`}
                     className={`ml-1 text-sm font-bold transition-colors duration-300 ${user?.currentStreak > 0
                       ? 'text-orange-600 dark:text-orange-400'
-                      : 'text-gray-500 dark:text-gray-500'
+                      : 'text-zinc-500 dark:text-zinc-500'
                       }`}>
                     {user?.currentStreak || 0}
                   </span>
                 </div>
 
-                <Link to="/profile" className="flex items-center space-x-2 p-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition">
+                <Link to="/profile" className="flex items-center space-x-2 p-1.5 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800 transition">
                   <img
                     src={`${user.profile_url}`}
                     alt="Profile"
                     className="w-8 h-8 rounded-full border border-indigo-500"
                   />
-                  <span className="text-sm font-medium text-gray-800 dark:text-gray-100 hidden lg:inline">{user?.userName || "Guest"}</span>
+                  <span className="text-sm font-medium text-zinc-800 dark:text-zinc-100 hidden lg:inline">{user?.userName || "Guest"}</span>
                 </Link>
 
-                <button onClick={logout} className="p-2 text-gray-400 hover:text-red-500 transition">
+                <button onClick={logout} className="p-2 text-zinc-400 hover:text-red-500 transition">
                   <ArrowRightOnRectangleIcon className="w-6 h-6" />
                 </button>
               </>

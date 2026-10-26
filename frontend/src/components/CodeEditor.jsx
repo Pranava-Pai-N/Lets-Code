@@ -74,9 +74,9 @@ const CodeEditor = ({ _languages = [], _code, setCode, setLanguageId, _height = 
   };
 
   return (
-    <div className="flex flex-col h-full border border-gray-300 dark:border-gray-700 rounded-lg overflow-hidden shadow-xl bg-white dark:bg-gray-900">
-      <div className="flex items-center justify-between bg-gray-100 dark:bg-gray-800 px-4 py-2 border-b border-gray-300 dark:border-gray-700">
-        <span className="text-sm font-bold text-gray-600 dark:text-gray-300">Editor</span>
+    <div className="flex flex-col h-full border border-zinc-300 dark:border-zinc-700 rounded-lg overflow-hidden shadow-xl bg-zinc-900 dark:bg-zinc-900">
+      <div className="flex items-center justify-between bg-zinc-100 dark:bg-zinc-800 px-4 py-2 border-b border-zinc-300 dark:border-zinc-700">
+        <span className="text-sm font-bold text-zinc-600 dark:text-zinc-300">Editor</span>
         
         <div className="relative">
           <button 
@@ -88,11 +88,11 @@ const CodeEditor = ({ _languages = [], _code, setCode, setLanguageId, _height = 
           </button>
           
           {dropdownOpen && (
-            <div className="absolute right-0 mt-2 w-64 sm:w-72 max-h-96 overflow-y-auto bg-white dark:bg-gray-800 z-100 rounded shadow-2xl border border-gray-200 dark:border-gray-700">
+            <div className="absolute right-0 mt-2 w-64 sm:w-72 max-h-96 overflow-y-auto bg-zinc-900 dark:bg-zinc-800 z-100 rounded shadow-2xl border border-zinc-200 dark:border-zinc-700">
               {allLanguages.map((lang) => (
                 <div 
                   key={lang.id}
-                  className={`px-4 py-2 hover:bg-indigo-500 hover:text-white cursor-pointer text-sm border-b border-gray-50 dark:border-gray-700 last:border-none ${selectedLangObj?.id === lang.id ? 'bg-indigo-100 dark:bg-indigo-900' : ''}`}
+                  className={`px-4 py-2 hover:bg-indigo-500 hover:text-white cursor-pointer text-sm border-b border-zinc-50 dark:border-zinc-700 last:border-none ${selectedLangObj?.id === lang.id ? 'bg-indigo-100 dark:bg-indigo-900' : ''}`}
                   onClick={() => selectLanguage(lang)}
                 >
                   {lang.name}

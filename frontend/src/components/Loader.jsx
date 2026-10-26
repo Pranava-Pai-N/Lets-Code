@@ -12,9 +12,9 @@ const Loader = () => {
               &lt;
             </span>
             <div className="flex gap-1">
-              <div className="w-2 h-8 bg-gray-300 dark:bg-gray-600 rounded-full animate-[bounce_1s_infinite_200ms]"></div>
+              <div className="w-2 h-8 bg-zinc-300 dark:bg-zinc-600 rounded-full animate-[bounce_1s_infinite_200ms]"></div>
               <div className="w-2 h-8 bg-indigo-500 rounded-full animate-[bounce_1s_infinite_300ms]"></div>
-              <div className="w-2 h-8 bg-gray-300 dark:bg-gray-600 rounded-full animate-[bounce_1s_infinite_400ms]"></div>
+              <div className="w-2 h-8 bg-zinc-300 dark:bg-zinc-600 rounded-full animate-[bounce_1s_infinite_400ms]"></div>
             </div>
             <span className="text-4xl font-mono font-bold text-indigo-500 animate-[bounce_1s_infinite_500ms]">
               /&gt;
@@ -22,7 +22,7 @@ const Loader = () => {
           </div>
 
           <div className="flex flex-col items-center">
-            <p className="text-sm font-mono font-medium text-gray-500 dark:text-gray-400 tracking-tight flex items-center gap-1">
+            <p className="text-sm font-mono font-medium text-zinc-500 dark:text-zinc-400 tracking-tight flex items-center gap-1">
               <span>Entering the Matrix</span>
               <span className="flex">
                 <span className="animate-[bounce_1s_infinite_100ms]">.</span>
@@ -31,7 +31,7 @@ const Loader = () => {
               </span>
             </p>
             
-            <div className="mt-4 w-48 h-1 bg-gray-200 dark:bg-gray-800 rounded-full overflow-hidden">
+            <div className="mt-4 w-48 h-1 bg-zinc-200 dark:bg-zinc-800 rounded-full overflow-hidden">
               <div className="h-full bg-indigo-500 w-1/2 animate-[load_1.5s_infinite_ease-in-out]"></div>
             </div>
           </div>
