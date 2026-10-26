@@ -303,7 +303,7 @@ const Dashboard = () => {
                           <span className="max-w-[160px] truncate text-sm font-bold text-zinc-800 dark:text-zinc-200 md:max-w-none">
                             {item.question_title}
                           </span>
-                          <span className="font-mono text-[9px] text-zinc-400">
+                          <span className="font-mono text-[9px] text-zinc-600 dark:text-zinc-400">
                             {item.languageId === 113 ? "py" : "code"}
                           </span>
                         </div>
@@ -319,16 +319,16 @@ const Dashboard = () => {
                         <p className={`text-[11px] font-black uppercase ${item.status === "Accepted" ? "text-emerald-500" : "text-rose-500"}`}>
                           {item.status}
                         </p>
-                        <p className="font-mono text-[9px] text-zinc-400">{item.totalRuntime}s</p>
+                        <p className="font-mono text-[9px] text-zinc-600 dark:text-zinc-400">{item.totalRuntime}s</p>
                       </div>
-                      <ArrowRightIcon className="h-4 w-4 text-zinc-300 transition group-hover:translate-x-0.5 group-hover:text-indigo-500" />
+                      <ArrowRightIcon className="h-4 w-4 text-zinc-700 dark:text-zinc-300 transition group-hover:translate-x-0.5 group-hover:text-indigo-500" />
                     </div>
                   </li>
                 ))}
               </ul>
             ) : (
               <div className="rounded-2xl border-2 border-dashed border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/20 py-10 text-center">
-                <p className="text-sm italic text-zinc-400">No recent activity.</p>
+                <p className="text-sm italic text-zinc-600 dark:text-zinc-400">No recent activity.</p>
               </div>
             )}
           </Card>

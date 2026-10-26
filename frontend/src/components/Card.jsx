@@ -4,7 +4,7 @@ const Card = ({ children, className = "", padding = "p-6" }) => {
   return (
     <div 
       className={`
-        bg-zinc-900 
+        bg-white 
         dark:bg-zinc-800 
         shadow-xl 
         dark:shadow-indigo-900/20 

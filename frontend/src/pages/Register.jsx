@@ -25,7 +25,7 @@ const NeonInput = ({ id, name, type = "text", label, placeholder, value, onChang
                     {label}
                 </label>
                 {required && (
-                    <span className="text-[9px] font-bold text-zinc-300 uppercase tracking-tighter italic">Required</span>
+                    <span className="text-[9px] font-bold text-zinc-700 dark:text-zinc-300 uppercase tracking-tighter italic">Required</span>
                 )}
             </div>
 
@@ -270,7 +270,7 @@ const Register = () => {
                 </div>
 
 
-                <div className="relative flex justify-center text-[9px]  tracking-[0.3em] font-black text-zinc-300">
+                <div className="relative flex justify-center text-[9px]  tracking-[0.3em] font-black text-zinc-700 dark:text-zinc-300">
                     <span className="bg-white dark:bg-zinc-900 dark:bg-zinc-50 dark:bg-zinc-950 px-4 text-zinc-600 dark:text-zinc-400">
                         Please create a Passkey only after creating an account.
                     </span>
@@ -279,7 +279,7 @@ const Register = () => {
 
                 <div className="relative mb-10">
                     <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-zinc-100"></div></div>
-                    <div className="relative flex justify-center text-[9px] uppercase tracking-[0.3em] font-black text-zinc-300">
+                    <div className="relative flex justify-center text-[9px] uppercase tracking-[0.3em] font-black text-zinc-700 dark:text-zinc-300">
                         <span className="bg-white dark:bg-zinc-900 dark:bg-zinc-50 dark:bg-zinc-950 px-4 text-zinc-600 dark:text-zinc-400">
                             Personal Details
                         </span>

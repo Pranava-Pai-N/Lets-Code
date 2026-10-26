@@ -79,7 +79,7 @@ const SubmissionsPage = () => {
                 <div className="md:col-span-2 md:text-right">
                   <button
                     onClick={() => navigate(`/submissions/${s._id}`)}
-                    className="inline-flex items-center gap-1.5 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800 px-3 py-1.5 text-xs font-medium text-zinc-200 transition hover:border-indigo-500/50 hover:text-indigo-300"
+                    className="inline-flex items-center gap-1.5 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800 px-3 py-1.5 text-xs font-medium text-zinc-800 dark:text-zinc-200 transition hover:border-indigo-500/50 hover:text-indigo-300"
                   >
                     <EyeIcon className="h-3.5 w-3.5" /> View
                   </button>

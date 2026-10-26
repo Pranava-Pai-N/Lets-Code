@@ -27,7 +27,7 @@ export default function Footer() {
 
                     <button
                         onClick={handleScroll}
-                        className="p-2 rounded-full bg-zinc-900 border border-zinc-200 text-zinc-500 hover:text-indigo-600 hover:border-indigo-200 hover:shadow-sm transition-all duration-200 active:scale-95"
+                        className="p-2 rounded-full bg-white dark:bg-zinc-900 border border-zinc-200 text-zinc-500 hover:text-indigo-600 hover:border-indigo-200 hover:shadow-sm transition-all duration-200 active:scale-95"
                         aria-label="Scroll to top"
                     >
                         <ArrowUpIcon className="w-4 h-4 animate-pulse" />

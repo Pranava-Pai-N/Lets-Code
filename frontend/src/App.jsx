@@ -40,7 +40,7 @@ function App() {
               {!sidebarVisible && (
                 <button
                   onClick={() => setSidebarVisible(true)}
-                  className="fixed left-4 top-4 z-[60] rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-2 text-zinc-700 dark:text-zinc-200 shadow-lg transition hover:bg-zinc-100 dark:hover:bg-zinc-800"
+                  className="fixed left-4 top-4 z-[60] rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-2 text-zinc-700 dark:text-zinc-200 shadow-lg transition hover:bg-zinc-100 dark:hover:bg-zinc-200 dark:bg-zinc-800"
                   aria-label="Show sidebar"
                 >
                   <Bars3Icon className="h-5 w-5" />

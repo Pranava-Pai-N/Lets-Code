@@ -14,7 +14,7 @@ const getDifficultyClass = (level) => {
   if (v === "easy") return "text-emerald-400 border-emerald-500/40 bg-emerald-500/10";
   if (v === "medium") return "text-amber-400 border-amber-500/40 bg-amber-500/10";
   if (v === "hard") return "text-rose-400 border-rose-500/40 bg-rose-500/10";
-  return "text-zinc-400 border-zinc-500/40 bg-zinc-500/10";
+  return "text-zinc-600 dark:text-zinc-400 border-zinc-500/40 bg-zinc-500/10";
 };
 
 export const ProblemPane = ({ problem, problemId, user }) => {
@@ -32,8 +32,8 @@ export const ProblemPane = ({ problem, problemId, user }) => {
   };
 
   return (
-    <div className="flex h-full flex-col overflow-hidden bg-zinc-950 text-zinc-100">
-      <div className="flex flex-wrap items-center gap-1 border-b border-zinc-800/80 bg-zinc-900/60 px-3 pt-2">
+    <div className="flex h-full flex-col overflow-hidden bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100">
+      <div className="flex flex-wrap items-center gap-1 border-b border-zinc-200/80 dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-900/60 px-3 pt-2">
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const active = activeTab === tab.key;
@@ -43,8 +43,8 @@ export const ProblemPane = ({ problem, problemId, user }) => {
               onClick={() => setActiveTab(tab.key)}
               className={`group relative flex items-center gap-1.5 rounded-t-lg px-3 py-2 text-xs font-medium transition-all ${
                 active
-                  ? "bg-zinc-950 text-zinc-50"
-                  : "text-zinc-400 hover:bg-zinc-800/60 hover:text-zinc-200"
+                  ? "bg-zinc-50 dark:bg-zinc-950 text-zinc-50"
+                  : "text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200/60 dark:hover:bg-zinc-800/60 hover:text-zinc-800 dark:hover:text-zinc-200"
               }`}
             >
               <Icon className="h-3.5 w-3.5" />
@@ -72,16 +72,16 @@ export const ProblemPane = ({ problem, problemId, user }) => {
                     {problem.difficultyLevel ?? "Medium"}
                   </span>
                   {problem.ratingLevel ? (
-                    <span className="text-xs text-zinc-400">Rating {problem.ratingLevel}/5</span>
+                    <span className="text-xs text-zinc-600 dark:text-zinc-400">Rating {problem.ratingLevel}/5</span>
                   ) : null}
                   {problem.acceptedRate != null ? (
-                    <span className="text-xs text-zinc-400">Acceptance {problem.acceptedRate}%</span>
+                    <span className="text-xs text-zinc-600 dark:text-zinc-400">Acceptance {problem.acceptedRate}%</span>
                   ) : null}
                 </div>
               </div>
               <button
                 onClick={handleCopyDescription}
-                className="flex items-center gap-1.5 rounded-md border border-zinc-800 bg-zinc-900/80 px-2.5 py-1.5 text-xs text-zinc-300 transition hover:border-zinc-700 hover:text-zinc-50"
+                className="flex items-center gap-1.5 rounded-md border border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-900/80 px-2.5 py-1.5 text-xs text-zinc-700 dark:text-zinc-300 transition hover:border-zinc-300 dark:hover:border-zinc-700 hover:text-zinc-50"
                 title="Copy description"
               >
                 {copied ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
@@ -90,14 +90,14 @@ export const ProblemPane = ({ problem, problemId, user }) => {
             </div>
 
             <div
-              className="rounded-lg border border-zinc-800/80 bg-zinc-900/40 p-4 text-sm leading-relaxed text-zinc-200 [&_pre]:rounded-lg [&_pre]:border [&_pre]:border-zinc-800 [&_pre]:bg-zinc-950 [&_pre]:p-3 [&_code]:text-indigo-300"
+              className="rounded-lg border border-zinc-200/80 dark:border-zinc-800/80 bg-white/40 dark:bg-zinc-900/40 p-4 text-sm leading-relaxed text-zinc-800 dark:text-zinc-200 [&_pre]:rounded-lg [&_pre]:border [&_pre]:border-zinc-200 dark:border-zinc-800 [&_pre]:bg-zinc-50 dark:bg-zinc-950 [&_pre]:p-3 [&_code]:text-indigo-300"
               dangerouslySetInnerHTML={{ __html: problem.description }}
             />
 
             {problem.constraints && problem.constraints.length > 0 && (
               <section className="mt-6">
-                <h3 className="mb-2 text-sm font-semibold text-zinc-100">Constraints</h3>
-                <ul className="space-y-1.5 rounded-lg border border-zinc-800/80 bg-zinc-900/40 p-4 text-sm text-zinc-300">
+                <h3 className="mb-2 text-sm font-semibold text-zinc-900 dark:text-zinc-100">Constraints</h3>
+                <ul className="space-y-1.5 rounded-lg border border-zinc-200/80 dark:border-zinc-800/80 bg-white/40 dark:bg-zinc-900/40 p-4 text-sm text-zinc-700 dark:text-zinc-300">
                   {problem.constraints.map((c, idx) => (
                     <li key={idx} className="flex gap-2">
                       <span className="text-indigo-400">•</span>

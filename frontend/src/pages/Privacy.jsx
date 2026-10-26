@@ -38,20 +38,20 @@ const Privacy = () => {
       <div className="mx-auto max-w-4xl px-6 py-16">
         <Link
           to="/"
-          className="mb-8 inline-flex items-center gap-2 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 px-4 py-2 text-sm text-zinc-300 transition hover:border-indigo-500/50 hover:text-indigo-300"
+          className="mb-8 inline-flex items-center gap-2 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 px-4 py-2 text-sm text-zinc-700 dark:text-zinc-300 transition hover:border-indigo-500/50 hover:text-indigo-600 dark:hover:text-indigo-400"
         >
           <ArrowLeftIcon className="h-4 w-4" /> Back
         </Link>
 
         <header className="mb-12 text-center">
-          <span className="inline-flex items-center gap-2 rounded-full border border-indigo-500/30 bg-indigo-500/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-indigo-300">
+          <span className="inline-flex items-center gap-2 rounded-full border border-indigo-500/30 bg-indigo-500/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-300">
             <Shield className="h-3.5 w-3.5" /> Encrypted Privacy
           </span>
           <h1 className="mt-6 text-4xl font-black tracking-tight md:text-5xl">
-            Built to stay <span className="text-indigo-400">private.</span>
+            Built to stay <span className="text-indigo-600 dark:text-indigo-400">private.</span>
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-            Our platform is designed around one principle: <strong className="text-zinc-200">minimal data, maximum security.</strong>{" "}
+            Our platform is designed around one principle: <strong className="text-zinc-800 dark:text-zinc-200">minimal data, maximum security.</strong>{" "}
             We focus on your DSA growth, not your personal data.
           </p>
         </header>
@@ -63,7 +63,7 @@ const Privacy = () => {
               <div
                 key={s.id}
                 className={`overflow-hidden rounded-2xl border transition ${
-                  isOpen ? "border-indigo-500/40 bg-white dark:bg-zinc-900/80" : "border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/40 hover:border-zinc-300 dark:border-zinc-700"
+                  isOpen ? "border-indigo-500/40 bg-white dark:bg-zinc-900/80 shadow-sm" : "border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/40 hover:border-indigo-500/40 dark:hover:border-zinc-700"
                 }`}
               >
                 <button
@@ -73,7 +73,7 @@ const Privacy = () => {
                   <div className="flex items-center gap-4">
                     <span
                       className={`rounded-xl p-3 transition ${
-                        isOpen ? "bg-indigo-500/15 text-indigo-300" : "bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400"
+                        isOpen ? "bg-indigo-500/15 text-indigo-600 dark:text-indigo-300" : "bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400"
                       }`}
                     >
                       {s.icon}
@@ -84,7 +84,7 @@ const Privacy = () => {
                     </div>
                   </div>
                   <ChevronDown
-                    className={`h-5 w-5 text-zinc-500 transition-transform ${isOpen ? "rotate-180 text-indigo-300" : ""}`}
+                    className={`h-5 w-5 text-zinc-500 transition-transform ${isOpen ? "rotate-180 text-indigo-600 dark:text-indigo-300" : ""}`}
                   />
                 </button>
                 <div

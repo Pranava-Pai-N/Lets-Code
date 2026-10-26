@@ -132,7 +132,7 @@ const Navbar = ({ onMenuClick, sidebarCollapsed, onToggleSidebar }) => {
           <div className="flex items-center space-x-2">
             <button
               onClick={onMenuClick}
-              className="md:hidden p-2 rounded-lg text-zinc-700 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition"
+              className="md:hidden p-2 rounded-lg text-zinc-700 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-200 dark:bg-zinc-800 transition"
               aria-label="Open menu"
             >
               <Bars3Icon className="w-6 h-6" />
@@ -161,7 +161,7 @@ const Navbar = ({ onMenuClick, sidebarCollapsed, onToggleSidebar }) => {
             <div className="relative" ref={themeRef}>
               <Button
                 variant="tertiary"
-                className="p-2 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800 transition flex items-center justify-center"
+                className="p-2 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-700/50 transition flex items-center justify-center"
                 onClick={() => setIsThemeOpen(!isThemeOpen)}
               >
                 {renderThemeIcon()}
@@ -171,23 +171,23 @@ const Navbar = ({ onMenuClick, sidebarCollapsed, onToggleSidebar }) => {
                 <div className="absolute right-0 mt-2 w-36 rounded-xl bg-white dark:bg-zinc-800 shadow-2xl ring-1 ring-black ring-opacity-5 z-60 overflow-hidden border border-zinc-100 dark:border-zinc-700 p-1">
                   <button
                     onClick={() => { setTheme("light"); setIsThemeOpen(false); }}
-                    className={`flex items-center gap-2 w-full px-3 py-2 text-sm rounded-lg transition ${theme === "light" ? "bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 font-medium" : "text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-700/50"}`}
+                    className={`flex items-center gap-2 w-full px-3 py-2 text-sm rounded-lg transition ${theme === "light" ? "bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 font-medium" : "text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-700/50"}`}
                   >
                     <SunIcon className="w-4 h-4 text-yellow-400" />
                     Light
                   </button>
                   <button
                     onClick={() => { setTheme("dark"); setIsThemeOpen(false); }}
-                    className={`flex items-center gap-2 w-full px-3 py-2 text-sm rounded-lg transition ${theme === "dark" ? "bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 font-medium" : "text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-700/50"}`}
+                    className={`flex items-center gap-2 w-full px-3 py-2 text-sm rounded-lg transition ${theme === "dark" ? "bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 font-medium" : "text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-700/50"}`}
                   >
                     <MoonIcon className="w-4 h-4 text-indigo-500" />
                     Dark
                   </button>
                   <button
                     onClick={() => { setTheme("system"); setIsThemeOpen(false); }}
-                    className={`flex items-center gap-2 w-full px-3 py-2 text-sm rounded-lg transition ${theme === "system" ? "bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 font-medium" : "text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-700/50"}`}
+                    className={`flex items-center gap-2 w-full px-3 py-2 text-sm rounded-lg transition ${theme === "system" ? "bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 font-medium" : "text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-700/50"}`}
                   >
-                    <ComputerDesktopIcon className="w-4 h-4 text-zinc-400" />
+                    <ComputerDesktopIcon className="w-4 h-4 text-zinc-600 dark:text-zinc-400" />
                     System
                   </button>
                 </div>
@@ -199,7 +199,7 @@ const Navbar = ({ onMenuClick, sidebarCollapsed, onToggleSidebar }) => {
                 <div className="relative" ref={notifyRef}>
                   <button
                     onClick={handleToggleNotify}
-                    className="relative p-2 rounded-full text-zinc-400 hover:text-indigo-500 dark:hover:text-indigo-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition"
+                    className="relative p-2 rounded-full text-zinc-600 dark:text-zinc-400 hover:text-indigo-500 dark:hover:text-indigo-400 hover:bg-zinc-100 dark:hover:bg-zinc-200 dark:bg-zinc-800 transition"
                   >
                     <BellIcon className="w-6 h-6" />
                     {unreadCount > 0 && (
@@ -221,17 +221,17 @@ const Navbar = ({ onMenuClick, sidebarCollapsed, onToggleSidebar }) => {
                       </div>
                       <div className="max-h-96 overflow-y-auto">
                         {notifications.length === 0 ? (
-                          <div className="p-8 text-center text-zinc-400 text-sm">No new messages</div>
+                          <div className="p-8 text-center text-zinc-600 dark:text-zinc-400 text-sm">No new messages</div>
                         ) : (
                           notifications.map((n, i) => (
                             <Link
                               key={i}
                               to={n.link}
                               onClick={() => setIsNotifyOpen(false)}
-                              className="block p-4 border-b border-zinc-50 dark:border-zinc-700/50 hover:bg-zinc-50 dark:hover:bg-zinc-700/50 transition"
+                              className="block p-4 border-b border-zinc-50 dark:border-zinc-700/50 hover:bg-zinc-50 dark:hover:bg-zinc-300/50 dark:bg-zinc-700/50 transition"
                             >
                               <p className="text-sm font-semibold text-zinc-800 dark:text-zinc-200">{n.message}</p>
-                              <p className="text-[10px] text-zinc-400 mt-1">
+                              <p className="text-[10px] text-zinc-600 dark:text-zinc-400 mt-1">
                                 {new Date(n.added_on).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                               </p>
                             </Link>
@@ -251,7 +251,7 @@ const Navbar = ({ onMenuClick, sidebarCollapsed, onToggleSidebar }) => {
                     key={`${user?.currentStreak}`}
                     className={`w-5 h-5 transition-all duration-500 ${user?.currentStreak > 0
                       ? 'text-orange-500 animate-pulse drop-shadow-[0_0_5px_rgba(249,115,22,0.8)]'
-                      : 'text-zinc-400'
+                      : 'text-zinc-600 dark:text-zinc-400'
                       }`}
                   />
                   <span
@@ -264,16 +264,16 @@ const Navbar = ({ onMenuClick, sidebarCollapsed, onToggleSidebar }) => {
                   </span>
                 </div>
 
-                <Link to="/profile" className="flex items-center space-x-2 p-1.5 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800 transition">
+                <Link to="/profile" className="flex items-center space-x-2 p-1.5 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-700/50 transition">
                   <img
                     src={`${user.profile_url}`}
                     alt="Profile"
-                    className="w-8 h-8 rounded-full border border-indigo-500"
+                    className="w-8 h-8 rounded-full border-2 border-indigo-500 dark:border-indigo-400 object-cover shadow-sm"
                   />
                   <span className="text-sm font-medium text-zinc-800 dark:text-zinc-100 hidden lg:inline">{user?.userName || "Guest"}</span>
                 </Link>
 
-                <button onClick={logout} className="p-2 text-zinc-400 hover:text-red-500 transition">
+                <button onClick={logout} className="p-2 text-zinc-600 dark:text-zinc-400 hover:text-red-500 transition">
                   <ArrowRightOnRectangleIcon className="w-6 h-6" />
                 </button>
               </>

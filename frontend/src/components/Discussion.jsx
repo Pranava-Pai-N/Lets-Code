@@ -145,7 +145,7 @@ const Discussion = ({ problemId }) => {
           <button
             onClick={handleRefresh}
             disabled={loading || isRefreshing}
-            className="p-2 text-zinc-500 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-lg transition-all active:scale-90 disabled:opacity-50"
+            className="p-2 text-zinc-500 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-zinc-100 dark:hover:bg-zinc-200 dark:bg-zinc-800 rounded-lg transition-all active:scale-90 disabled:opacity-50"
             title="Refresh Discussions"
           >
             <ArrowPathIcon className={`w-5 h-5 ${isRefreshing ? 'animate-spin' : ''}`} />
@@ -179,7 +179,7 @@ const Discussion = ({ problemId }) => {
           <div>
             <label className="block text-xs font-bold text-zinc-500 uppercase mb-1">Discussion Title</label>
             <input
-              className="w-full bg-zinc-900 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg p-2.5 text-sm outline-none focus:ring-2 focus:ring-indigo-500 dark:text-white transition"
+              className="w-full bg-white dark:bg-zinc-900 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg p-2.5 text-sm outline-none focus:ring-2 focus:ring-indigo-500 dark:text-white transition"
               placeholder="Give a suitable title to your discussion"
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
@@ -189,7 +189,7 @@ const Discussion = ({ problemId }) => {
           <div>
             <label className="block text-xs font-bold text-zinc-500 uppercase mb-1">Details (Min 5 Characters)</label>
             <textarea
-              className="w-full bg-zinc-900 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg p-2.5 text-sm outline-none focus:ring-2 focus:ring-indigo-500 dark:text-white transition"
+              className="w-full bg-white dark:bg-zinc-900 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg p-2.5 text-sm outline-none focus:ring-2 focus:ring-indigo-500 dark:text-white transition"
               rows="4"
               placeholder="Provide a suitable explaination to your approach"
               value={formData.description}
@@ -200,7 +200,7 @@ const Discussion = ({ problemId }) => {
           <div>
             <label className="block text-xs font-bold text-zinc-500 uppercase mb-1">Tags (max 5, comma separated)</label>
             <input
-              className="w-full bg-zinc-900 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg p-2.5 text-sm outline-none focus:ring-2 focus:ring-indigo-500 dark:text-white"
+              className="w-full bg-white dark:bg-zinc-900 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg p-2.5 text-sm outline-none focus:ring-2 focus:ring-indigo-500 dark:text-white"
               placeholder="DP, Recursion, Sliding-Window"
               value={formData.tags}
               onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
@@ -214,17 +214,17 @@ const Discussion = ({ problemId }) => {
         <div className="space-y-4">
           {discussions.length === 0 ? (
             <div className="text-center py-12 bg-zinc-50 dark:bg-zinc-900/20 rounded-xl border border-dashed border-zinc-200 dark:border-zinc-800">
-              <ChatBubbleLeftRightIcon className="w-10 h-10 text-zinc-300 mx-auto mb-2" />
+              <ChatBubbleLeftRightIcon className="w-10 h-10 text-zinc-700 dark:text-zinc-300 mx-auto mb-2" />
               <p className="text-zinc-500 text-sm">No discussions yet. Be the first to start a conversation!</p>
             </div>
           ) : (
             discussions.map((item) => (
-              <div key={item._id} className="p-4 bg-zinc-900 dark:bg-zinc-800 border border-zinc-100 dark:border-zinc-700 rounded-xl hover:border-indigo-300 dark:hover:border-indigo-500/50 transition cursor-pointer group shadow-sm">
+              <div key={item._id} className="p-4 bg-white dark:bg-zinc-900 dark:bg-zinc-800 border border-zinc-100 dark:border-zinc-700 rounded-xl hover:border-indigo-300 dark:hover:border-indigo-500/50 transition cursor-pointer group shadow-sm">
                 <div className="flex justify-between items-start mb-2">
                   <h4 className="font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 transition tracking-tight">
                     {item.title}
                   </h4>
-                  <span className="text-[10px] text-zinc-400 whitespace-nowrap ml-4">
+                  <span className="text-[10px] text-zinc-600 dark:text-zinc-400 whitespace-nowrap ml-4">
                     {new Date(item.createdAt).toLocaleDateString()}
                   </span>
                 </div>
@@ -235,7 +235,7 @@ const Discussion = ({ problemId }) => {
                   onClick={() => handleLikes(item._id)}
                   className={`group flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg transition-all active:scale-95 ${postLiked
                     ? "bg-rose-50 dark:bg-rose-900/20 text-rose-500"
-                    : "hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-500"
+                    : "hover:bg-zinc-100 dark:hover:bg-zinc-200 dark:bg-zinc-800 text-zinc-500"
                     }`}
                 >
                   <HandThumbUpIcon

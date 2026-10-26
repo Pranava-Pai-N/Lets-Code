@@ -56,7 +56,7 @@ const CountdownTimer = () => {
   const isComplete = time === 0;
 
   return (
-    <div className="bg-zinc-900 dark:bg-zinc-800 p-3 rounded-lg shadow-xl border border-zinc-200 dark:border-zinc-700 w-full max-w-xs sm:max-w-none flex items-center justify-between space-x-4">
+    <div className="bg-white dark:bg-zinc-900 dark:bg-zinc-800 p-3 rounded-lg shadow-xl border border-zinc-200 dark:border-zinc-700 w-full max-w-xs sm:max-w-none flex items-center justify-between space-x-4">
       
       <div className="flex items-center space-x-2 shrink-0">
         <ClockIcon className={`w-6 h-6 ${isComplete ? "text-red-500" : "text-indigo-500 dark:text-indigo-400"}`} />
@@ -73,13 +73,13 @@ const CountdownTimer = () => {
                 <div className="flex flex-col ml-1">
                   <button 
                     onClick={addMinute}
-                    className="hover:text-indigo-500 text-zinc-400 transition-colors"
+                    className="hover:text-indigo-500 text-zinc-600 dark:text-zinc-400 transition-colors"
                   >
                     <PlusIcon className="w-4 h-4" />
                   </button>
                   <button 
                     onClick={subtractMinute}
-                    className="hover:text-indigo-500 text-zinc-400 transition-colors"
+                    className="hover:text-indigo-500 text-zinc-600 dark:text-zinc-400 transition-colors"
                   >
                     <MinusIcon className="w-4 h-4" />
                   </button>

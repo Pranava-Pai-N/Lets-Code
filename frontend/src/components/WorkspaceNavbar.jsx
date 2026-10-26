@@ -61,7 +61,7 @@ export const WorkspaceNavbar = ({
         {onToggleSidebar && (
           <button
             onClick={onToggleSidebar}
-            className="rounded-md p-1.5 text-zinc-400 transition hover:bg-zinc-800 hover:text-zinc-100"
+            className="rounded-md p-1.5 text-zinc-600 dark:text-zinc-400 transition hover:bg-zinc-200 dark:hover:bg-zinc-800 hover:text-zinc-900 dark:hover:text-zinc-100"
             title={sidebarVisible ? "Hide sidebar" : "Show sidebar"}
           >
             <Menu className="h-4 w-4" />
@@ -73,11 +73,11 @@ export const WorkspaceNavbar = ({
           <>
             <span className="hidden text-zinc-700 sm:inline">/</span>
             <div className="flex min-w-0 items-center gap-2">
-              <span className="truncate text-sm font-medium text-zinc-200">{problemTitle}</span>
+              <span className="truncate text-sm font-medium text-zinc-800 dark:text-zinc-200">{problemTitle}</span>
               {difficulty && (
                 <span
                   className={`hidden rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider sm:inline ${
-                    difficultyColor[diffKey] ?? "text-zinc-400 border-zinc-500/40 bg-zinc-500/10"
+                    difficultyColor[diffKey] ?? "text-zinc-600 dark:text-zinc-400 border-zinc-500/40 bg-zinc-500/10"
                   }`}
                 >
                   {difficulty}
@@ -89,14 +89,14 @@ export const WorkspaceNavbar = ({
       </div>
 
       <div className="hidden items-center gap-3 md:flex">
-        <div className="flex items-center gap-2 rounded-full border border-zinc-800 bg-zinc-900/60 px-3 py-1">
+        <div className="flex items-center gap-2 rounded-full border border-zinc-200 dark:border-zinc-800 bg-white/60 dark:bg-zinc-900/60 px-3 py-1">
           <span className={`h-2 w-2 rounded-full ${statusColor[status]}`} />
-          <span className="text-xs font-medium text-zinc-300">
+          <span className="text-xs font-medium text-zinc-700 dark:text-zinc-300">
             {status === "idle" ? "Ready" : status === "running" ? "Running" : status === "passed" ? "Accepted" : "Failed"}
           </span>
         </div>
         {timerLabel && (
-          <div className="flex items-center gap-1.5 text-xs text-zinc-400">
+          <div className="flex items-center gap-1.5 text-xs text-zinc-600 dark:text-zinc-400">
             <Timer className="h-3.5 w-3.5" />
             <span className="font-mono">{timerLabel}</span>
           </div>
@@ -108,13 +108,13 @@ export const WorkspaceNavbar = ({
           <div className="relative">
             <button
               onClick={() => setLangOpen((o) => !o)}
-              className="flex items-center gap-1.5 rounded-md border border-zinc-800 bg-zinc-900/60 px-2.5 py-1.5 text-xs text-zinc-200 transition hover:border-zinc-700"
+              className="flex items-center gap-1.5 rounded-md border border-zinc-200 dark:border-zinc-800 bg-white/60 dark:bg-zinc-900/60 px-2.5 py-1.5 text-xs text-zinc-800 dark:text-zinc-200 transition hover:border-zinc-300 dark:hover:border-zinc-700"
             >
               <span className="max-w-[9rem] truncate">{selectedLanguage?.name ?? "Language"}</span>
               <ChevronDown className="h-3 w-3 text-zinc-500" />
             </button>
             {langOpen && (
-              <div className="absolute right-0 top-full mt-2 max-h-80 w-64 overflow-y-auto rounded-lg border border-zinc-800 bg-zinc-900 shadow-2xl">
+              <div className="absolute right-0 top-full mt-2 max-h-80 w-64 overflow-y-auto rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-2xl">
                 {languages.map((lang) => (
                   <button
                     key={lang.id}
@@ -125,7 +125,7 @@ export const WorkspaceNavbar = ({
                     className={`block w-full px-3 py-2 text-left text-xs transition ${
                       selectedLanguage?.id === lang.id
                         ? "bg-indigo-500/20 text-indigo-200"
-                        : "text-zinc-300 hover:bg-zinc-800 hover:text-zinc-100"
+                        : "text-zinc-700 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-800 hover:text-zinc-900 dark:hover:text-zinc-100"
                     }`}
                   >
                     {lang.name}
@@ -138,7 +138,7 @@ export const WorkspaceNavbar = ({
 
         <button
           onClick={toggleTheme}
-          className="rounded-md p-1.5 text-zinc-400 transition hover:bg-zinc-800 hover:text-zinc-100"
+          className="rounded-md p-1.5 text-zinc-600 dark:text-zinc-400 transition hover:bg-zinc-200 dark:hover:bg-zinc-800 hover:text-zinc-900 dark:hover:text-zinc-100"
           title="Toggle theme"
         >
           {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
@@ -164,7 +164,7 @@ export const WorkspaceNavbar = ({
         ) : (
           <button
             onClick={onToggleTestMode}
-            className="hidden rounded-md border border-zinc-800 bg-zinc-900/60 px-3 py-1.5 text-xs font-medium text-zinc-300 transition hover:border-zinc-700 sm:block"
+            className="hidden rounded-md border border-zinc-200 dark:border-zinc-800 bg-white/60 dark:bg-zinc-900/60 px-3 py-1.5 text-xs font-medium text-zinc-700 dark:text-zinc-300 transition hover:border-zinc-300 dark:hover:border-zinc-700 sm:block"
           >
             Test Mode
           </button>
@@ -173,7 +173,7 @@ export const WorkspaceNavbar = ({
         <button
           onClick={onRun}
           disabled={runDisabled || isRunning}
-          className="flex items-center gap-1.5 rounded-md bg-zinc-800 px-3 py-1.5 text-xs font-semibold text-zinc-100 transition hover:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-60"
+          className="flex items-center gap-1.5 rounded-md bg-zinc-200 dark:bg-zinc-800 px-3 py-1.5 text-xs font-semibold text-zinc-900 dark:text-zinc-100 transition hover:bg-zinc-300 dark:hover:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-60"
         >
           {isRunning ? (
             <>

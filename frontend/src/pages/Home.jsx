@@ -34,7 +34,7 @@ const Home = () => {
               </Link>
               <Link
                 to="/dashboard"
-                className="inline-flex items-center gap-2 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 px-6 py-3 text-sm font-semibold text-zinc-200 transition hover:border-zinc-300 dark:border-zinc-700 hover:bg-white dark:bg-zinc-900"
+                className="inline-flex items-center gap-2 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 px-6 py-3 text-sm font-semibold text-zinc-800 dark:text-zinc-200 transition hover:border-zinc-300 dark:border-zinc-700 hover:bg-white dark:bg-zinc-900"
               >
                 View Progress
               </Link>

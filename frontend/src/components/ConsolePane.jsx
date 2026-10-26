@@ -22,8 +22,8 @@ export const ConsolePane = ({
   ];
 
   return (
-    <div className="flex h-full flex-col bg-zinc-950">
-      <div className="flex items-center justify-between border-b border-zinc-800/80 bg-zinc-900/60 px-3 py-2">
+    <div className="flex h-full flex-col bg-zinc-50 dark:bg-zinc-950">
+      <div className="flex items-center justify-between border-b border-zinc-200/80 dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-900/60 px-3 py-2">
         <div className="flex items-center gap-1">
           {tabs.map((t) => (
             <button
@@ -31,8 +31,8 @@ export const ConsolePane = ({
               onClick={() => onTabChange(t.key)}
               className={`rounded-md px-3 py-1.5 text-xs font-medium transition ${
                 activeTab === t.key
-                  ? "bg-zinc-800 text-zinc-100 shadow-sm"
-                  : "text-zinc-400 hover:bg-zinc-800/60 hover:text-zinc-200"
+                  ? "bg-zinc-200 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 shadow-sm"
+                  : "text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200/60 dark:hover:bg-zinc-800/60 hover:text-zinc-800 dark:hover:text-zinc-200"
               }`}
             >
               {t.label}
@@ -42,7 +42,7 @@ export const ConsolePane = ({
         {onToggleCollapse && (
           <button
             onClick={onToggleCollapse}
-            className="rounded-md p-1.5 text-zinc-400 transition hover:bg-zinc-800 hover:text-zinc-100"
+            className="rounded-md p-1.5 text-zinc-600 dark:text-zinc-400 transition hover:bg-zinc-200 dark:hover:bg-zinc-800 hover:text-zinc-900 dark:hover:text-zinc-100"
             title={collapsed ? "Expand console" : "Collapse console"}
           >
             {collapsed ? <ChevronUp className="h-3.5 w-3.5" /> : <ChevronDown className="h-3.5 w-3.5" />}
@@ -65,7 +65,7 @@ export const ConsolePane = ({
                         className={`flex items-center gap-1.5 rounded-md border px-3 py-1.5 text-xs font-medium transition ${
                           selectedTestCase === idx
                             ? "border-indigo-500/60 bg-indigo-500/10 text-indigo-200"
-                            : "border-zinc-800 bg-zinc-900/60 text-zinc-400 hover:border-zinc-700 hover:text-zinc-200"
+                            : "border-zinc-200 dark:border-zinc-800 bg-white/60 dark:bg-zinc-900/60 text-zinc-600 dark:text-zinc-400 hover:border-zinc-300 dark:hover:border-zinc-700 hover:text-zinc-800 dark:hover:text-zinc-200"
                         }`}
                       >
                         Case {idx + 1}
@@ -78,13 +78,13 @@ export const ConsolePane = ({
                 <div className="grid gap-3 md:grid-cols-2">
                   <div>
                     <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-wider text-zinc-500">Input</p>
-                    <pre className="min-h-[60px] rounded-lg border border-zinc-800 bg-zinc-900/60 p-3 font-mono text-xs text-zinc-200 whitespace-pre-wrap">
+                    <pre className="min-h-[60px] rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white/60 dark:bg-zinc-900/60 p-3 font-mono text-xs text-zinc-800 dark:text-zinc-200 whitespace-pre-wrap">
                       {testCases[selectedTestCase]?.input ?? ""}
                     </pre>
                   </div>
                   <div>
                     <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-wider text-zinc-500">Expected Output</p>
-                    <pre className="min-h-[60px] rounded-lg border border-zinc-800 bg-zinc-900/60 p-3 font-mono text-xs text-zinc-200 whitespace-pre-wrap">
+                    <pre className="min-h-[60px] rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white/60 dark:bg-zinc-900/60 p-3 font-mono text-xs text-zinc-800 dark:text-zinc-200 whitespace-pre-wrap">
                       {testCases[selectedTestCase]?.output ?? ""}
                     </pre>
                   </div>
@@ -96,7 +96,7 @@ export const ConsolePane = ({
                     value={customInput}
                     onChange={(e) => setCustomInput(e.target.value)}
                     placeholder="Type custom input here..."
-                    className="h-24 w-full resize-none rounded-lg border border-zinc-800 bg-zinc-900/60 p-3 font-mono text-xs text-zinc-200 placeholder-zinc-600 focus:border-indigo-500/60 focus:outline-none"
+                    className="h-24 w-full resize-none rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white/60 dark:bg-zinc-900/60 p-3 font-mono text-xs text-zinc-800 dark:text-zinc-200 placeholder-zinc-400 dark:placeholder-zinc-600 focus:border-indigo-500/60 focus:outline-none"
                   />
                 </div>
               </>
@@ -111,10 +111,10 @@ export const ConsolePane = ({
             {isRunning && (
               <div className="space-y-3">
                 {[0, 1, 2].map((i) => (
-                  <div key={i} className="animate-pulse rounded-lg border border-zinc-800 bg-zinc-900/60 p-4">
-                    <div className="mb-2 h-3 w-24 rounded bg-zinc-800" />
-                    <div className="h-3 w-full rounded bg-zinc-800" />
-                    <div className="mt-2 h-3 w-2/3 rounded bg-zinc-800" />
+                  <div key={i} className="animate-pulse rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white/60 dark:bg-zinc-900/60 p-4">
+                    <div className="mb-2 h-3 w-24 rounded bg-zinc-200 dark:bg-zinc-800" />
+                    <div className="h-3 w-full rounded bg-zinc-200 dark:bg-zinc-800" />
+                    <div className="mt-2 h-3 w-2/3 rounded bg-zinc-200 dark:bg-zinc-800" />
                   </div>
                 ))}
               </div>
@@ -146,14 +146,14 @@ export const ConsolePane = ({
                       {testResults.allPassed ? "Accepted" : "Wrong Answer"}
                     </h3>
                   </div>
-                  <p className="mt-1 text-xs text-zinc-400">
+                  <p className="mt-1 text-xs text-zinc-600 dark:text-zinc-400">
                     {testResults.results.filter((r) => r.passed).length} / {testResults.results.length} test cases passed
                   </p>
                 </div>
 
                 <div className="space-y-3">
                   {testResults.results.map((res, index) => (
-                    <div key={index} className="overflow-hidden rounded-lg border border-zinc-800 bg-zinc-900/40">
+                    <div key={index} className="overflow-hidden rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white/40 dark:bg-zinc-900/40">
                       <div
                         className={`flex items-center justify-between px-4 py-2 ${
                           res.passed ? "bg-emerald-500/10" : "bg-rose-500/10"
@@ -176,7 +176,7 @@ export const ConsolePane = ({
                       <div className="space-y-2 p-4">
                         <div>
                           <p className="mb-1 text-[10px] uppercase tracking-wider text-zinc-500">Actual Output</p>
-                          <pre className="rounded-md border border-zinc-800 bg-zinc-950 p-2 font-mono text-xs text-zinc-200 whitespace-pre-wrap">
+                          <pre className="rounded-md border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 p-2 font-mono text-xs text-zinc-800 dark:text-zinc-200 whitespace-pre-wrap">
                             {res.stdout || (res.stderr ? <span className="text-rose-400">{res.stderr}</span> : "No Output")}
                           </pre>
                         </div>
@@ -198,7 +198,7 @@ export const ConsolePane = ({
         )}
 
         {activeTab === "console" && (
-          <div className="h-full rounded-lg border border-zinc-800 bg-black/60 p-4 font-mono text-xs">
+          <div className="h-full rounded-lg border border-zinc-200 dark:border-zinc-800 bg-black/60 p-4 font-mono text-xs">
             <div className="mb-2 flex items-center gap-2 text-zinc-500">
               <Terminal className="h-3.5 w-3.5" />
               <span className="uppercase tracking-widest">debug — logs</span>

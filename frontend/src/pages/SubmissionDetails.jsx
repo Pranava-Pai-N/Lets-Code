@@ -105,7 +105,7 @@ const SubmissionDetails = () => {
                             </div>
                             <button
                                 onClick={copyToClipboard}
-                                className="flex items-center gap-2 text-xs font-bold text-zinc-600 dark:text-zinc-400 hover:text-white transition-colors bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-700 px-3 py-1.5 rounded-lg"
+                                className="flex items-center gap-2 text-xs font-bold text-zinc-600 dark:text-zinc-400 hover:text-white transition-colors bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700 px-3 py-1.5 rounded-lg"
                             >
                                 {copied ? <CheckIcon className="w-4 h-4 text-green-400" /> : <DocumentDuplicateIcon className="w-4 h-4" />}
                                 {copied ? 'Copied!' : 'Copy'}

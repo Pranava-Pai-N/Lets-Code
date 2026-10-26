@@ -74,7 +74,7 @@ const CodeEditor = ({ _languages = [], _code, setCode, setLanguageId, _height = 
   };
 
   return (
-    <div className="flex flex-col h-full border border-zinc-300 dark:border-zinc-700 rounded-lg overflow-hidden shadow-xl bg-zinc-900 dark:bg-zinc-900">
+    <div className="flex flex-col h-full border border-zinc-300 dark:border-zinc-700 rounded-lg overflow-hidden shadow-xl bg-white dark:bg-zinc-900">
       <div className="flex items-center justify-between bg-zinc-100 dark:bg-zinc-800 px-4 py-2 border-b border-zinc-300 dark:border-zinc-700">
         <span className="text-sm font-bold text-zinc-600 dark:text-zinc-300">Editor</span>
         
@@ -88,7 +88,7 @@ const CodeEditor = ({ _languages = [], _code, setCode, setLanguageId, _height = 
           </button>
           
           {dropdownOpen && (
-            <div className="absolute right-0 mt-2 w-64 sm:w-72 max-h-96 overflow-y-auto bg-zinc-900 dark:bg-zinc-800 z-100 rounded shadow-2xl border border-zinc-200 dark:border-zinc-700">
+            <div className="absolute right-0 mt-2 w-64 sm:w-72 max-h-96 overflow-y-auto bg-white dark:bg-zinc-900 dark:bg-zinc-800 z-100 rounded shadow-2xl border border-zinc-200 dark:border-zinc-700">
               {allLanguages.map((lang) => (
                 <div 
                   key={lang.id}

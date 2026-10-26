@@ -261,7 +261,7 @@ const ProblemWorkspace = ({ problem, problemId, user, isAuthenticated }) => {
   const status = isRunning ? "running" : testResults ? (testResults.allPassed ? "passed" : "failed") : "idle";
 
   return (
-    <div ref={rootRef} className="flex h-screen flex-col overflow-hidden bg-zinc-950 text-zinc-100">
+    <div ref={rootRef} className="flex h-screen flex-col overflow-hidden bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100">
       <WorkspaceNavbar
         problemTitle={problem.title}
         difficulty={problem.difficultyLevel}
@@ -285,10 +285,10 @@ const ProblemWorkspace = ({ problem, problemId, user, isAuthenticated }) => {
 
       {isMobile ? (
         <div className="flex flex-1 flex-col overflow-hidden">
-          <div className="h-[42%] overflow-hidden border-b border-zinc-800">
+          <div className="h-[42%] overflow-hidden border-b border-zinc-200 dark:border-zinc-800">
             <ProblemPane problem={problem} problemId={problemId} user={user} />
           </div>
-          <div className="h-[43%] overflow-hidden border-b border-zinc-800">
+          <div className="h-[43%] overflow-hidden border-b border-zinc-200 dark:border-zinc-800">
             <EditorPane
               code={code}
               onCodeChange={setCode}
@@ -325,11 +325,11 @@ const ProblemWorkspace = ({ problem, problemId, user, isAuthenticated }) => {
             <ProblemPane problem={problem} problemId={problemId} user={user} />
           </Panel>
 
-          <Separator className="group relative flex w-2 items-center justify-center bg-zinc-900 transition hover:bg-zinc-800">
-            <div className="h-10 w-1 rounded-full bg-zinc-700 transition group-hover:bg-indigo-500" />
+          <Separator className="group relative flex w-2 items-center justify-center bg-white dark:bg-zinc-900 transition hover:bg-zinc-200 dark:hover:bg-zinc-800">
+            <div className="h-10 w-1 rounded-full bg-zinc-300 dark:bg-zinc-700 transition group-hover:bg-indigo-500" />
             <button
               onClick={toggleProblemPanel}
-              className="absolute z-10 flex h-7 w-7 items-center justify-center rounded-full border border-zinc-700 bg-zinc-900 text-zinc-400 opacity-0 shadow-lg transition group-hover:opacity-100 hover:text-indigo-300"
+              className="absolute z-10 flex h-7 w-7 items-center justify-center rounded-full border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 opacity-0 shadow-lg transition group-hover:opacity-100 hover:text-indigo-300"
               title="Toggle problem panel (Ctrl+B)"
             >
               {problemCollapsed ? <PanelLeftOpen className="h-3.5 w-3.5" /> : <PanelLeftClose className="h-3.5 w-3.5" />}
@@ -349,11 +349,11 @@ const ProblemWorkspace = ({ problem, problemId, user, isAuthenticated }) => {
                 />
               </Panel>
 
-              <Separator className="group relative flex h-2 items-center justify-center bg-zinc-900 transition hover:bg-zinc-800">
-                <div className="h-1 w-10 rounded-full bg-zinc-700 transition group-hover:bg-indigo-500" />
+              <Separator className="group relative flex h-2 items-center justify-center bg-white dark:bg-zinc-900 transition hover:bg-zinc-200 dark:hover:bg-zinc-800">
+                <div className="h-1 w-10 rounded-full bg-zinc-300 dark:bg-zinc-700 transition group-hover:bg-indigo-500" />
                 <button
                   onClick={toggleConsolePanel}
-                  className="absolute z-10 flex h-7 w-7 items-center justify-center rounded-full border border-zinc-700 bg-zinc-900 text-zinc-400 opacity-0 shadow-lg transition group-hover:opacity-100 hover:text-indigo-300"
+                  className="absolute z-10 flex h-7 w-7 items-center justify-center rounded-full border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 opacity-0 shadow-lg transition group-hover:opacity-100 hover:text-indigo-300"
                   title="Toggle console panel"
                 >
                   {consoleCollapsed ? <PanelBottomOpen className="h-3.5 w-3.5" /> : <PanelBottomClose className="h-3.5 w-3.5" />}
@@ -394,11 +394,11 @@ const ProblemWorkspace = ({ problem, problemId, user, isAuthenticated }) => {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="fixed right-0 top-14 z-50 h-[calc(100vh-3.5rem)] w-full border-l border-zinc-800 bg-zinc-950 shadow-2xl md:w-96"
+            className="fixed right-0 top-14 z-50 h-[calc(100vh-3.5rem)] w-full border-l border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 shadow-2xl md:w-96"
           >
             <div className="flex h-full flex-col">
-              <div className="flex items-center justify-between border-b border-zinc-800 bg-zinc-900/80 px-4 py-3">
-                <button onClick={() => setShowAiPanel(false)} className="rounded-md p-1 text-zinc-400 hover:bg-zinc-800 hover:text-zinc-100">
+              <div className="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-900/80 px-4 py-3">
+                <button onClick={() => setShowAiPanel(false)} className="rounded-md p-1 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200 dark:hover:bg-zinc-800 hover:text-zinc-900 dark:hover:text-zinc-100">
                   <X className="h-4 w-4" />
                 </button>
               </div>
@@ -406,12 +406,12 @@ const ProblemWorkspace = ({ problem, problemId, user, isAuthenticated }) => {
                 {isAiLoading ? (
                   <p className="text-sm text-zinc-500 animate-pulse">Analyzing your code...</p>
                 ) : (
-                  <div className="whitespace-pre-wrap text-sm leading-relaxed text-zinc-200">
+                  <div className="whitespace-pre-wrap text-sm leading-relaxed text-zinc-800 dark:text-zinc-200">
                     {aiResponse || "Click the AI Coach button to get hints about your solution."}
                   </div>
                 )}
               </div>
-              <div className="border-t border-zinc-800 p-3 text-center text-[10px] text-zinc-500">
+              <div className="border-t border-zinc-200 dark:border-zinc-800 p-3 text-center text-[10px] text-zinc-500">
                 AI may produce inaccuracies. Use hints to improve your logic.
               </div>
             </div>
@@ -423,7 +423,7 @@ const ProblemWorkspace = ({ problem, problemId, user, isAuthenticated }) => {
         <div className="fixed bottom-4 left-4 z-40 rounded-lg border-2 border-indigo-500/60 bg-black/80 p-1 backdrop-blur-sm">
           <video ref={videoRef} className="h-24 w-32 rounded-md object-cover md:h-32 md:w-48" playsInline autoPlay muted style={{ display: cameraStream ? "block" : "none" }} />
           {!cameraStream && (
-            <div className="flex h-24 w-32 items-center justify-center rounded-md bg-zinc-900 text-xs text-zinc-400 md:h-32 md:w-48">
+            <div className="flex h-24 w-32 items-center justify-center rounded-md bg-white dark:bg-zinc-900 text-xs text-zinc-600 dark:text-zinc-400 md:h-32 md:w-48">
               Waiting for camera...
             </div>
           )}
@@ -440,22 +440,22 @@ const ProblemWorkspace = ({ problem, problemId, user, isAuthenticated }) => {
 
       {showSuccessModal && submissionData && (
         <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/50 p-4 backdrop-blur-md">
-          <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="w-full max-w-md overflow-hidden rounded-3xl border border-zinc-800 bg-zinc-950 shadow-2xl">
-            <div className="border-b border-zinc-800 p-8 text-center">
+          <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="w-full max-w-md overflow-hidden rounded-3xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 shadow-2xl">
+            <div className="border-b border-zinc-200 dark:border-zinc-800 p-8 text-center">
               <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full border border-emerald-500/30 bg-emerald-500/20">
                 <CheckCircle2 className="h-12 w-12 text-emerald-400" />
               </div>
               <h2 className="text-3xl font-black tracking-tight text-white">{submissionData.status ?? "Accepted"}</h2>
               <p className="mt-1 font-medium text-emerald-400/80">{submissionData.message}</p>
             </div>
-            <div className="grid grid-cols-3 gap-3 bg-zinc-900/40 p-6">
+            <div className="grid grid-cols-3 gap-3 bg-white/40 dark:bg-zinc-900/40 p-6">
               {[
                 { label: "Solved", value: submissionData.userStats?.solvedCount ?? 0, color: "text-indigo-400" },
                 { label: "Streak", value: submissionData.userStats?.streak ?? 0, color: "text-orange-400" },
                 { label: "Acceptance", value: `${submissionData.userStats?.acceptanceRate ?? 0}%`, color: "text-emerald-400" },
               ].map((s) => (
-                <div key={s.label} className="rounded-2xl border border-zinc-800 bg-zinc-900/60 p-3 text-center">
-                  <p className="mb-1 text-[10px] font-bold uppercase tracking-widest text-zinc-400">{s.label}</p>
+                <div key={s.label} className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white/60 dark:bg-zinc-900/60 p-3 text-center">
+                  <p className="mb-1 text-[10px] font-bold uppercase tracking-widest text-zinc-600 dark:text-zinc-400">{s.label}</p>
                   <p className={`font-mono text-2xl font-bold ${s.color}`}>{s.value}</p>
                 </div>
               ))}
@@ -465,7 +465,7 @@ const ProblemWorkspace = ({ problem, problemId, user, isAuthenticated }) => {
                 Solve More Problems
                 <ArrowRight className="h-5 w-5" />
               </Link>
-              <button onClick={() => setShowSuccessModal(false)} className="w-full py-2 font-medium text-zinc-400 transition hover:text-zinc-200">
+              <button onClick={() => setShowSuccessModal(false)} className="w-full py-2 font-medium text-zinc-600 dark:text-zinc-400 transition hover:text-zinc-800 dark:hover:text-zinc-200">
                 Review My Code
               </button>
             </div>
